@@ -3,54 +3,52 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AOLFS | Building the Future of Intelligent Operations</title>
+  <title>AOLFS | Reimagining Intelligent Operations</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-    body {
-      height: 100vh; background: #010409; color: #fff;
-      display: flex; align-items: center; justify-content: center; overflow: hidden;
-      position: relative;
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
     }
 
-    /* Background gradient */
-    body::before {
-      content: "";
-      position: absolute;
-      width: 200%;
-      height: 200%;
-      background: conic-gradient(from 0deg, #00eaff, #006eff, #00eaff, #00ffc3);
-      filter: blur(250px);
-      opacity: 0.15;
-      animation: spin 25s linear infinite;
-    }
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+    body {
+      height: 100vh;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 30%, #000, #020202, #000);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      position: relative;
     }
 
     canvas {
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
       z-index: 0;
     }
 
     .container {
+      position: relative;
       z-index: 2;
       text-align: center;
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(15px);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 20px;
-      padding: 60px 40px;
-      box-shadow: 0 0 60px rgba(0,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.1);
-      animation: fadeUp 2s ease;
+      padding: 50px 40px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 0 50px rgba(0, 255, 200, 0.2);
+      animation: fadeIn 2s ease;
+      width: 90%;
+      max-width: 600px;
     }
 
-    @keyframes fadeUp {
+    @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
@@ -58,36 +56,41 @@
     .brand {
       font-size: 3rem;
       font-weight: 800;
+      letter-spacing: 3px;
       text-transform: uppercase;
-      letter-spacing: 2px;
-      background: linear-gradient(90deg, #00ffc3, #00bfff);
+      background: linear-gradient(90deg, #00ffc3, #0099ff, #7affb5);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      animation: pulse 4s infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% { text-shadow: 0 0 20px #00ffc3; }
+      100% { text-shadow: 0 0 40px #0099ff; }
     }
 
     h1 {
-      font-size: 1.6rem;
+      margin-top: 10px;
+      font-size: 1.8rem;
       color: #00ffc3;
-      margin: 15px 0;
-      text-shadow: 0 0 30px rgba(0,255,200,0.4);
+      text-shadow: 0 0 25px rgba(0,255,200,0.5);
     }
 
     p {
       color: #aaa;
-      margin-bottom: 30px;
+      margin: 20px 0 40px;
       line-height: 1.6;
-      font-size: 15px;
     }
 
     .email-box {
-      background: rgba(255,255,255,0.08);
-      border-radius: 50px;
-      padding: 6px;
       display: flex;
       justify-content: center;
       align-items: center;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50px;
+      padding: 6px;
       max-width: 380px;
-      margin: 0 auto 30px;
+      margin: 0 auto 20px;
     }
 
     input {
@@ -100,6 +103,10 @@
       font-size: 14px;
     }
 
+    input::placeholder {
+      color: #777;
+    }
+
     button {
       background: linear-gradient(45deg, #00ffc3, #0099ff);
       border: none;
@@ -108,18 +115,21 @@
       padding: 12px 25px;
       border-radius: 30px;
       cursor: not-allowed;
+      transition: 0.3s;
+    }
+
+    .ventures {
+      font-weight: 600;
+      background: linear-gradient(45deg, #00ffc3, #0099ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 15px rgba(0,255,200,0.5);
     }
 
     .project-line {
       font-size: 14px;
       color: #aaa;
-    }
-
-    .ventures {
-      background: linear-gradient(45deg, #00ffc3, #0099ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-weight: 600;
+      margin-top: 30px;
     }
 
     footer {
@@ -130,55 +140,76 @@
   </style>
 </head>
 <body>
-  <canvas id="globe"></canvas>
+  <canvas id="neural"></canvas>
+
   <div class="container">
     <div class="brand">AOLFS</div>
-    <h1>🚧 Building the Future of Intelligent Automation</h1>
-    <p>Our engineers are rearchitecting systems powered by AI to enhance business efficiency globally.<br>
-       A new era of smart logistics and financial intelligence is coming soon.</p>
+    <h1>🚧 Evolving Intelligent Business Systems</h1>
+    <p>We help businesses scale using AI-driven management, automation, and intelligent workflows built around your needs.
+
+</p>
+
     <div class="email-box">
-      <input type="email" placeholder="Enter your email to get notified..." disabled>
+      <input type="email" placeholder="Get notified when we launch" disabled>
       <button disabled>Notify Me</button>
     </div>
+
     <div class="project-line">A Project of <span class="ventures">ABCD Ventures</span></div>
     <footer>© 2025 AOLFS. All rights reserved.</footer>
   </div>
 
   <script>
-    const canvas = document.getElementById("globe");
-    const ctx = canvas.getContext("2d");
-    let w, h, angle = 0;
+    const canvas = document.getElementById('neural');
+    const ctx = canvas.getContext('2d');
+    let w, h;
+    const particles = [];
 
     function resize() {
       w = canvas.width = window.innerWidth;
       h = canvas.height = window.innerHeight;
     }
+    window.addEventListener('resize', resize);
     resize();
-    window.addEventListener("resize", resize);
 
-    function drawGlobe() {
-      ctx.clearRect(0, 0, w, h);
-      ctx.save();
-      ctx.translate(w / 2, h / 2);
-      const r = Math.min(w, h) / 3.5;
-      ctx.rotate(angle);
-      for (let i = 0; i < 30; i++) {
-        const lat = (i / 30) * Math.PI - Math.PI / 2;
-        ctx.beginPath();
-        for (let j = 0; j <= 60; j++) {
-          const lon = (j / 60) * Math.PI * 2;
-          const x = r * Math.cos(lat) * Math.cos(lon);
-          const y = r * Math.sin(lat);
-          ctx.lineTo(x, y);
-        }
-        ctx.strokeStyle = "rgba(0,255,195,0.25)";
-        ctx.stroke();
+    class Particle {
+      constructor() {
+        this.x = Math.random() * w;
+        this.y = Math.random() * h;
+        this.size = Math.random() * 2;
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.speedY = (Math.random() - 0.5) * 0.3;
       }
-      ctx.restore();
-      angle += 0.002;
-      requestAnimationFrame(drawGlobe);
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x < 0 || this.x > w) this.speedX *= -1;
+        if (this.y < 0 || this.y > h) this.speedY *= -1;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0,255,195,0.5)';
+        ctx.fill();
+      }
     }
-    drawGlobe();
+
+    function init() {
+      for (let i = 0; i < 80; i++) {
+        particles.push(new Particle());
+      }
+    }
+    init();
+
+    function animate() {
+      ctx.clearRect(0, 0, w, h);
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        p.update();
+        p.draw();
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
   </script>
 </body>
 </html>

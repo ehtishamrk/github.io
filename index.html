@@ -3,108 +3,201 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AOLFS | Reimagining Intelligent Operations</title>
+  <title>AOLFS | Advanced Operations, Logistics & Financial Solutions</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
 
     body {
-      height:100vh;
-      overflow:hidden;
-      background:radial-gradient(circle at 50% 30%,#000,#030303,#000);
-      color:#fff;
-      display:flex; align-items:center; justify-content:center; flex-direction:column;
-      position:relative;
+      background: radial-gradient(circle at 20% 20%, #030303, #000);
+      color: #fff;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      position: relative;
     }
 
-    canvas { position:absolute; top:0; left:0; z-index:0; }
+    /* Animated Background Gradient */
+    body::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 90deg, #00ffc3, #007bff, #00ffc3, #00bcd4);
+      filter: blur(250px);
+      animation: rotateBG 20s linear infinite;
+      opacity: 0.2;
+    }
 
+    @keyframes rotateBG {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Main Card */
     .container {
-      position:relative; z-index:2; text-align:center;
-      background:rgba(255,255,255,0.05);
-      border:1px solid rgba(255,255,255,0.1);
-      border-radius:20px;
-      padding:50px 40px;
-      backdrop-filter:blur(20px);
-      box-shadow:0 0 60px rgba(0,255,200,0.15);
-      width:90%; max-width:600px;
-      animation:fadeIn 2s ease;
-    }
-    @keyframes fadeIn {
-      from{opacity:0; transform:translateY(20px);}
-      to{opacity:1; transform:translateY(0);}
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 60px 50px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 80px rgba(0, 255, 195, 0.1);
+      width: 90%;
+      max-width: 580px;
+      animation: fadeIn 2s ease;
     }
 
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Animated AOLFS Logo */
     .brand {
-      font-size:3rem;
-      font-weight:800;
-      letter-spacing:3px;
-      text-transform:uppercase;
-      background:linear-gradient(90deg,#00ffc3,#00bfff,#7affb5);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      animation:glowPulse 4s infinite ease-in-out alternate;
-      cursor:pointer;
-      transition:0.4s;
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      background: linear-gradient(270deg, #00ffc3, #00bfff, #8bc34a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 400% 400%;
+      animation: shimmer 5s ease infinite;
+      text-shadow: 0 0 30px rgba(0, 255, 200, 0.4);
+      margin-bottom: 10px;
     }
-    .brand:hover {
-      transform:scale(1.05);
-      text-shadow:0 0 50px #00ffc3, 0 0 100px #00bfff;
+
+    @keyframes shimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
-    @keyframes glowPulse {
-      0%{text-shadow:0 0 20px #00ffc3;}
-      100%{text-shadow:0 0 40px #0099ff;}
+
+    .tagline {
+      font-size: 0.9rem;
+      color: #bdbdbd;
+      margin-bottom: 50px;
+      letter-spacing: 0.5px;
     }
 
     h1 {
-      margin-top:10px; font-size:1.8rem; color:#00ffc3;
-      text-shadow:0 0 25px rgba(0,255,200,0.5);
-    }
-    p {
-      color:#aaa; margin:20px 0 40px; line-height:1.6;
+      font-size: 1.8rem;
+      color: #00ffc3;
+      margin-bottom: 15px;
+      text-shadow: 0 0 20px rgba(0,255,200,0.5);
     }
 
+    p {
+      font-size: 1rem;
+      color: #aaa;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    /* Fake Email Box */
     .email-box {
-      display:flex; justify-content:center; align-items:center;
-      background:rgba(255,255,255,0.08);
-      border-radius:50px; padding:6px;
-      max-width:380px; margin:0 auto 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(255,255,255,0.08);
+      border-radius: 40px;
+      overflow: hidden;
+      padding: 6px;
+      max-width: 380px;
+      margin: 0 auto 20px;
     }
+
     input {
-      background:transparent; border:none; outline:none;
-      color:#fff; flex:1; padding:12px 15px; font-size:14px;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      flex: 1;
+      padding: 12px 15px;
+      font-size: 14px;
     }
-    input::placeholder { color:#777; }
+
+    input::placeholder {
+      color: #888;
+    }
+
     button {
-      background:linear-gradient(45deg,#00ffc3,#0099ff);
-      border:none; color:#000; font-weight:600;
-      padding:12px 25px; border-radius:30px;
-      cursor:not-allowed; transition:0.3s;
+      background: linear-gradient(45deg, #00ffc3, #0099ff);
+      border: none;
+      color: #000;
+      font-weight: 600;
+      padding: 12px 25px;
+      border-radius: 30px;
+      cursor: not-allowed;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #00ffc3;
+    }
+
+    /* Project Tag */
+    .project-line {
+      font-size: 14px;
+      color: #aaa;
+      margin-top: 40px;
     }
 
     .ventures {
-      font-weight:600;
-      background:linear-gradient(45deg,#00ffc3,#0099ff);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      text-shadow:0 0 15px rgba(0,255,200,0.5);
+      font-weight: bold;
+      background: linear-gradient(45deg, #00ffc3, #0099ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-style: italic;
+      text-shadow: 0 0 10px rgba(0,255,200,0.5);
     }
 
-    .project-line {
-      font-size:14px; color:#aaa; margin-top:30px;
-    }
     footer {
-      font-size:12px; color:#666; margin-top:10px;
+      font-size: 12px;
+      color: #666;
+      margin-top: 20px;
+    }
+
+    /* Floating particles */
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #00ffc3;
+      border-radius: 50%;
+      opacity: 0.5;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) scale(1); opacity: 0.3; }
+      50% { transform: translateY(-40px) scale(1.5); opacity: 1; }
+      100% { transform: translateY(0) scale(1); opacity: 0.3; }
     }
   </style>
 </head>
 <body>
-  <canvas id="neural"></canvas>
-
   <div class="container">
-    <div class="brand" id="brand">AOLFS</div>
-    <h1>🚧 Evolving Intelligent Business Systems</h1>
-    <p>We’re upgrading to deliver next-gen AI-driven operations, logistics, and finance automation.<br>
-       Innovation is being refactored. Excellence takes a moment.</p>
+    <div class="brand">AOLFS</div>
+    <div class="tagline">Advanced Operations, Logistics & Financial Solutions</div>
+
+    <h1>🚧 We're Upgrading the Future</h1>
+    <p>Our platform is evolving to bring you next-level AI-driven business automation.<br>
+       Stay tuned as we redefine how technology runs operations, logistics, and finance.</p>
 
     <div class="email-box">
       <input type="email" placeholder="Enter your email to get notified..." disabled>
@@ -115,58 +208,17 @@
     <footer>© 2025 AOLFS. All rights reserved.</footer>
   </div>
 
-  <!-- Subtle AI hum -->
-  <audio id="aiHum" loop preload="auto">
-    <source src="https://cdn.pixabay.com/download/audio/2023/02/28/audio_79cecaac33.mp3?filename=futuristic-ambient-11364.mp3" type="audio/mpeg">
-  </audio>
-
+  <!-- Floating particles (for ambient motion) -->
   <script>
-    /* === Background particles === */
-    const canvas = document.getElementById('neural');
-    const ctx = canvas.getContext('2d');
-    let w,h; const particles=[];
-    function resize(){ w=canvas.width=innerWidth; h=canvas.height=innerHeight; }
-    window.addEventListener('resize',resize); resize();
-
-    class Particle {
-      constructor(){
-        this.x=Math.random()*w; this.y=Math.random()*h;
-        this.size=Math.random()*2;
-        this.speedX=(Math.random()-.5)*0.3;
-        this.speedY=(Math.random()-.5)*0.3;
-      }
-      update(){ this.x+=this.speedX; this.y+=this.speedY;
-        if(this.x<0||this.x>w) this.speedX*=-1;
-        if(this.y<0||this.y>h) this.speedY*=-1;
-      }
-      draw(){
-        ctx.beginPath();
-        ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
-        ctx.fillStyle='rgba(0,255,195,0.4)';
-        ctx.fill();
-      }
+    const particleCount = 25;
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement("div");
+      particle.classList.add("particle");
+      particle.style.left = Math.random() * 100 + "%";
+      particle.style.top = Math.random() * 100 + "%";
+      particle.style.animationDelay = (Math.random() * 5) + "s";
+      document.body.appendChild(particle);
     }
-    for(let i=0;i<90;i++) particles.push(new Particle());
-    function animate(){
-      ctx.clearRect(0,0,w,h);
-      for(const p of particles){ p.update(); p.draw(); }
-      requestAnimationFrame(animate);
-    } animate();
-
-    /* === Audio handling === */
-    const hum=document.getElementById('aiHum');
-    window.addEventListener('click',()=>{ 
-      hum.volume=0.3; hum.play().catch(()=>{}); 
-    },{once:true});
-
-    /* Glow pulse sync on hover */
-    const brand=document.getElementById('brand');
-    brand.addEventListener('mouseenter',()=>{
-      brand.style.animationDuration='1.5s';
-    });
-    brand.addEventListener('mouseleave',()=>{
-      brand.style.animationDuration='4s';
-    });
   </script>
 </body>
 </html>

@@ -20,16 +20,16 @@
     position: relative;
   }
 
-  /* Binary Layer - hidden by black overlay */
+  /* Binary layer */
   #binaryCanvas {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
     z-index: 0;
-    opacity: 0.3;
+    opacity: 0.35;
   }
 
-  /* Black Mask Layer - fully covering binary background */
+  /* Mask overlay */
   #maskCanvas {
     position: fixed;
     top: 0; left: 0;
@@ -38,7 +38,7 @@
     background: black;
   }
 
-  /* Content Card */
+  /* Center content */
   .content {
     position: relative;
     z-index: 2;
@@ -131,9 +131,7 @@
 
 <body>
 
-<!-- Binary Background -->
 <canvas id="binaryCanvas"></canvas>
-<!-- Black Overlay Mask -->
 <canvas id="maskCanvas"></canvas>
 
 <div class="content">
@@ -153,13 +151,13 @@
 </div>
 
 <script>
-/* ===== Binary Background Animation ===== */
+/* ========== Binary Code Background ========== */
 const canvas = document.getElementById("binaryCanvas");
 const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-const binaryChars = "0101010101010101010101010101";
+const binary = "010101010101010101010101";
 const fontSize = 14;
 const columns = canvas.width / fontSize;
 const drops = [];
@@ -167,13 +165,13 @@ const drops = [];
 for (let x = 0; x < columns; x++) drops[x] = 1;
 
 function drawBinary() {
-  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+  ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   ctx.fillStyle = "#00fff0";
   ctx.font = fontSize + "px monospace";
   for (let i = 0; i < drops.length; i++) {
-    const text = binaryChars[Math.floor(Math.random() * binaryChars.length)];
+    const text = binary[Math.floor(Math.random() * binary.length)];
     ctx.fillText(text, i * fontSize, drops[i] * fontSize);
     if (drops[i] * fontSize > canvas.height && Math.random() > 0.975)
       drops[i] = 0;
@@ -182,32 +180,41 @@ function drawBinary() {
 }
 setInterval(drawBinary, 33);
 
-/* ===== Mask Reveal Effect ===== */
+/* ========== Scratch Mask Reveal ========== */
 const mask = document.getElementById("maskCanvas");
 const mctx = mask.getContext("2d");
 mask.width = window.innerWidth;
 mask.height = window.innerHeight;
 
-// Fill mask fully black
+// start with full black cover
 mctx.fillStyle = "black";
 mctx.fillRect(0, 0, mask.width, mask.height);
 
 function reveal(x, y) {
-  const gradient = mctx.createRadialGradient(x, y, 0, x, y, 100);
-  gradient.addColorStop(0, "rgba(0,0,0,0)");
-  gradient.addColorStop(1, "rgba(0,0,0,1)");
   mctx.globalCompositeOperation = "destination-out";
+
+  // glow effect
+  const gradient = mctx.createRadialGradient(x, y, 0, x, y, 120);
+  gradient.addColorStop(0, "rgba(0,255,255,0.8)");
+  gradient.addColorStop(0.5, "rgba(0,255,255,0.3)");
+  gradient.addColorStop(1, "rgba(0,255,255,0)");
+
   mctx.fillStyle = gradient;
   mctx.beginPath();
-  mctx.arc(x, y, 100, 0, Math.PI * 2);
+  mctx.arc(x, y, 120, 0, Math.PI * 2);
   mctx.fill();
 
-  // fade back after 1 second
+  // fade to black again smoothly
   setTimeout(() => {
     mctx.globalCompositeOperation = "source-over";
-    mctx.fillStyle = "rgba(0,0,0,0.5)";
-    mctx.fillRect(x - 120, y - 120, 240, 240);
-  }, 1000);
+    const fade = mctx.createRadialGradient(x, y, 0, x, y, 130);
+    fade.addColorStop(0, "rgba(0,0,0,0.6)");
+    fade.addColorStop(1, "rgba(0,0,0,0)");
+    mctx.fillStyle = fade;
+    mctx.beginPath();
+    mctx.arc(x, y, 130, 0, Math.PI * 2);
+    mctx.fill();
+  }, 700);
 }
 
 document.addEventListener("mousemove", e => reveal(e.clientX, e.clientY));

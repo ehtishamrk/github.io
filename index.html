@@ -24,6 +24,7 @@
       justify-content: center;
       flex-direction: column;
       position: relative;
+      padding: 20px;
     }
 
     canvas {
@@ -40,7 +41,7 @@
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 20px;
-      padding: 50px 40px;
+      padding: 40px 30px;
       backdrop-filter: blur(20px);
       box-shadow: 0 0 50px rgba(0, 255, 200, 0.2);
       animation: fadeIn 2s ease;
@@ -54,17 +55,17 @@
     }
 
     .brand {
-      font-size: 3rem;
+      font-size: clamp(2rem, 5vw, 3rem);
       font-weight: 800;
       letter-spacing: 3px;
       text-transform: uppercase;
-      color: #00ffc3; /* solid cyan, no glow or gradient */
+      color: #00ffc3;
       text-shadow: none;
     }
 
     h1 {
       margin-top: 10px;
-      font-size: 1.4rem;
+      font-size: clamp(1rem, 3vw, 1.4rem);
       color: #ccc;
       text-shadow: none;
     }
@@ -73,6 +74,14 @@
       color: #aaa;
       margin: 20px 0 40px;
       line-height: 1.6;
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
+    }
+
+    p span {
+      display: block;
+      margin-top: 10px;
+      color: #777;
+      font-size: 0.9em;
     }
 
     .email-box {
@@ -84,6 +93,8 @@
       padding: 6px;
       max-width: 380px;
       margin: 0 auto 20px;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
     input {
@@ -92,6 +103,7 @@
       outline: none;
       color: #fff;
       flex: 1;
+      min-width: 180px;
       padding: 12px 15px;
       font-size: 14px;
     }
@@ -109,6 +121,7 @@
       border-radius: 30px;
       cursor: not-allowed;
       transition: 0.3s;
+      flex-shrink: 0;
     }
 
     .ventures {
@@ -120,15 +133,34 @@
     }
 
     .project-line {
-      font-size: 14px;
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
       color: #aaa;
       margin-top: 30px;
     }
 
     footer {
-      font-size: 12px;
+      font-size: clamp(0.7rem, 1.8vw, 0.8rem);
       color: #666;
       margin-top: 10px;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        overflow-y: auto;
+      }
+
+      .container {
+        padding: 30px 20px;
+      }
+
+      .email-box {
+        flex-direction: column;
+        border-radius: 15px;
+      }
+
+      button {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -139,10 +171,9 @@
     <div class="brand">AOLFS</div>
     <h1>Advanced Operations, Logistics & Financial Solutions</h1>
     <p>
-  Building the future of business scaling — where AI, automation, and intelligent workflows power next-gen operations, logistics, and finance.
-  <br>
-  <span>(This site is under maintenance.)</span>
-</p>
+      Building the future of business scaling — where AI, automation, and intelligent workflows power next-gen operations, logistics, and finance.
+      <span>(This site is under maintenance.)</span>
+    </p>
 
     <div class="email-box">
       <input type="email" placeholder="Get notified when we relaunch..." disabled>

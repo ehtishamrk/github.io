@@ -1,215 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AOLFS | Reimagining Intelligent Operations</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AOLFS | Advanced Operations, Logistics & Financial Solutions</title>
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
-    body {
-      height: 100vh;
-      overflow: hidden;
-      background: radial-gradient(circle at 50% 30%, #000, #020202, #000);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      position: relative;
-    }
+  body {
+    background: #000;
+    color: #fff;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
 
-    canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 0;
-    }
+  canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: block;
+  }
 
-    .container {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 50px 40px;
-      backdrop-filter: blur(20px);
-      box-shadow: 0 0 50px rgba(0, 255, 200, 0.2);
-      animation: fadeIn 2s ease;
-      width: 90%;
-      max-width: 600px;
-    }
+  #neural { z-index: 0; }
+  #maskCanvas { z-index: 1; background: #000; }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+  .content {
+    z-index: 2;
+    position: relative;
+    text-align: center;
+    padding: 50px 70px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 50px rgba(0,255,195,0.15);
+    max-width: 650px;
+    animation: fadeIn 2s ease;
+  }
 
-    .brand {
-      font-size: 3rem;
-      font-weight: 800;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      background: linear-gradient(90deg, #00ffc3, #0099ff, #7affb5);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: pulse 4s infinite alternate;
-    }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
-    @keyframes pulse {
-      0% { text-shadow: 0 0 20px #00ffc3; }
-      100% { text-shadow: 0 0 40px #0099ff; }
-    }
+  h1 {
+    font-size: 3em;
+    font-weight: 800;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, #00ffc3, #0099ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+  }
 
-    h1 {
-      margin-top: 10px;
-      font-size: 1.8rem;
-      color: #00ffc3;
-      text-shadow: 0 0 25px rgba(0,255,200,0.5);
-    }
+  h2 {
+    font-size: 1.3em;
+    color: #00ffc3;
+    opacity: 0.85;
+    margin-bottom: 20px;
+  }
 
-    p {
-      color: #aaa;
-      margin: 20px 0 40px;
-      line-height: 1.6;
-    }
+  p {
+    color: #bbb;
+    line-height: 1.6;
+    margin-bottom: 35px;
+  }
 
-    .email-box {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: rgba(255,255,255,0.08);
-      border-radius: 50px;
-      padding: 6px;
-      max-width: 380px;
-      margin: 0 auto 20px;
-    }
+  .fake-form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
 
-    input {
-      background: transparent;
-      border: none;
-      outline: none;
-      color: #fff;
-      flex: 1;
-      padding: 12px 15px;
-      font-size: 14px;
-    }
+  .fake-form input, .fake-form button {
+    border-radius: 8px;
+    border: none;
+    padding: 10px 20px;
+  }
 
-    input::placeholder {
-      color: #777;
-    }
+  .fake-form input {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    width: 240px;
+  }
 
-    button {
-      background: linear-gradient(45deg, #00ffc3, #0099ff);
-      border: none;
-      color: #000;
-      font-weight: 600;
-      padding: 12px 25px;
-      border-radius: 30px;
-      cursor: not-allowed;
-      transition: 0.3s;
-    }
+  .fake-form button {
+    background: linear-gradient(90deg, #00ffc3, #0099ff);
+    color: #000;
+    font-weight: 600;
+    cursor: not-allowed;
+  }
 
-    .ventures {
-      font-weight: 600;
-      background: linear-gradient(45deg, #00ffc3, #0099ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 15px rgba(0,255,200,0.5);
-    }
+  .ventures {
+    margin-top: 40px;
+    font-size: 0.9em;
+    opacity: 0.8;
+  }
 
-    .project-line {
-      font-size: 14px;
-      color: #aaa;
-      margin-top: 30px;
-    }
-
-    footer {
-      font-size: 12px;
-      color: #666;
-      margin-top: 10px;
-    }
-  </style>
+  .ventures span {
+    display: block;
+    font-size: 1.3em;
+    margin-top: 5px;
+    background: linear-gradient(90deg,#0fffcf,#00e0ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
+</style>
 </head>
+
 <body>
-  <canvas id="neural"></canvas>
 
-  <div class="container">
-    <div class="brand">AOLFS</div>
-    <h1>🚧 Evolving Intelligent Business Systems</h1>
-    <p>We help businesses scale using AI-driven management, automation, and intelligent workflows built around your needs.
+<canvas id="neural"></canvas>
+<canvas id="maskCanvas"></canvas>
 
-</p>
+<div class="content">
+  <h1>AOLFS</h1>
+  <h2>Advanced Operations, Logistics & Financial Solutions</h2>
+  <p>We help businesses scale using AI-driven management, automation, and intelligent workflows built around your needs.</p>
 
-    <div class="email-box">
-      <input type="email" placeholder="Get notified when we launch" disabled>
-      <button disabled>Notify Me</button>
-    </div>
-
-    <div class="project-line">A Project of <span class="ventures">ABCD Ventures</span></div>
-    <footer>© 2025 AOLFS. All rights reserved.</footer>
+  <div class="fake-form">
+    <input type="text" placeholder="Get notified when we launch" disabled>
+    <button disabled>Notify Me</button>
   </div>
 
-  <script>
-    const canvas = document.getElementById('neural');
-    const ctx = canvas.getContext('2d');
-    let w, h;
-    const particles = [];
+  <div class="ventures">
+    A Project of
+    <span>ABCD VENTURES</span>
+  </div>
+</div>
 
-    function resize() {
-      w = canvas.width = window.innerWidth;
-      h = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
+<script>
+/* === Neural Particle Animation Background === */
+const canvas = document.getElementById('neural');
+const ctx = canvas.getContext('2d');
+let w, h;
+const particles = [];
 
-    class Particle {
-      constructor() {
-        this.x = Math.random() * w;
-        this.y = Math.random() * h;
-        this.size = Math.random() * 2;
-        this.speedX = (Math.random() - 0.5) * 0.3;
-        this.speedY = (Math.random() - 0.5) * 0.3;
-      }
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        if (this.x < 0 || this.x > w) this.speedX *= -1;
-        if (this.y < 0 || this.y > h) this.speedY *= -1;
-      }
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0,255,195,0.5)';
-        ctx.fill();
-      }
-    }
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
 
-    function init() {
-      for (let i = 0; i < 80; i++) {
-        particles.push(new Particle());
-      }
-    }
-    init();
+class Particle {
+  constructor() {
+    this.x = Math.random() * w;
+    this.y = Math.random() * h;
+    this.size = Math.random() * 2;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3;
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if (this.x < 0 || this.x > w) this.speedX *= -1;
+    if (this.y < 0 || this.y > h) this.speedY *= -1;
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(0,255,195,0.5)';
+    ctx.fill();
+  }
+}
 
-    function animate() {
-      ctx.clearRect(0, 0, w, h);
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-        p.update();
-        p.draw();
-      }
-      requestAnimationFrame(animate);
-    }
-    animate();
-  </script>
+function init() {
+  for (let i = 0; i < 100; i++) {
+    particles.push(new Particle());
+  }
+}
+init();
+
+function animate() {
+  ctx.clearRect(0, 0, w, h);
+  for (let i = 0; i < particles.length; i++) {
+    const p = particles[i];
+    p.update();
+    p.draw();
+  }
+  requestAnimationFrame(animate);
+}
+animate();
+
+/* === Scratch Reveal Effect === */
+const maskCanvas = document.getElementById("maskCanvas");
+const mctx = maskCanvas.getContext("2d");
+maskCanvas.width = innerWidth;
+maskCanvas.height = innerHeight;
+
+// Start fully black
+mctx.fillStyle = "#000";
+mctx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
+
+function reveal(x, y) {
+  mctx.save();
+  mctx.globalCompositeOperation = "destination-out";
+  const gradient = mctx.createRadialGradient(x, y, 0, x, y, 100);
+  gradient.addColorStop(0, "rgba(0,0,0,1)");
+  gradient.addColorStop(1, "rgba(0,0,0,0)");
+  mctx.fillStyle = gradient;
+  mctx.beginPath();
+  mctx.arc(x, y, 100, 0, Math.PI * 2);
+  mctx.fill();
+  mctx.restore();
+}
+
+document.addEventListener("mousemove", e => reveal(e.clientX, e.clientY));
+document.addEventListener("touchmove", e => {
+  const t = e.touches[0];
+  reveal(t.clientX, t.clientY);
+});
+
+window.addEventListener("resize", () => {
+  maskCanvas.width = innerWidth;
+  maskCanvas.height = innerHeight;
+  mctx.fillStyle = "#000";
+  mctx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
+});
+</script>
+
 </body>
 </html>

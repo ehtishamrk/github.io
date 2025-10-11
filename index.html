@@ -1,70 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AOLFS | Advanced Operations, Logistics & Financial Solutions</title>
-
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * {margin:0;padding:0;box-sizing:border-box;}
 
   body {
     height: 100vh;
-    font-family: 'Segoe UI', Roboto, sans-serif;
-    background: radial-gradient(ellipse at center, #04010a 0%, #000 100%);
-    overflow: hidden;
+    background: #000;
+    color: #fff;
+    font-family: "Segoe UI", Roboto, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #fff;
+    overflow: hidden;
     position: relative;
   }
 
-  canvas {
+  /* Binary canvas (hidden by default, revealed through mask) */
+  #binaryCanvas {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
+    z-index: 0;
+    opacity: 1;
   }
 
-  #binaryCanvas { z-index: 0; opacity: 0.5; }
-  #effectCanvas { z-index: 1; }
+  /* Mask canvas for scratch effect */
+  #maskCanvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+    background: #000;
+  }
 
   .content {
     position: relative;
     z-index: 2;
     text-align: center;
-    backdrop-filter: blur(12px) saturate(140%);
-    background: rgba(255,255,255,0.04);
     padding: 50px 70px;
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 20px;
-    box-shadow: 0 0 60px rgba(0, 255, 200, 0.2);
-    transition: all 0.5s ease;
-  }
-
-  .content:hover {
-    box-shadow: 0 0 80px rgba(0, 255, 200, 0.4);
+    backdrop-filter: blur(10px) brightness(1.1);
+    background: rgba(255,255,255,0.05);
+    box-shadow: 0 0 40px rgba(255,255,255,0.08);
+    max-width: 600px;
   }
 
   h1 {
     font-size: 2.8em;
-    margin-bottom: 10px;
-    background: linear-gradient(90deg, #00fff0, #00e0ff, #0fffcf);
+    background: linear-gradient(90deg,#00fff0,#00e0ff,#0fffcf);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
     letter-spacing: 2px;
   }
 
   h2 {
     font-size: 1.2em;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     opacity: 0.8;
     letter-spacing: 1px;
   }
 
   p {
-    font-size: 1em;
     color: #ccc;
+    font-size: 1em;
     margin-bottom: 30px;
   }
 
@@ -74,55 +78,47 @@
     gap: 10px;
   }
 
-  .fake-form input {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: #fff;
-    padding: 10px 20px;
+  .fake-form input, .fake-form button {
     border-radius: 8px;
+    border: none;
+    padding: 10px 20px;
+  }
+
+  .fake-form input {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
     width: 240px;
-    outline: none;
   }
 
   .fake-form button {
     background: linear-gradient(90deg, #00e0ff, #00ffa2);
-    border: none;
     color: #000;
     font-weight: 600;
-    border-radius: 8px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-
-  .fake-form button:hover {
-    opacity: 0.8;
+    cursor: not-allowed;
   }
 
   .ventures {
     margin-top: 40px;
     font-size: 0.9em;
-    letter-spacing: 1px;
     opacity: 0.8;
   }
 
   .ventures span {
     display: block;
-    font-size: 1.4em;
+    font-size: 1.3em;
     margin-top: 5px;
-    background: linear-gradient(90deg, #0fffcf, #00e0ff);
+    background: linear-gradient(90deg,#0fffcf,#00e0ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-weight: 700;
-    letter-spacing: 3px;
+    font-weight: bold;
+    letter-spacing: 2px;
   }
 </style>
 </head>
-
 <body>
 
 <canvas id="binaryCanvas"></canvas>
-<canvas id="effectCanvas"></canvas>
+<canvas id="maskCanvas"></canvas>
 
 <div class="content">
   <h1>AOLFS</h1>
@@ -130,7 +126,7 @@
   <p>We help businesses scale using AI-driven management, automation, and intelligent workflows built around your needs.</p>
 
   <div class="fake-form">
-    <input type="email" placeholder="Get notified when we launch" disabled />
+    <input type="text" placeholder="Get notified when we launch" disabled>
     <button disabled>Notify Me</button>
   </div>
 
@@ -144,78 +140,64 @@
 /* === Binary Background === */
 const binaryCanvas = document.getElementById("binaryCanvas");
 const bctx = binaryCanvas.getContext("2d");
-binaryCanvas.width = window.innerWidth;
-binaryCanvas.height = window.innerHeight;
+binaryCanvas.width = innerWidth;
+binaryCanvas.height = innerHeight;
 
-const binary = "010101010101010101010101";
+const binary = "0101010101010101010101";
 const fontSize = 14;
 let columns = binaryCanvas.width / fontSize;
 let drops = Array(Math.floor(columns)).fill(1);
 
 function drawBinary() {
-  bctx.fillStyle = "rgba(0,0,0,0.08)";
-  bctx.fillRect(0,0,binaryCanvas.width,binaryCanvas.height);
+  bctx.fillStyle = "rgba(0,0,0,0.1)";
+  bctx.fillRect(0, 0, binaryCanvas.width, binaryCanvas.height);
   bctx.fillStyle = "#00fff0";
   bctx.font = fontSize + "px monospace";
 
   for (let i = 0; i < drops.length; i++) {
     const text = binary[Math.floor(Math.random() * binary.length)];
     bctx.fillText(text, i * fontSize, drops[i] * fontSize);
-    if (drops[i] * fontSize > binaryCanvas.height && Math.random() > 0.975)
-      drops[i] = 0;
+    if (drops[i] * fontSize > binaryCanvas.height && Math.random() > 0.975) drops[i] = 0;
     drops[i]++;
   }
 }
-setInterval(drawBinary, 40);
+setInterval(drawBinary, 50);
 
-/* === Scratch & Glow Effect === */
-const effectCanvas = document.getElementById("effectCanvas");
-const ectx = effectCanvas.getContext("2d");
-effectCanvas.width = window.innerWidth;
-effectCanvas.height = window.innerHeight;
+/* === Mask Scratch Effect === */
+const maskCanvas = document.getElementById("maskCanvas");
+const mctx = maskCanvas.getContext("2d");
+maskCanvas.width = innerWidth;
+maskCanvas.height = innerHeight;
 
-function revealEffect(x, y) {
-  // clear small portion
-  const gradient = ectx.createRadialGradient(x, y, 0, x, y, 120);
-  gradient.addColorStop(0, "rgba(0,255,255,0.9)");
-  gradient.addColorStop(0.3, "rgba(0,255,255,0.5)");
+// start with black overlay
+mctx.fillStyle = "#000";
+mctx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
+
+function scratch(x, y) {
+  mctx.globalCompositeOperation = "destination-out";
+  const gradient = mctx.createRadialGradient(x, y, 0, x, y, 120);
+  gradient.addColorStop(0, "rgba(0,0,0,1)");
   gradient.addColorStop(1, "rgba(0,0,0,0)");
-  
-  ectx.globalCompositeOperation = "lighter";
-  ectx.fillStyle = gradient;
-  ectx.beginPath();
-  ectx.arc(x, y, 120, 0, Math.PI * 2);
-  ectx.fill();
-
-  // binary pulse overlay
-  const pulse = ectx.createRadialGradient(x, y, 0, x, y, 200);
-  pulse.addColorStop(0, "rgba(0,255,255,0.3)");
-  pulse.addColorStop(1, "rgba(0,255,255,0)");
-  ectx.fillStyle = pulse;
-  ectx.fill();
-
-  // fade out effect
-  setTimeout(() => {
-    ectx.globalCompositeOperation = "destination-out";
-    ectx.fillStyle = "rgba(0,0,0,0.1)";
-    ectx.beginPath();
-    ectx.arc(x, y, 200, 0, Math.PI * 2);
-    ectx.fill();
-    ectx.globalCompositeOperation = "source-over";
-  }, 400);
+  mctx.fillStyle = gradient;
+  mctx.beginPath();
+  mctx.arc(x, y, 120, 0, Math.PI * 2);
+  mctx.fill();
+  mctx.globalCompositeOperation = "source-over";
 }
 
-document.addEventListener("mousemove", e => revealEffect(e.clientX, e.clientY));
+document.addEventListener("mousemove", e => scratch(e.clientX, e.clientY));
 document.addEventListener("touchmove", e => {
-  const touch = e.touches[0];
-  revealEffect(touch.clientX, touch.clientY);
+  const t = e.touches[0];
+  scratch(t.clientX, t.clientY);
 });
 
 window.addEventListener("resize", () => {
-  binaryCanvas.width = window.innerWidth;
-  binaryCanvas.height = window.innerHeight;
-  effectCanvas.width = window.innerWidth;
-  effectCanvas.height = window.innerHeight;
+  binaryCanvas.width = innerWidth;
+  binaryCanvas.height = innerHeight;
+  maskCanvas.width = innerWidth;
+  maskCanvas.height = innerHeight;
+  mctx.fillStyle = "#000";
+  mctx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
   columns = binaryCanvas.width / fontSize;
   drops = Array(Math.floor(columns)).fill(1);
 });

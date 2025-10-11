@@ -1,57 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AOLFS | Innovating the Future</title>
+  <title>AOLFS | Advanced Operations, Logistics & Financial Solutions</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Inter', sans-serif;
     }
 
     body {
-      height: 100vh;
+      background: radial-gradient(circle at 20% 20%, #030303, #000);
+      color: #fff;
+      overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: radial-gradient(circle at 20% 20%, #0a0a0a, #050505, #000);
-      overflow: hidden;
-      color: white;
-    }
-
-    .glow {
-      position: absolute;
-      width: 600px;
-      height: 600px;
-      background: linear-gradient(45deg, #00bcd4, #4caf50, #8bc34a);
-      filter: blur(120px);
-      opacity: 0.2;
-      animation: rotate 12s linear infinite;
-      border-radius: 50%;
-    }
-
-    @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    .card {
+      height: 100vh;
       position: relative;
+    }
+
+    /* Animated Background Gradient */
+    body::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 90deg, #00ffc3, #007bff, #00ffc3, #00bcd4);
+      filter: blur(250px);
+      animation: rotateBG 20s linear infinite;
+      opacity: 0.2;
+    }
+
+    @keyframes rotateBG {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Main Card */
+    .container {
+      position: relative;
+      z-index: 2;
       text-align: center;
-      padding: 60px 40px;
-      border-radius: 20px;
-      backdrop-filter: blur(20px);
+      padding: 60px 50px;
+      border-radius: 24px;
       background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 0 60px rgba(0, 255, 170, 0.1);
-      z-index: 10;
-      max-width: 520px;
-      animation: fadeIn 1.5s ease;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 80px rgba(0, 255, 195, 0.1);
+      width: 90%;
+      max-width: 580px;
+      animation: fadeIn 2s ease;
     }
 
     @keyframes fadeIn {
@@ -59,29 +65,58 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    h1 {
-      font-size: 2.2rem;
-      letter-spacing: 1px;
-      color: #00ffc3;
-      text-shadow: 0 0 10px #00ffc3;
+    /* Animated AOLFS Logo */
+    .brand {
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      background: linear-gradient(270deg, #00ffc3, #00bfff, #8bc34a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 400% 400%;
+      animation: shimmer 5s ease infinite;
+      text-shadow: 0 0 30px rgba(0, 255, 200, 0.4);
       margin-bottom: 10px;
     }
 
-    .subtitle {
-      font-size: 1rem;
-      color: #bdbdbd;
-      margin-bottom: 40px;
+    @keyframes shimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
+    .tagline {
+      font-size: 0.9rem;
+      color: #bdbdbd;
+      margin-bottom: 50px;
+      letter-spacing: 0.5px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      color: #00ffc3;
+      margin-bottom: 15px;
+      text-shadow: 0 0 20px rgba(0,255,200,0.5);
+    }
+
+    p {
+      font-size: 1rem;
+      color: #aaa;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    /* Fake Email Box */
     .email-box {
       display: flex;
       justify-content: center;
       align-items: center;
-      background: rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.08);
       border-radius: 40px;
       overflow: hidden;
       padding: 6px;
-      max-width: 350px;
+      max-width: 380px;
       margin: 0 auto 20px;
     }
 
@@ -96,7 +131,7 @@
     }
 
     input::placeholder {
-      color: #aaa;
+      color: #888;
     }
 
     button {
@@ -104,33 +139,22 @@
       border: none;
       color: #000;
       font-weight: 600;
-      padding: 12px 22px;
+      padding: 12px 25px;
       border-radius: 30px;
-      cursor: pointer;
+      cursor: not-allowed;
       transition: 0.3s;
     }
 
     button:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 20px #00ffc3;
+      box-shadow: 0 0 25px #00ffc3;
     }
 
-    .success {
-      font-size: 14px;
-      color: #00ffc3;
-      opacity: 0;
-      transition: opacity 0.4s;
-    }
-
-    footer {
-      font-size: 12px;
-      color: #888;
-      margin-top: 40px;
-    }
-
+    /* Project Tag */
     .project-line {
       font-size: 14px;
-      margin-top: 5px;
+      color: #aaa;
+      margin-top: 40px;
     }
 
     .ventures {
@@ -139,41 +163,62 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       font-style: italic;
-      text-shadow: 0 0 10px rgba(0,255,200,0.4);
+      text-shadow: 0 0 10px rgba(0,255,200,0.5);
     }
 
-    .brand-name {
-      font-size: 1.4rem;
-      font-weight: 600;
-      margin-bottom: 5px;
-      background: linear-gradient(90deg, #00ffc3, #00bfff, #8bc34a);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      text-shadow: 0 0 20px rgba(0,255,200,0.4);
+    footer {
+      font-size: 12px;
+      color: #666;
+      margin-top: 20px;
+    }
+
+    /* Floating particles */
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #00ffc3;
+      border-radius: 50%;
+      opacity: 0.5;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) scale(1); opacity: 0.3; }
+      50% { transform: translateY(-40px) scale(1.5); opacity: 1; }
+      100% { transform: translateY(0) scale(1); opacity: 0.3; }
     }
   </style>
 </head>
 <body>
-  <div class="glow"></div>
-  <div class="card">
-    <div class="brand-name">AOLFS</div>
-    <h1>Under Maintenance</h1>
-    <div class="subtitle">
-      We're upgrading systems to make businesses smarter with AI-driven automation.<br>
-      Please check back soon.
-    </div>
+  <div class="container">
+    <div class="brand">AOLFS</div>
+    <div class="tagline">Advanced Operations, Logistics & Financial Solutions</div>
+
+    <h1>We're Upgrading the Future</h1>
+    <p>Our platform is evolving to bring you next-level AI-driven business automation.<br>
+       Stay tuned as we redefine how technology runs operations, logistics, and finance.</p>
 
     <div class="email-box">
       <input type="email" placeholder="Enter your email to get notified..." disabled>
       <button disabled>Notify Me</button>
     </div>
 
-    <div class="success">✅ You'll be notified when we're back!</div>
-
     <div class="project-line">A Project of <span class="ventures">ABCD Ventures</span></div>
     <footer>© 2025 AOLFS. All rights reserved.</footer>
   </div>
+
+  <!-- Floating particles (for ambient motion) -->
+  <script>
+    const particleCount = 25;
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement("div");
+      particle.classList.add("particle");
+      particle.style.left = Math.random() * 100 + "%";
+      particle.style.top = Math.random() * 100 + "%";
+      particle.style.animationDelay = (Math.random() * 5) + "s";
+      document.body.appendChild(particle);
+    }
+  </script>
 </body>
 </html>

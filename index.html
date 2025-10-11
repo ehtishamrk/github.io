@@ -1,197 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AOLFS | We’ll Be Back Soon</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AOLFS | Innovating the Future</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
+    }
+
+    body {
       height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
-      color: #fff;
+      align-items: center;
+      background: radial-gradient(circle at 20% 20%, #0a0a0a, #050505, #000);
       overflow: hidden;
-      background: linear-gradient(270deg, #0f0c29, #302b63, #24243e);
-      background-size: 600% 600%;
-      animation: gradientShift 15s ease infinite;
-    }
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      color: white;
     }
 
-    /* Floating Particles */
-    .particles {
-      position: absolute; width: 100%; height: 100%;
-      overflow: hidden; z-index: 0;
-    }
-    .particles span {
+    .glow {
       position: absolute;
-      display: block;
-      width: 20px; height: 20px;
-      background: rgba(255,255,255,0.1);
-      animation: float 20s infinite;
+      width: 600px;
+      height: 600px;
+      background: linear-gradient(45deg, #00bcd4, #4caf50, #8bc34a);
+      filter: blur(120px);
+      opacity: 0.2;
+      animation: rotate 12s linear infinite;
       border-radius: 50%;
-      bottom: -150px;
-    }
-    @keyframes float {
-      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-      50% { opacity: 1; }
-      100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; }
     }
 
-    /* Main Card */
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
     .card {
       position: relative;
-      z-index: 1;
-      backdrop-filter: blur(20px);
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 20px;
-      padding: 45px 50px;
       text-align: center;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.3);
-      max-width: 500px;
-      width: 90%;
-      animation: fadeInUp 1s ease-out;
+      padding: 60px 40px;
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 60px rgba(0, 255, 170, 0.1);
+      z-index: 10;
+      max-width: 520px;
+      animation: fadeIn 1.5s ease;
     }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     h1 {
       font-size: 2.2rem;
+      letter-spacing: 1px;
+      color: #00ffc3;
+      text-shadow: 0 0 10px #00ffc3;
       margin-bottom: 10px;
-      background: linear-gradient(90deg, #ffb347, #ffcc33);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
     }
-    p { font-size: 1rem; margin-bottom: 25px; opacity: 0.85; }
 
-    /* Email Box */
-    .fake-form {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
+    .subtitle {
+      font-size: 1rem;
+      color: #bdbdbd;
+      margin-bottom: 40px;
     }
-    input[type="email"] {
-      padding: 10px 15px;
-      border-radius: 8px;
+
+    .email-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(255,255,255,0.1);
+      border-radius: 40px;
+      overflow: hidden;
+      padding: 6px;
+      max-width: 350px;
+      margin: 0 auto 20px;
+    }
+
+    input {
+      background: transparent;
       border: none;
       outline: none;
-      width: 65%;
-      background: rgba(255,255,255,0.15);
       color: #fff;
-      font-size: 0.95rem;
-      transition: 0.3s;
+      flex: 1;
+      padding: 12px 15px;
+      font-size: 14px;
     }
-    input[type="email"]::placeholder { color: rgba(255,255,255,0.6); }
-    input[type="email"]:focus { background: rgba(255,255,255,0.25); }
+
+    input::placeholder {
+      color: #aaa;
+    }
 
     button {
-      background: linear-gradient(135deg, #ffb347, #ffcc33);
+      background: linear-gradient(45deg, #00ffc3, #0099ff);
       border: none;
-      padding: 10px 18px;
-      border-radius: 8px;
+      color: #000;
       font-weight: 600;
+      padding: 12px 22px;
+      border-radius: 30px;
       cursor: pointer;
-      color: #222;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: 0.3s;
     }
+
     button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(255, 204, 51, 0.4);
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #00ffc3;
     }
 
     .success {
-      margin-top: 20px;
+      font-size: 14px;
+      color: #00ffc3;
       opacity: 0;
-      transform: translateY(10px);
-      transition: 0.4s ease;
-      font-size: 0.95rem;
-      color: #baff9e;
-    }
-    .show-success { opacity: 1; transform: translateY(0); }
-
-    /* Project Tagline */
-    .project-line {
-      margin-top: 35px;
-      font-size: 0.9rem;
-      color: rgba(255,255,255,0.7);
-    }
-    .ventures {
-      display: inline-block;
-      font-weight: 700;
-      background: linear-gradient(90deg, #00f5ff, #7effb2, #00eaff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 1px;
-      text-shadow: 0 0 10px rgba(0,255,255,0.3);
-      font-size: 1rem;
-      animation: glowPulse 3s ease-in-out infinite;
-    }
-    @keyframes glowPulse {
-      0%,100% { text-shadow: 0 0 8px rgba(0,255,255,0.4); }
-      50% { text-shadow: 0 0 18px rgba(0,255,255,0.7); }
+      transition: opacity 0.4s;
     }
 
     footer {
-      position: absolute;
-      bottom: 15px;
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.6);
+      font-size: 12px;
+      color: #888;
+      margin-top: 40px;
     }
 
-    @media (max-width: 480px) {
-      .card { padding: 35px 25px; }
-      h1 { font-size: 1.7rem; }
+    .project-line {
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    .ventures {
+      font-weight: bold;
+      background: linear-gradient(45deg, #00ffc3, #0099ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-style: italic;
+      text-shadow: 0 0 10px rgba(0,255,200,0.4);
+    }
+
+    .brand-name {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+      background: linear-gradient(90deg, #00ffc3, #00bfff, #8bc34a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-shadow: 0 0 20px rgba(0,255,200,0.4);
     }
   </style>
 </head>
 <body>
-  <div class="particles">
-    <span style="left:5%;animation-delay:2s;width:15px;height:15px;"></span>
-    <span style="left:25%;animation-delay:4s;"></span>
-    <span style="left:50%;animation-delay:6s;width:25px;height:25px;"></span>
-    <span style="left:75%;animation-delay:3s;width:10px;height:10px;"></span>
-    <span style="left:90%;animation-delay:5s;width:18px;height:18px;"></span>
-  </div>
-
+  <div class="glow"></div>
   <div class="card">
-    <h1>🚧 We’ll Be Back Soon</h1>
-    <p>We’re crafting something extraordinary. Drop your email to get notified when we’re back!</p>
-
-    <div class="fake-form">
-      <input type="email" id="fakeEmail" placeholder="Enter your email" />
-      <button type="button" id="fakeSubmit">Notify Me</button>
+    <div class="brand-name">AOLFS</div>
+    <h1>🚧 Under Maintenance</h1>
+    <div class="subtitle">
+      We're upgrading systems to make businesses smarter with AI-driven automation.<br>
+      Please check back soon.
     </div>
 
-    <div class="success" id="successMsg">✅ You’ll be notified when we’re back!</div>
+    <div class="email-box">
+      <input type="email" placeholder="Enter your email to get notified..." disabled>
+      <button disabled>Notify Me</button>
+    </div>
+
+    <div class="success">✅ You'll be notified when we're back!</div>
 
     <div class="project-line">A Project of <span class="ventures">ABCD Ventures</span></div>
+    <footer>© 2025 AOLFS. All rights reserved.</footer>
   </div>
-
-  <footer>© 2025 AOLFS | All rights reserved</footer>
-
-  <script>
-    const button = document.getElementById('fakeSubmit');
-    const input = document.getElementById('fakeEmail');
-    const msg = document.getElementById('successMsg');
-    button.addEventListener('click', () => {
-      if (input.value.trim() !== "") {
-        msg.classList.add('show-success');
-        input.value = "";
-        setTimeout(() => msg.classList.remove('show-success'), 3000);
-      } else {
-        input.placeholder = "Please enter an email...";
-      }
-    });
-  </script>
 </body>
 </html>
-

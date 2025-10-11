@@ -20,25 +20,15 @@
     position: relative;
   }
 
-  /* Binary layer */
-  #binaryCanvas {
+  canvas {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    z-index: 0;
-    opacity: 0.35;
   }
 
-  /* Mask overlay */
-  #maskCanvas {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 1;
-    background: black;
-  }
+  #binaryCanvas { z-index: 0; opacity: 0.5; }
+  #effectCanvas { z-index: 1; }
 
-  /* Center content */
   .content {
     position: relative;
     z-index: 2;
@@ -132,7 +122,7 @@
 <body>
 
 <canvas id="binaryCanvas"></canvas>
-<canvas id="maskCanvas"></canvas>
+<canvas id="effectCanvas"></canvas>
 
 <div class="content">
   <h1>AOLFS</h1>
@@ -151,76 +141,83 @@
 </div>
 
 <script>
-/* ========== Binary Code Background ========== */
-const canvas = document.getElementById("binaryCanvas");
-const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+/* === Binary Background === */
+const binaryCanvas = document.getElementById("binaryCanvas");
+const bctx = binaryCanvas.getContext("2d");
+binaryCanvas.width = window.innerWidth;
+binaryCanvas.height = window.innerHeight;
 
 const binary = "010101010101010101010101";
 const fontSize = 14;
-const columns = canvas.width / fontSize;
-const drops = [];
-
-for (let x = 0; x < columns; x++) drops[x] = 1;
+let columns = binaryCanvas.width / fontSize;
+let drops = Array(Math.floor(columns)).fill(1);
 
 function drawBinary() {
-  ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  bctx.fillStyle = "rgba(0,0,0,0.08)";
+  bctx.fillRect(0,0,binaryCanvas.width,binaryCanvas.height);
+  bctx.fillStyle = "#00fff0";
+  bctx.font = fontSize + "px monospace";
 
-  ctx.fillStyle = "#00fff0";
-  ctx.font = fontSize + "px monospace";
   for (let i = 0; i < drops.length; i++) {
     const text = binary[Math.floor(Math.random() * binary.length)];
-    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975)
+    bctx.fillText(text, i * fontSize, drops[i] * fontSize);
+    if (drops[i] * fontSize > binaryCanvas.height && Math.random() > 0.975)
       drops[i] = 0;
     drops[i]++;
   }
 }
-setInterval(drawBinary, 33);
+setInterval(drawBinary, 40);
 
-/* ========== Scratch Mask Reveal ========== */
-const mask = document.getElementById("maskCanvas");
-const mctx = mask.getContext("2d");
-mask.width = window.innerWidth;
-mask.height = window.innerHeight;
+/* === Scratch & Glow Effect === */
+const effectCanvas = document.getElementById("effectCanvas");
+const ectx = effectCanvas.getContext("2d");
+effectCanvas.width = window.innerWidth;
+effectCanvas.height = window.innerHeight;
 
-// start with full black cover
-mctx.fillStyle = "black";
-mctx.fillRect(0, 0, mask.width, mask.height);
+function revealEffect(x, y) {
+  // clear small portion
+  const gradient = ectx.createRadialGradient(x, y, 0, x, y, 120);
+  gradient.addColorStop(0, "rgba(0,255,255,0.9)");
+  gradient.addColorStop(0.3, "rgba(0,255,255,0.5)");
+  gradient.addColorStop(1, "rgba(0,0,0,0)");
+  
+  ectx.globalCompositeOperation = "lighter";
+  ectx.fillStyle = gradient;
+  ectx.beginPath();
+  ectx.arc(x, y, 120, 0, Math.PI * 2);
+  ectx.fill();
 
-function reveal(x, y) {
-  mctx.globalCompositeOperation = "destination-out";
+  // binary pulse overlay
+  const pulse = ectx.createRadialGradient(x, y, 0, x, y, 200);
+  pulse.addColorStop(0, "rgba(0,255,255,0.3)");
+  pulse.addColorStop(1, "rgba(0,255,255,0)");
+  ectx.fillStyle = pulse;
+  ectx.fill();
 
-  // glow effect
-  const gradient = mctx.createRadialGradient(x, y, 0, x, y, 120);
-  gradient.addColorStop(0, "rgba(0,255,255,0.8)");
-  gradient.addColorStop(0.5, "rgba(0,255,255,0.3)");
-  gradient.addColorStop(1, "rgba(0,255,255,0)");
-
-  mctx.fillStyle = gradient;
-  mctx.beginPath();
-  mctx.arc(x, y, 120, 0, Math.PI * 2);
-  mctx.fill();
-
-  // fade to black again smoothly
+  // fade out effect
   setTimeout(() => {
-    mctx.globalCompositeOperation = "source-over";
-    const fade = mctx.createRadialGradient(x, y, 0, x, y, 130);
-    fade.addColorStop(0, "rgba(0,0,0,0.6)");
-    fade.addColorStop(1, "rgba(0,0,0,0)");
-    mctx.fillStyle = fade;
-    mctx.beginPath();
-    mctx.arc(x, y, 130, 0, Math.PI * 2);
-    mctx.fill();
-  }, 700);
+    ectx.globalCompositeOperation = "destination-out";
+    ectx.fillStyle = "rgba(0,0,0,0.1)";
+    ectx.beginPath();
+    ectx.arc(x, y, 200, 0, Math.PI * 2);
+    ectx.fill();
+    ectx.globalCompositeOperation = "source-over";
+  }, 400);
 }
 
-document.addEventListener("mousemove", e => reveal(e.clientX, e.clientY));
+document.addEventListener("mousemove", e => revealEffect(e.clientX, e.clientY));
 document.addEventListener("touchmove", e => {
   const touch = e.touches[0];
-  reveal(touch.clientX, touch.clientY);
+  revealEffect(touch.clientX, touch.clientY);
+});
+
+window.addEventListener("resize", () => {
+  binaryCanvas.width = window.innerWidth;
+  binaryCanvas.height = window.innerHeight;
+  effectCanvas.width = window.innerWidth;
+  effectCanvas.height = window.innerHeight;
+  columns = binaryCanvas.width / fontSize;
+  drops = Array(Math.floor(columns)).fill(1);
 });
 </script>
 

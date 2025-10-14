@@ -1,84 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AOLFS | Advanced Operations, Logistics & Financial Solutions</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
 
-    *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
-    html,body{height:100%}
-    body{
-      height:100vh;
-      overflow:hidden;
-      background:#000;
-      color:#fff;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      flex-direction:column;
-      position:relative;
-      padding:20px;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
     }
 
-    /* Three.js canvas will be injected and positioned behind content */
-    #three-canvas {
+    body {
+      height: 100vh;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 30%, #000, #020202, #000);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      position: relative;
+      padding: 20px;
+    }
+
+    canvas {
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
       z-index: 0;
-      pointer-events: none; /* Let clicks go through */
-      display: block;
     }
 
     .container {
       position: relative;
       z-index: 2;
       text-align: center;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 20px;
       padding: 40px 30px;
-      backdrop-filter: blur(14px);
-      box-shadow: 0 0 50px rgba(0,255,200,0.12);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 0 50px rgba(0, 255, 200, 0.2);
+      animation: fadeIn 2s ease;
       width: 90%;
       max-width: 600px;
-      animation: fadeIn 900ms ease;
     }
-    @keyframes fadeIn { from {opacity:0; transform: translateY(14px)} to {opacity:1; transform:none} }
 
-    .brand { font-size:clamp(2rem,5vw,3rem); font-weight:800; letter-spacing:3px; text-transform:uppercase; color:#fff; }
-    h1 { margin-top:10px; font-size:clamp(1rem,3vw,1.4rem); color:#ccc; }
-    p { color:#aaa; margin:20px 0 20px; line-height:1.6; font-size:clamp(0.92rem,2.5vw,1rem) }
-    .maintenance { color:#ddd; font-size:0.95em; margin-bottom:18px; display:block; }
-    .email-box { display:flex; justify-content:center; align-items:center; background:rgba(255,255,255,0.06); border-radius:50px; padding:6px; max-width:380px; margin:0 auto 20px; gap:8px; flex-wrap:wrap; }
-    input { background:transparent; border:none; outline:none; color:#fff; flex:1; min-width:180px; padding:12px 15px; font-size:14px; }
-    input::placeholder{ color:#888 }
-    button { background:linear-gradient(45deg,#00ffc3,#0099ff); border:none; color:#000; font-weight:600; padding:12px 25px; border-radius:30px; cursor:not-allowed; }
-    .ventures { font-weight:600; background:linear-gradient(45deg,#00ffc3,#0099ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-    .project-line{ font-size:clamp(0.8rem,2vw,0.9rem); color:#aaa; margin-top:20px }
-    footer{ font-size:12px; color:#666; margin-top:8px }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-    @media (max-width:480px){
-      body{overflow-y:auto}
-      .container{padding:26px 18px}
-      .email-box{flex-direction:column;border-radius:14px}
-      button{width:100%}
+    .brand {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #00ffc3;
+      text-shadow: none;
+    }
+
+    h1 {
+      margin-top: 10px;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      color: #ccc;
+      text-shadow: none;
+    }
+
+    p {
+      color: #aaa;
+      margin: 20px 0 40px;
+      line-height: 1.6;
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
+    }
+
+    .maintenance {
+      color: #777;
+      font-size: 0.9em;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .email-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50px;
+      padding: 6px;
+      max-width: 380px;
+      margin: 0 auto 20px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      flex: 1;
+      min-width: 180px;
+      padding: 12px 15px;
+      font-size: 14px;
+    }
+
+    input::placeholder {
+      color: #777;
+    }
+
+    button {
+      background: linear-gradient(45deg, #00ffc3, #0099ff);
+      border: none;
+      color: #000;
+      font-weight: 600;
+      padding: 12px 25px;
+      border-radius: 30px;
+      cursor: not-allowed;
+      transition: 0.3s;
+      flex-shrink: 0;
+    }
+
+    .ventures {
+      font-weight: 600;
+      background: linear-gradient(45deg, #00ffc3, #0099ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: none;
+    }
+
+    .project-line {
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+      color: #aaa;
+      margin-top: 30px;
+    }
+
+    footer {
+      font-size: clamp(0.7rem, 1.8vw, 0.8rem);
+      color: #666;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        overflow-y: auto;
+      }
+
+      .container {
+        padding: 30px 20px;
+      }
+
+      .email-box {
+        flex-direction: column;
+        border-radius: 15px;
+      }
+
+      button {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- three.js canvas (script will mount renderer here) -->
-  <div id="three-root" aria-hidden="true"></div>
+  <canvas id="neural"></canvas>
 
   <div class="container">
     <div class="brand">AOLFS</div>
     <h1>Advanced Operations, Logistics & Financial Solutions</h1>
-
-    <p>Building the future of business scaling — where AI, automation, and intelligent workflows power next-gen operations, logistics, and finance.</p>
+    <p>
+      Building the future of business scaling — where AI, automation, and intelligent workflows power next-gen operations, logistics, and finance.
+    </p>
 
     <span class="maintenance">(This site is under maintenance.)</span>
 
@@ -91,219 +185,61 @@
     <footer>© 2025 AOLFS. All rights reserved.</footer>
   </div>
 
-  <!-- three.js from CDN (works on GitHub Pages) -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.156.0/build/three.min.js"></script>
-
   <script>
-  // Realistic Andromeda-style galaxy using Three.js
-  (function () {
-    const root = document.getElementById('three-root');
+    const canvas = document.getElementById('neural');
+    const ctx = canvas.getContext('2d');
+    let w, h;
+    const particles = [];
 
-    // Create renderer
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.domElement.id = 'three-canvas';
-    root.appendChild(renderer.domElement);
-
-    const scene = new THREE.Scene();
-
-    // Camera
-    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 5000);
-    camera.position.set(0, 0, 800);
-
-    // Resize handler
-    function onWindowResize() {
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
     }
-    window.addEventListener('resize', onWindowResize);
-    onWindowResize();
+    window.addEventListener('resize', resize);
+    resize();
 
-    // Helper: create a soft circular sprite texture (white glow)
-    function createStarTexture() {
-      const size = 128;
-      const canvas = document.createElement('canvas');
-      canvas.width = canvas.height = size;
-      const ctx = canvas.getContext('2d');
-
-      const grad = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
-      grad.addColorStop(0, 'rgba(255,255,255,1)');
-      grad.addColorStop(0.2, 'rgba(255,255,255,0.9)');
-      grad.addColorStop(0.4, 'rgba(255,255,255,0.6)');
-      grad.addColorStop(0.7, 'rgba(200,200,200,0.12)');
-      grad.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0,0,size,size);
-      const tex = new THREE.CanvasTexture(canvas);
-      tex.minFilter = THREE.LinearMipMapLinearFilter;
-      return tex;
-    }
-    const starTexture = createStarTexture();
-
-    // Create galaxy points
-    let galaxyPoints, galaxyGeometry, galaxyMaterial;
-    function makeGalaxy() {
-      if (galaxyPoints) {
-        scene.remove(galaxyPoints);
-        galaxyGeometry.dispose();
-        galaxyMaterial.dispose();
+    class Particle {
+      constructor() {
+        this.x = Math.random() * w;
+        this.y = Math.random() * h;
+        this.size = Math.random() * 2;
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.speedY = (Math.random() - 0.5) * 0.3;
       }
-
-      // Particle count adapted to screen size (mobile friendly)
-      const area = window.innerWidth * window.innerHeight;
-      let count = Math.floor(area / 5000); // fine-tune density
-      count = Math.max(600, Math.min(count, 3500)); // clamp between 600 and 3500
-
-      galaxyGeometry = new THREE.BufferGeometry();
-      const positions = new Float32Array(count * 3);
-      const sizes = new Float32Array(count);
-      const colors = new Float32Array(count * 3);
-
-      const arms = 2.3; // number of spiral arms
-      const armOffset = (Math.PI * 2) / arms;
-      const spiralSpread = 0.8; // how tight the arms are
-
-      const radiusMax = Math.min(window.innerWidth, window.innerHeight) * 0.5;
-      for (let i = 0; i < count; i++) {
-        // radial distance from center with bias to core
-        const r = Math.pow(Math.random(), 1.3) * radiusMax;
-        // choose arm and angle with offset
-        const arm = i % Math.ceil(arms);
-        // base angle along spiral
-        const angle = r * 0.0065 * (0.9 + Math.random() * 0.6) + arm * armOffset;
-        // add noise so stars aren't perfectly on curve
-        const noise = (Math.random() - 0.5) * r * 0.12;
-        const x = Math.cos(angle) * (r + noise);
-        const y = (Math.sin(angle) * (r + noise)) * 0.6; // flatten slightly for perspective
-        const z = (Math.random() - 0.5) * (radiusMax * 0.25) - (r * 0.0005 * Math.random());
-
-        const idx3 = i * 3;
-        positions[idx3] = x;
-        positions[idx3 + 1] = y;
-        positions[idx3 + 2] = z;
-
-        // sizes vary with r (smaller far out)
-        sizes[i] = (1.0 + (1 - r / radiusMax) * 3.5) * (0.6 + Math.random() * 0.9);
-
-        // colors: mostly white with tiny variation, keep them white as requested
-        const c = 1.0 - Math.random() * 0.12;
-        colors[idx3] = c;
-        colors[idx3 + 1] = c;
-        colors[idx3 + 2] = c;
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x < 0 || this.x > w) this.speedX *= -1;
+        if (this.y < 0 || this.y > h) this.speedY *= -1;
       }
-
-      galaxyGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      galaxyGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-      galaxyGeometry.setAttribute('customColor', new THREE.BufferAttribute(colors, 3));
-
-      // Shader material for points with size attenuation and texture
-      galaxyMaterial = new THREE.ShaderMaterial({
-        transparent: true,
-        depthTest: true,
-        blending: THREE.AdditiveBlending,
-        uniforms: {
-          pointTexture: { value: starTexture },
-          pixelRatio: { value: window.devicePixelRatio || 1 }
-        },
-        vertexShader: `
-          attribute float size;
-          attribute vec3 customColor;
-          varying vec3 vColor;
-          uniform float pixelRatio;
-          void main() {
-            vColor = customColor;
-            vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-            gl_PointSize = size * ( 300.0 / -mvPosition.z ) * pixelRatio;
-            gl_Position = projectionMatrix * mvPosition;
-          }
-        `,
-        fragmentShader: `
-          uniform sampler2D pointTexture;
-          varying vec3 vColor;
-          void main() {
-            vec4 tex = texture2D(pointTexture, gl_PointCoord);
-            gl_FragColor = vec4(vColor, 1.0) * tex;
-            // subtle falloff
-            if (gl_FragColor.a < 0.02) discard;
-          }
-        `
-      });
-
-      galaxyPoints = new THREE.Points(galaxyGeometry, galaxyMaterial);
-      galaxyPoints.rotation.x = THREE.Math.degToRad(12); // slight tilt
-      scene.add(galaxyPoints);
-
-      // Add a glowing core sprite
-      const coreSize = radiusMax * 0.18;
-      const coreCanvas = document.createElement('canvas');
-      coreCanvas.width = coreCanvas.height = 256;
-      const ctx = coreCanvas.getContext('2d');
-      const cg = ctx.createRadialGradient(128,128,0,128,128,128);
-      cg.addColorStop(0, 'rgba(255,245,230,1)');
-      cg.addColorStop(0.25, 'rgba(255,230,170,0.9)');
-      cg.addColorStop(0.55, 'rgba(255,200,100,0.35)');
-      cg.addColorStop(1, 'rgba(255,180,80,0)');
-      ctx.fillStyle = cg;
-      ctx.fillRect(0,0,256,256);
-      const coreTex = new THREE.CanvasTexture(coreCanvas);
-      const coreMat = new THREE.SpriteMaterial({ map: coreTex, blending: THREE.AdditiveBlending, transparent: true });
-      const core = new THREE.Sprite(coreMat);
-      core.scale.set(coreSize, coreSize, 1);
-      core.position.set(0, 0, -40);
-      scene.add(core);
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0,255,195,0.5)';
+        ctx.fill();
+      }
     }
 
-    makeGalaxy();
-
-    // subtle ambient fog and vignette-like darkening: use a big black plane behind to add depth (optional)
-    // camera motion + parallax based on mouse
-    const mouse = { x: 0, y: 0 };
-    function onMove(e) {
-      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = - (e.clientY / window.innerHeight) * 2 + 1;
+    function init() {
+      for (let i = 0; i < 80; i++) {
+        particles.push(new Particle());
+      }
     }
-    window.addEventListener('mousemove', onMove);
+    init();
 
-    // animation loop
-    let time = 0;
     function animate() {
-      time += 0.002;
-      // Slowly rotate galaxy group
-      if (galaxyPoints) {
-        galaxyPoints.rotation.z = time * 0.05;
-        galaxyPoints.rotation.y = Math.sin(time * 0.03) * 0.02;
+      ctx.clearRect(0, 0, w, h);
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        p.update();
+        p.draw();
       }
-      // subtle camera parallax
-      camera.position.x += (mouse.x * 40 - camera.position.x) * 0.02;
-      camera.position.y += (mouse.y * 40 - camera.position.y) * 0.02;
-      camera.lookAt(0, 0, 0);
-
-      renderer.render(scene, camera);
       requestAnimationFrame(animate);
     }
     animate();
-
-    // On high-res screens, recompute pixel ratio on resize
-    window.addEventListener('resize', () => {
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      makeGalaxy(); // recreate to adapt particle count and radius
-      onWindowResize();
-    });
-
-    // Fallback: if WebGL not available, hide three-root and show simple starfield CSS
-    if (!renderer.capabilities.isWebGL2 && !renderer.capabilities.isWebGL) {
-      root.style.display = 'none';
-      document.body.style.background = 'radial-gradient(ellipse at center, #05050a 0%, #000 60%)';
-    }
-
-    // Keep canvas sized properly (in case of mobile address bar height changes)
-    let rafResize;
-    window.addEventListener('orientationchange', () => {
-      clearTimeout(rafResize);
-      rafResize = setTimeout(() => { onWindowResize(); makeGalaxy(); }, 600);
-    });
-  })();
   </script>
+  <audio id="bg-music" autoplay loop>
+  <source src="https://cdn.pixabay.com/download/audio/2023/02/28/audio_3bb17b39a7.mp3?filename=ambient-futuristic-background-142074.mp3" type="audio/mpeg">
+</audio>
 </body>
 </html>

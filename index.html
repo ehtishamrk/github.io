@@ -31,7 +31,17 @@
       animation: fadeIn 900ms ease;
     }
     @keyframes fadeIn { from {opacity:0; transform: translateY(14px)} to {opacity:1; transform:none} }
-    .brand { font-size:clamp(2rem,5vw,3rem); font-weight:800; letter-spacing:3px; text-transform:uppercase; color:#fff; }
+
+    /* Brand styling */
+    .brand {
+      font-size:clamp(2rem,5vw,3rem);
+      font-weight:800;
+      letter-spacing:3px;
+      text-transform:uppercase;
+      color:#00e6e6; /* Teal brand color */
+      text-shadow: 0 0 15px rgba(0,230,230,0.6), 0 0 30px rgba(0,230,230,0.2);
+    }
+
     h1 { margin-top:10px; font-size:clamp(1rem,3vw,1.4rem); color:#ccc; }
     p { color:#aaa; margin:20px 0 20px; line-height:1.6; font-size:clamp(0.92rem,2.5vw,1rem) }
     .maintenance { color:#ddd; font-size:0.95em; margin-bottom:18px; display:block; }
@@ -88,13 +98,13 @@
       const colors = new Float32Array(starQty * 3);
       const color = new THREE.Color();
 
-      // Realistic star color palette (white, blue, red, yellow, pink)
+      // Realistic star color palette
       const palette = [
         new THREE.Color(0xffffff), // white
-        new THREE.Color(0xffccaa), // warm yellow
         new THREE.Color(0x99ccff), // cool blue
-        new THREE.Color(0xff9999), // soft red
-        new THREE.Color(0xffb6c1)  // faint pink
+        new THREE.Color(0x00e6e6), // teal
+        new THREE.Color(0x77ffff), // light cyan
+        new THREE.Color(0xffccaa)  // warm yellow
       ];
 
       for (let i = 0; i < starQty; i++) {
@@ -106,7 +116,7 @@
         positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
         positions[i * 3 + 2] = r * Math.cos(phi);
 
-        // Assign a random color from the palette
+        // Assign random color
         color.copy(palette[Math.floor(Math.random() * palette.length)]);
         colors[i * 3] = color.r;
         colors[i * 3 + 1] = color.g;
@@ -128,12 +138,12 @@
       stars = new THREE.Points(geometry, material);
       scene.add(stars);
 
-      // Subtle glowing gas cloud (nebula)
+      // Nebula glow
       const nebulaGeometry = new THREE.SphereGeometry(1200, 32, 32);
       const nebulaMaterial = new THREE.MeshBasicMaterial({
-        color: 0x4444aa,
+        color: 0x003344,
         transparent: true,
-        opacity: 0.1,
+        opacity: 0.12,
         blending: THREE.AdditiveBlending
       });
       const nebula = new THREE.Mesh(nebulaGeometry, nebulaMaterial);

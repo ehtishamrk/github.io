@@ -7,10 +7,8 @@
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
-
     *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
     html,body{height:100%;width:100%;overflow:hidden;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;flex-direction:column;}
-
     #bg {
       position: fixed;
       top: 0; left: 0;
@@ -18,7 +16,6 @@
       z-index: 0;
       background: radial-gradient(ellipse at center, #050505 0%, #000 80%);
     }
-
     .container {
       position: relative;
       z-index: 2;
@@ -34,8 +31,7 @@
       animation: fadeIn 900ms ease;
     }
     @keyframes fadeIn { from {opacity:0; transform: translateY(14px)} to {opacity:1; transform:none} }
-
-    .brand { font-size:clamp(2rem,5vw,3rem); font-weight:800; letter-spacing:3px; text-transform:uppercase; color:#00e6e6; }
+    .brand { font-size:clamp(2rem,5vw,3rem); font-weight:800; letter-spacing:3px; text-transform:uppercase; color:#fff; }
     h1 { margin-top:10px; font-size:clamp(1rem,3vw,1.4rem); color:#ccc; }
     p { color:#aaa; margin:20px 0 20px; line-height:1.6; font-size:clamp(0.92rem,2.5vw,1rem) }
     .maintenance { color:#ddd; font-size:0.95em; margin-bottom:18px; display:block; }
@@ -55,9 +51,7 @@
   <div class="container">
     <div class="brand">AOLFS</div>
     <h1>Advanced Operations, Logistics & Financial Solutions</h1>
-
     <p>Building the future of business scaling — where AI, automation, and intelligent workflows power next-gen operations, logistics, and finance.</p>
-
     <span class="maintenance">(This site is under maintenance.)</span>
 
     <div class="email-box">
@@ -78,6 +72,7 @@
 
     function init() {
       const canvas = document.getElementById("bg");
+
       renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.setPixelRatio(window.devicePixelRatio);
@@ -91,14 +86,15 @@
       const geometry = new THREE.BufferGeometry();
       const positions = new Float32Array(starQty * 3);
       const colors = new Float32Array(starQty * 3);
-      const sizes = new Float32Array(starQty);
+      const color = new THREE.Color();
 
-      const colorOptions = [
-        new THREE.Color(1.0, 1.0, 1.0),   // White
-        new THREE.Color(0.7, 0.8, 1.0),   // Soft blue
-        new THREE.Color(1.0, 0.75, 0.75), // Soft pink/red
-        new THREE.Color(0.85, 0.7, 1.0),  // Lavender
-        new THREE.Color(0.9, 0.9, 1.0)    // Cool white
+      // Realistic star color palette (white, blue, red, yellow, pink)
+      const palette = [
+        new THREE.Color(0xffffff), // white
+        new THREE.Color(0xffccaa), // warm yellow
+        new THREE.Color(0x99ccff), // cool blue
+        new THREE.Color(0xff9999), // soft red
+        new THREE.Color(0xffb6c1)  // faint pink
       ];
 
       for (let i = 0; i < starQty; i++) {
@@ -109,28 +105,39 @@
         positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
         positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
         positions[i * 3 + 2] = r * Math.cos(phi);
-        sizes[i] = Math.random() * 1.8 + 0.5;
 
-        const col = colorOptions[Math.floor(Math.random() * colorOptions.length)];
-        colors[i * 3] = col.r;
-        colors[i * 3 + 1] = col.g;
-        colors[i * 3 + 2] = col.b;
+        // Assign a random color from the palette
+        color.copy(palette[Math.floor(Math.random() * palette.length)]);
+        colors[i * 3] = color.r;
+        colors[i * 3 + 1] = color.g;
+        colors[i * 3 + 2] = color.b;
       }
 
       geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
       geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-      geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
       const material = new THREE.PointsMaterial({
-        vertexColors: true,
         size: 2,
+        vertexColors: true,
         transparent: true,
         opacity: 0.9,
         blending: THREE.AdditiveBlending,
+        depthWrite: false
       });
 
       stars = new THREE.Points(geometry, material);
       scene.add(stars);
+
+      // Subtle glowing gas cloud (nebula)
+      const nebulaGeometry = new THREE.SphereGeometry(1200, 32, 32);
+      const nebulaMaterial = new THREE.MeshBasicMaterial({
+        color: 0x4444aa,
+        transparent: true,
+        opacity: 0.1,
+        blending: THREE.AdditiveBlending
+      });
+      const nebula = new THREE.Mesh(nebulaGeometry, nebulaMaterial);
+      scene.add(nebula);
 
       window.addEventListener("resize", onWindowResize);
     }
@@ -148,6 +155,5 @@
       renderer.render(scene, camera);
     }
   </script>
-
 </body>
 </html>

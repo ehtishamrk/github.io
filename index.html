@@ -1,358 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>AOLFS | Advanced Operations, Logistics & Financial Solutions</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AOLFS | Advanced Operations, Logistics & Financial Solutions</title>
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
-    *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
-    html,body{height:100%;width:100%;overflow:hidden;background:#000;color:#fff}
-    /* full-screen renderer canvas */
-    #bg { position: fixed; top:0; left:0; width:100%; height:100%; z-index:0; }
-    /* content card */
-    .container {
-      position: relative; z-index: 2; text-align: center;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px; padding: 40px 30px; backdrop-filter: blur(14px);
-      box-shadow: 0 0 50px rgba(0,255,200,0.10); width: 90%; max-width: 600px;
-      margin: 6vh auto;
-    }
-    .brand { font-size:clamp(2rem,5vw,3rem); font-weight:800; letter-spacing:3px; text-transform:uppercase; color:#00e6e6; }
-    h1 { margin-top:10px; font-size:clamp(1rem,3vw,1.4rem); color:#ccc; }
-    p { color:#aaa; margin:20px 0 20px; line-height:1.6; font-size:clamp(0.92rem,2.5vw,1rem) }
-    .maintenance { color:#ddd; font-size:0.95em; margin-bottom:18px; display:block; }
-    .email-box { display:flex; justify-content:center; align-items:center; background:rgba(255,255,255,0.06); border-radius:50px; padding:6px; max-width:380px; margin:0 auto 20px; gap:8px; flex-wrap:wrap; }
-    input { background:transparent; border:none; outline:none; color:#fff; flex:1; min-width:180px; padding:12px 15px; font-size:14px; }
-    input::placeholder{ color:#888 }
-    button { background:linear-gradient(45deg,#00ffc3,#0099ff); border:none; color:#000; font-weight:600; padding:12px 25px; border-radius:30px; cursor:not-allowed; }
-    .ventures { font-weight:600; background:linear-gradient(45deg,#00ffc3,#0099ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-    .project-line{ font-size:clamp(0.8rem,2vw,0.9rem); color:#aaa; margin-top:20px }
-    footer{ font-size:12px; color:#666; margin-top:8px }
-    @media (max-width:480px){ .container{ padding:26px 18px; margin-top: 4vh; } .email-box{flex-direction:column} button{width:100%} }
-  </style>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+html,body{height:100%;width:100%;overflow:hidden;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;flex-direction:column;}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;}
+.container{position:relative;z-index:2;text-align:center;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:40px 30px;backdrop-filter:blur(14px);box-shadow:0 0 50px rgba(0,255,200,0.12);width:90%;max-width:600px;}
+.brand{font-size:clamp(2rem,5vw,3rem);font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#00ffc3;}
+h1{margin-top:10px;font-size:clamp(1rem,3vw,1.4rem);color:#ccc;}
+p{color:#aaa;margin:20px 0 20px;line-height:1.6;font-size:clamp(0.92rem,2.5vw,1rem)}
+.maintenance{color:#ddd;font-size:0.95em;margin-bottom:18px;display:block;}
+.email-box{display:flex;justify-content:center;align-items:center;background:rgba(255,255,255,0.06);border-radius:50px;padding:6px;max-width:380px;margin:0 auto 20px;gap:8px;flex-wrap:wrap;}
+input{background:transparent;border:none;outline:none;color:#fff;flex:1;min-width:180px;padding:12px 15px;font-size:14px;}
+input::placeholder{color:#888}
+button{background:linear-gradient(45deg,#00ffc3,#0099ff);border:none;color:#000;font-weight:600;padding:12px 25px;border-radius:30px;cursor:not-allowed;}
+.ventures{font-weight:600;background:linear-gradient(45deg,#00ffc3,#0099ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.project-line{font-size:clamp(0.8rem,2vw,0.9rem);color:#aaa;margin-top:20px}
+footer{font-size:12px;color:#666;margin-top:8px}
+</style>
 </head>
 <body>
+<canvas id="bg"></canvas>
 
-  <!-- Three.js renderer mounts its canvas here -->
-  <div id="bg" aria-hidden="true"></div>
+<div class="container">
+  <div class="brand">AOLFS</div>
+  <h1>Advanced Operations, Logistics & Financial Solutions</h1>
+  <p>Building the future of business scaling — where AI, automation, and intelligent workflows power next-gen operations, logistics, and finance.</p>
+  <span class="maintenance">(This site is under maintenance.)</span>
 
-  <!-- content -->
-  <div class="container">
-    <div class="brand">AOLFS</div>
-    <h1>Advanced Operations, Logistics & Financial Solutions</h1>
-    <p>Building the future of business scaling — where AI, automation, and intelligent workflows power next-gen operations, logistics, and finance.</p>
-    <span class="maintenance">(This site is under maintenance.)</span>
-
-    <div class="email-box">
-      <input type="email" placeholder="Get notified when we relaunch..." disabled>
-      <button disabled>Notify Me</button>
-    </div>
-
-    <div class="project-line">A Project of <span class="ventures">ABCD Ventures</span></div>
-    <footer>© 2025 AOLFS. All rights reserved.</footer>
+  <div class="email-box">
+    <input type="email" placeholder="Get notified when we relaunch..." disabled>
+    <button disabled>Notify Me</button>
   </div>
 
-  <!-- Three.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+  <div class="project-line">A Project of <span class="ventures">ABCD Ventures</span></div>
+  <footer>© 2025 AOLFS. All rights reserved.</footer>
+</div>
 
-  <script>
-  (function(){
-    // Renderer + scene + camera
-    const root = document.getElementById('bg');
-    const renderer = new THREE.WebGLRenderer({ antialias:true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    root.appendChild(renderer.domElement);
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+<script>
+let scene, camera, renderer, galaxy, streaks;
 
-    const scene = new THREE.Scene();
+init();
+animate();
 
-    // Camera is pulled back far so galaxy appears distant
-    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 10000);
-    camera.position.set(0, 30, 1800); // pulled back Z to make everything look far
-    camera.lookAt(0,0,0);
+function init(){
+  renderer = new THREE.WebGLRenderer({canvas:document.getElementById("bg"),antialias:true});
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  renderer.setPixelRatio(window.devicePixelRatio);
+  scene = new THREE.Scene();
 
-    // Resize
-    function onResize(){
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-    }
-    window.addEventListener('resize', onResize);
-    onResize();
+  camera = new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,1,5000);
+  camera.position.z = 1000;
 
-    // Utility: make soft sprite texture for stars
-    function makeStarTexture() {
-      const s = 128;
-      const c = document.createElement('canvas');
-      c.width = c.height = s;
-      const ctx = c.getContext('2d');
-      const g = ctx.createRadialGradient(s/2,s/2,0,s/2,s/2,s/2);
-      g.addColorStop(0,'rgba(255,255,255,1)');
-      g.addColorStop(0.1,'rgba(255,255,255,0.9)');
-      g.addColorStop(0.3,'rgba(255,255,255,0.5)');
-      g.addColorStop(1,'rgba(255,255,255,0)');
-      ctx.fillStyle = g; ctx.fillRect(0,0,s,s);
-      const tex = new THREE.CanvasTexture(c);
-      tex.minFilter = THREE.LinearMipMapLinearFilter;
-      return tex;
-    }
-    const starTex = makeStarTexture();
+  // Galaxy stars
+  const starsGeo = new THREE.BufferGeometry();
+  const starCount = 2000;
+  const pos = new Float32Array(starCount*3);
+  const colors = new Float32Array(starCount*3);
+  const palette = [0xffffff,0x99ccff,0xffcccc,0xffe0b0];
+  for(let i=0;i<starCount;i++){
+    const r = 800+Math.random()*800;
+    const theta = Math.random()*2*Math.PI;
+    const phi = Math.acos(2*Math.random()-1);
+    pos[i*3]=r*Math.sin(phi)*Math.cos(theta);
+    pos[i*3+1]=r*Math.sin(phi)*Math.sin(theta);
+    pos[i*3+2]=r*Math.cos(phi)-1500; // pushed far back
+    const c=new THREE.Color(palette[Math.floor(Math.random()*palette.length)]);
+    colors[i*3]=c.r;colors[i*3+1]=c.g;colors[i*3+2]=c.b;
+  }
+  starsGeo.setAttribute("position",new THREE.BufferAttribute(pos,3));
+  starsGeo.setAttribute("color",new THREE.BufferAttribute(colors,3));
+  const starMat=new THREE.PointsMaterial({size:2,vertexColors:true,transparent:true,opacity:0.9,blending:THREE.AdditiveBlending});
+  galaxy=new THREE.Points(starsGeo,starMat);
+  scene.add(galaxy);
 
-    // Far galaxy: many faint stars arranged in spiral-ish distribution (low contrast)
-    function makeGalaxy() {
-      // adapt particle counts to screen size
-      const area = window.innerWidth * window.innerHeight;
-      let count = Math.round(Math.min(3500, Math.max(1000, area / 600)));
-      // geometry attrs
-      const geo = new THREE.BufferGeometry();
-      const pos = new Float32Array(count * 3);
-      const col = new Float32Array(count * 3);
-      const size = new Float32Array(count);
+  // Interstellar streaks far in background
+  const streakGeo=new THREE.BufferGeometry();
+  const streakCount=200;
+  const sPos=new Float32Array(streakCount*3);
+  for(let i=0;i<streakCount;i++){
+    sPos[i*3]=-2000+Math.random()*4000; // start spread
+    sPos[i*3+1]=(Math.random()-0.5)*1000;
+    sPos[i*3+2]=-1200-Math.random()*1000;
+  }
+  streakGeo.setAttribute("position",new THREE.BufferAttribute(sPos,3));
+  const streakMat=new THREE.PointsMaterial({color:0x99ddff,size:3,transparent:true,opacity:0.4,blending:THREE.AdditiveBlending});
+  streaks=new THREE.Points(streakGeo,streakMat);
+  scene.add(streaks);
 
-      // palette for subtle variation (white, cool blue, faint pink, warm)
-      const palette = [
-        new THREE.Color(0xffffff),
-        new THREE.Color(0x99ccff),
-        new THREE.Color(0xffd0c0),
-        new THREE.Color(0xe8d0ff),
-        new THREE.Color(0xfff6d6)
-      ];
+  window.addEventListener("resize",()=>{
+    camera.aspect=window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth,window.innerHeight);
+  });
+}
 
-      const maxRadius = Math.min(window.innerWidth, window.innerHeight) * 0.8;
+function animate(){
+  requestAnimationFrame(animate);
+  galaxy.rotation.y+=0.0003;
+  galaxy.rotation.x+=0.0001;
 
-      for (let i=0;i<count;i++){
-        // make spiral bias: radius^0.85 for denser core
-        const r = Math.pow(Math.random(), 0.85) * maxRadius * (0.5 + Math.random()*0.9);
-        // angle with mild arm structure
-        const arms = 2.4;
-        const arm = (Math.random() * arms) | 0;
-        const armOffset = (arm / arms) * Math.PI * 2;
-        const angle = r * 0.0035 + armOffset + (Math.random()-0.5) * 0.7;
-        // flatten for perspective
-        const x = Math.cos(angle) * r * (1 + Math.random()*0.06);
-        const y = Math.sin(angle) * r * 0.6 * (1 + (Math.random()-0.5)*0.1);
-        const z = (Math.random()-0.5) * (maxRadius * 0.15) - 600; // push back to make galaxy *far*
+  // move streaks left→right slowly
+  const arr=streaks.geometry.attributes.position.array;
+  for(let i=0;i<arr.length;i+=3){
+    arr[i]+=1.5;
+    if(arr[i]>2000){arr[i]=-2000;}
+  }
+  streaks.geometry.attributes.position.needsUpdate=true;
 
-        pos[i*3] = x;
-        pos[i*3+1] = y;
-        pos[i*3+2] = z;
-
-        const c = palette[Math.floor(Math.random()*palette.length)];
-        col[i*3] = c.r; col[i*3+1] = c.g; col[i*3+2] = c.b;
-
-        size[i] = 1.0 + Math.random()*2.0;
-      }
-
-      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-      geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
-      geo.setAttribute('size', new THREE.BufferAttribute(size, 1));
-
-      const mat = new THREE.ShaderMaterial({
-        transparent: true,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-        vertexColors: true,
-        uniforms: {
-          pointTexture: { value: starTex },
-          pixelRatio: { value: renderer.getPixelRatio() }
-        },
-        vertexShader: `
-          attribute float size;
-          varying vec3 vColor;
-          uniform float pixelRatio;
-          void main(){
-            vColor = color;
-            vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
-            gl_PointSize = size * (600.0 / -mvPos.z) * pixelRatio;
-            gl_Position = projectionMatrix * mvPos;
-          }
-        `,
-        fragmentShader: `
-          uniform sampler2D pointTexture;
-          varying vec3 vColor;
-          void main(){
-            vec4 tex = texture2D(pointTexture, gl_PointCoord);
-            gl_FragColor = vec4(vColor, 1.0) * tex;
-            if (gl_FragColor.a < 0.02) discard;
-          }
-        `
-      });
-
-      const points = new THREE.Points(geo, mat);
-      points.position.set(0, -40, -1200); // shift far back and slightly down
-      points.rotation.x = THREE.Math.degToRad(8); // tilt a bit
-      scene.add(points);
-      return points;
-    }
-
-    // Soft glowing galactic core (sprite)
-    function makeCore() {
-      const s = 512;
-      const c = document.createElement('canvas'); c.width = c.height = s;
-      const ctx = c.getContext('2d');
-      const g = ctx.createRadialGradient(s/2,s/2,0,s/2,s/2,s/2);
-      g.addColorStop(0, 'rgba(255,245,230,0.95)');
-      g.addColorStop(0.15, 'rgba(255,220,170,0.6)');
-      g.addColorStop(0.35, 'rgba(255,180,160,0.25)');
-      g.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = g; ctx.fillRect(0,0,s,s);
-      const tex = new THREE.CanvasTexture(c);
-      const mat = new THREE.SpriteMaterial({ map: tex, blending: THREE.AdditiveBlending, transparent: true, opacity: 0.9 });
-      const sprite = new THREE.Sprite(mat);
-      sprite.scale.set(1800, 1800, 1);
-      sprite.position.set(0, -20, -900);
-      scene.add(sprite);
-      return sprite;
-    }
-
-    // Distant warp streaks — placed far back (z around -1500..-700), moving left → right slowly
-    function makeWarpStreaks() {
-      const count = 160; // number of streaks
-      const geo = new THREE.BufferGeometry();
-      const positions = new Float32Array(count * 3);
-      const opacities = new Float32Array(count);
-      for (let i=0;i<count;i++){
-        const x = - (Math.random() * 4000); // start left offscreen
-        const y = (Math.random() - 0.5) * window.innerHeight * 1.2;
-        const z = -1200 - Math.random() * 800; // far back (feels distant)
-        positions[i*3] = x;
-        positions[i*3+1] = y;
-        positions[i*3+2] = z;
-        opacities[i] = 0.08 + Math.random() * 0.18;
-      }
-      geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      geo.setAttribute('aOpacity', new THREE.BufferAttribute(opacities,1));
-
-      const mat = new THREE.ShaderMaterial({
-        transparent: true,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-        uniforms: { time: { value: 0 }, color: { value: new THREE.Color(0x99dfff) } },
-        vertexShader: `
-          attribute float aOpacity;
-          varying float vOpacity;
-          void main(){
-            vOpacity = aOpacity;
-            vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
-            gl_Position = projectionMatrix * mvPos;
-            // point size irrelevant; we'll draw as GL_POINTS then stretched in frag using gradient
-            gl_PointSize = 1.0;
-          }
-        `,
-        fragmentShader: `
-          uniform vec3 color;
-          varying float vOpacity;
-          void main(){
-            // create a long soft line effect by making the point pill-shaped visually
-            float d = length(gl_PointCoord - vec2(0.5,0.5));
-            float alpha = (1.0 - smoothstep(0.0, 0.55, d)) * vOpacity;
-            gl_FragColor = vec4(color, alpha);
-          }
-        `
-      });
-
-      const points = new THREE.Points(geo, mat);
-      scene.add(points);
-      return points;
-    }
-
-    // add subtle background dust layer closer than galaxy (for depth)
-    function makeDustLayer() {
-      const count = 900;
-      const geo = new THREE.BufferGeometry();
-      const pos = new Float32Array(count*3);
-      const cols = new Float32Array(count*3);
-      for (let i=0;i<count;i++){
-        pos[i*3] = (Math.random()-0.5) * window.innerWidth * 1.2;
-        pos[i*3+1] = (Math.random()-0.5) * window.innerHeight * 1.0;
-        pos[i*3+2] = -300 - Math.random()*600;
-        const v = 0.8 + Math.random()*0.2;
-        cols[i*3]=cols[i*3+1]=cols[i*3+2]=v;
-      }
-      geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
-      geo.setAttribute('color', new THREE.BufferAttribute(cols,3));
-      const mat = new THREE.PointsMaterial({ size: 1.2, vertexColors:true, transparent:true, opacity:0.12, blending: THREE.AdditiveBlending });
-      const pts = new THREE.Points(geo, mat);
-      scene.add(pts);
-      return pts;
-    }
-
-    // Build scene objects
-    const galaxyPoints = makeGalaxy();
-    const coreSprite = makeCore();
-    const warpPoints = makeWarpStreaks();
-    const dustLayer = makeDustLayer();
-
-    // subtle camera drift and mouse parallax
-    let mouseX = 0, mouseY = 0;
-    window.addEventListener('mousemove', (e) => {
-      mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-      mouseY = - (e.clientY / window.innerHeight) * 2 + 1;
-    });
-
-    // animation loop
-    let t = 0;
-    function animate(){
-      t += 0.6;
-      // rotate galaxy slowly (very slow so it's distant)
-      galaxyPoints.rotation.z = Math.sin(t*0.00012) * 0.02;
-      galaxyPoints.rotation.y += 0.00012;
-      galaxyPoints.rotation.x = THREE.Math.degToRad(7) + Math.sin(t*0.00008)*0.005;
-
-      // slight pulsing of core
-      coreSprite.material.opacity = 0.85 + Math.sin(t*0.0009)*0.06;
-
-      // dust subtle rotation (nearer)
-      dustLayer.rotation.y += 0.00025;
-
-      // move warp streaks left→right slowly (distant effect)
-      const posAttr = warpPoints.geometry.attributes.position.array;
-      for (let i=0;i<posAttr.length;i+=3){
-        posAttr[i] += 0.9 + Math.sin((i + t*0.02)*0.0003); // increase X
-        // slight Y wobble
-        posAttr[i+1] += Math.sin((i + t*0.01)*0.0006)*0.3;
-        if (posAttr[i] > window.innerWidth * 0.8) { // wrap to left (keep them far back)
-          posAttr[i] = -window.innerWidth * 1.4;
-          posAttr[i+1] = (Math.random()-0.5) * window.innerHeight * 1.2;
-        }
-      }
-      warpPoints.geometry.attributes.position.needsUpdate = true;
-
-      // subtle camera parallax following mouse
-      camera.position.x += (mouseX * 80 - camera.position.x) * 0.02;
-      camera.position.y += (mouseY * 40 - camera.position.y) * 0.02;
-      camera.lookAt(0, -20, -900);
-
-      renderer.render(scene, camera);
-      requestAnimationFrame(animate);
-    }
-    animate();
-
-    // on resize recreate heavy parts to adapt density
-    let resizeTimer;
-    window.addEventListener('resize', ()=>{
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(()=> {
-        // remove old objects
-        scene.remove(galaxyPoints);
-        scene.remove(coreSprite);
-        scene.remove(warpPoints);
-        scene.remove(dustLayer);
-        // dispose renderer pixel ratio update
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-        // rebuild
-        const g = makeGalaxy(); // new galaxy
-        const c = makeCore();
-        const wP = makeWarpStreaks();
-        const d = makeDustLayer();
-        // (we don't reassign variables to keep memory simple — browser will GC old ones when possible)
-        onResize();
-      }, 300);
-    });
-
-  })();
-  </script>
+  renderer.render(scene,camera);
+}
+</script>
 </body>
 </html>

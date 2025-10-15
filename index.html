@@ -4,29 +4,44 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>AOLFS | Advanced Operations, Logistics & Financial Solutions</title>
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
-    html,body{height:100%;width:100%;overflow:hidden;background:#000;color:#fff;}
-    #bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;}
-    .container{
-      position:relative;z-index:2;text-align:center;
-      background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);
-      border-radius:20px;padding:40px 30px;backdrop-filter:blur(14px);
-      box-shadow:0 0 50px rgba(0,255,200,0.1);width:90%;max-width:600px;margin:auto;
-      top:10%;
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+    html,body{height:100%;width:100%;overflow:hidden;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;flex-direction:column;}
+    #bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      background: radial-gradient(ellipse at center, #050505 0%, #000 80%);
     }
-    .brand{font-size:clamp(2rem,5vw,3rem);font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#00e6e6;}
-    h1{margin-top:10px;font-size:clamp(1rem,3vw,1.4rem);color:#ccc;}
-    p{color:#aaa;margin:18px 0 20px;line-height:1.6;font-size:clamp(0.92rem,2.5vw,1rem);}
-    .maintenance{color:#ddd;font-size:0.95em;margin-bottom:18px;display:block;}
-    .email-box{display:flex;justify-content:center;align-items:center;background:rgba(255,255,255,0.06);border-radius:50px;padding:6px;max-width:380px;margin:0 auto 20px;gap:8px;flex-wrap:wrap;}
-    input{background:transparent;border:none;outline:none;color:#fff;flex:1;min-width:180px;padding:12px 15px;font-size:14px;}
-    input::placeholder{color:#888;}
-    button{background:linear-gradient(45deg,#00ffc3,#0099ff);border:none;color:#000;font-weight:600;padding:12px 25px;border-radius:30px;cursor:not-allowed;}
-    .ventures{font-weight:600;background:linear-gradient(45deg,#00ffc3,#0099ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-    .project-line{font-size:clamp(0.8rem,2vw,0.9rem);color:#aaa;margin-top:20px;}
-    footer{font-size:12px;color:#666;margin-top:8px;}
+    .container {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 40px 30px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 0 50px rgba(0,255,200,0.12);
+      width: 90%;
+      max-width: 600px;
+      animation: fadeIn 900ms ease;
+    }
+    @keyframes fadeIn { from {opacity:0; transform: translateY(14px)} to {opacity:1; transform:none} }
+    .brand { font-size:clamp(2rem,5vw,3rem); font-weight:800; letter-spacing:3px; text-transform:uppercase; color:#fff; }
+    h1 { margin-top:10px; font-size:clamp(1rem,3vw,1.4rem); color:#ccc; }
+    p { color:#aaa; margin:20px 0 20px; line-height:1.6; font-size:clamp(0.92rem,2.5vw,1rem) }
+    .maintenance { color:#ddd; font-size:0.95em; margin-bottom:18px; display:block; }
+    .email-box { display:flex; justify-content:center; align-items:center; background:rgba(255,255,255,0.06); border-radius:50px; padding:6px; max-width:380px; margin:0 auto 20px; gap:8px; flex-wrap:wrap; }
+    input { background:transparent; border:none; outline:none; color:#fff; flex:1; min-width:180px; padding:12px 15px; font-size:14px; }
+    input::placeholder{ color:#888 }
+    button { background:linear-gradient(45deg,#00ffc3,#0099ff); border:none; color:#000; font-weight:600; padding:12px 25px; border-radius:30px; cursor:not-allowed; }
+    .ventures { font-weight:600; background:linear-gradient(45deg,#00ffc3,#0099ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .project-line{ font-size:clamp(0.8rem,2vw,0.9rem); color:#aaa; margin-top:20px }
+    footer{ font-size:12px; color:#666; margin-top:8px }
   </style>
 </head>
 <body>
@@ -38,110 +53,105 @@
     <h1>Advanced Operations, Logistics & Financial Solutions</h1>
     <p>Building the future of business scaling — where AI, automation, and intelligent workflows power next-gen operations, logistics, and finance.</p>
     <span class="maintenance">(This site is under maintenance.)</span>
+
     <div class="email-box">
       <input type="email" placeholder="Get notified when we relaunch..." disabled>
       <button disabled>Notify Me</button>
     </div>
+
     <div class="project-line">A Project of <span class="ventures">ABCD Ventures</span></div>
     <footer>© 2025 AOLFS. All rights reserved.</footer>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
   <script>
-    let scene, camera, renderer, galaxy, warps;
+    let scene, camera, renderer, stars;
 
     init();
     animate();
 
     function init() {
-      const canvas = document.getElementById('bg');
-      renderer = new THREE.WebGLRenderer({canvas, antialias:true});
+      const canvas = document.getElementById("bg");
+
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.setPixelRatio(window.devicePixelRatio);
+
       scene = new THREE.Scene();
 
-      camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 1, 4000);
+      camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000);
       camera.position.z = 1000;
 
-      // Galaxy stars
-      const starCount = 4000;
-      const positions = [];
-      const colors = [];
+      const starQty = 5000;
+      const geometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(starQty * 3);
+      const colors = new Float32Array(starQty * 3);
       const color = new THREE.Color();
-      const palette = [0x00ffff, 0x00e6e6, 0x77ffff, 0x99ccff, 0xccccff, 0x66ccff];
 
-      for (let i=0; i<starCount; i++) {
-        const r = 800 * Math.pow(Math.random(), 0.5);
+      // Realistic star color palette (white, blue, red, yellow, pink)
+      const palette = [
+        new THREE.Color(0xffffff), // white
+        new THREE.Color(0xffccaa), // warm yellow
+        new THREE.Color(0x99ccff), // cool blue
+        new THREE.Color(0xff9999), // soft red
+        new THREE.Color(0xffb6c1)  // faint pink
+      ];
+
+      for (let i = 0; i < starQty; i++) {
+        const r = 600 + Math.random() * 800;
         const theta = Math.random() * 2 * Math.PI;
-        const z = (Math.random() - 0.5) * 600;
-        positions.push(r * Math.cos(theta), (Math.random() - 0.5) * 300, r * Math.sin(theta));
-        color.set(palette[Math.floor(Math.random() * palette.length)]);
-        colors.push(color.r, color.g, color.b);
+        const phi = Math.acos(2 * Math.random() - 1);
+
+        positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+        positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+        positions[i * 3 + 2] = r * Math.cos(phi);
+
+        // Assign a random color from the palette
+        color.copy(palette[Math.floor(Math.random() * palette.length)]);
+        colors[i * 3] = color.r;
+        colors[i * 3 + 1] = color.g;
+        colors[i * 3 + 2] = color.b;
       }
 
-      const geometry = new THREE.BufferGeometry();
-      geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-      geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
       const material = new THREE.PointsMaterial({
         size: 2,
         vertexColors: true,
         transparent: true,
-        opacity: 0.8,
+        opacity: 0.9,
         blending: THREE.AdditiveBlending,
+        depthWrite: false
       });
 
-      galaxy = new THREE.Points(geometry, material);
-      galaxy.rotation.x = 0.3;
-      scene.add(galaxy);
+      stars = new THREE.Points(geometry, material);
+      scene.add(stars);
 
-      // Distant warp streaks
-      const warpGeo = new THREE.BufferGeometry();
-      const warpPos = [];
-      const warpCol = [];
-      for (let i=0; i<120; i++){
-        const x = (Math.random() - 0.5) * 4000 - 2000;
-        const y = (Math.random() - 0.5) * 1500;
-        const z = -2000 - Math.random() * 1000;
-        warpPos.push(x, y, z);
-        color.set(0x00e6ff);
-        warpCol.push(color.r, color.g, color.b);
-      }
-      warpGeo.setAttribute('position', new THREE.Float32BufferAttribute(warpPos, 3));
-      warpGeo.setAttribute('color', new THREE.Float32BufferAttribute(warpCol, 3));
-      const warpMat = new THREE.PointsMaterial({
-        size: 8,
-        vertexColors: true,
+      // Subtle glowing gas cloud (nebula)
+      const nebulaGeometry = new THREE.SphereGeometry(1200, 32, 32);
+      const nebulaMaterial = new THREE.MeshBasicMaterial({
+        color: 0x4444aa,
         transparent: true,
-        opacity: 0.4,
-        blending: THREE.AdditiveBlending,
+        opacity: 0.1,
+        blending: THREE.AdditiveBlending
       });
-      warps = new THREE.Points(warpGeo, warpMat);
-      scene.add(warps);
+      const nebula = new THREE.Mesh(nebulaGeometry, nebulaMaterial);
+      scene.add(nebula);
 
-      window.addEventListener('resize', onResize);
+      window.addEventListener("resize", onWindowResize);
     }
 
-    function onResize(){
+    function onWindowResize() {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
-    function animate(){
+    function animate() {
       requestAnimationFrame(animate);
-
-      galaxy.rotation.y += 0.0003;
-      galaxy.rotation.z += 0.0002;
-
-      // Move warp streaks slowly left -> right
-      const warpPos = warps.geometry.attributes.position;
-      for (let i=0; i<warpPos.count; i++){
-        warpPos.array[i*3] += 0.8;
-        if (warpPos.array[i*3] > 2000) warpPos.array[i*3] = -2000;
-      }
-      warpPos.needsUpdate = true;
-
+      stars.rotation.y += 0.0007;
+      stars.rotation.x += 0.0003;
       renderer.render(scene, camera);
     }
   </script>

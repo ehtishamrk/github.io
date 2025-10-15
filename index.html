@@ -1,121 +1,354 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>AOLFS | Advanced Operations, Logistics & Financial Solutions</title>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
-html,body{height:100%;width:100%;overflow:hidden;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;flex-direction:column;}
-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;}
-.container{position:relative;z-index:2;text-align:center;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:40px 30px;backdrop-filter:blur(14px);box-shadow:0 0 50px rgba(0,255,200,0.12);width:90%;max-width:600px;}
-.brand{font-size:clamp(2rem,5vw,3rem);font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#00ffc3;}
-h1{margin-top:10px;font-size:clamp(1rem,3vw,1.4rem);color:#ccc;}
-p{color:#aaa;margin:20px 0 20px;line-height:1.6;font-size:clamp(0.92rem,2.5vw,1rem)}
-.maintenance{color:#ddd;font-size:0.95em;margin-bottom:18px;display:block;}
-.email-box{display:flex;justify-content:center;align-items:center;background:rgba(255,255,255,0.06);border-radius:50px;padding:6px;max-width:380px;margin:0 auto 20px;gap:8px;flex-wrap:wrap;}
-input{background:transparent;border:none;outline:none;color:#fff;flex:1;min-width:180px;padding:12px 15px;font-size:14px;}
-input::placeholder{color:#888}
-button{background:linear-gradient(45deg,#00ffc3,#0099ff);border:none;color:#000;font-weight:600;padding:12px 25px;border-radius:30px;cursor:not-allowed;}
-.ventures{font-weight:600;background:linear-gradient(45deg,#00ffc3,#0099ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.project-line{font-size:clamp(0.8rem,2vw,0.9rem);color:#aaa;margin-top:20px}
-footer{font-size:12px;color:#666;margin-top:8px}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>AOLFS | Advanced Operations, Logistics & Financial Solutions</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+    html,body{height:100%;width:100%;overflow:hidden;background:#000;color:#fff}
+    /* renderer canvas container */
+    #bg-root{position:fixed;inset:0;z-index:0;pointer-events:none}
+    /* content card */
+    .container{
+      position:relative;z-index:2;margin:6vh auto;text-align:center;
+      background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.08);
+      border-radius:20px;padding:40px 30px;backdrop-filter:blur(14px);
+      box-shadow:0 0 50px rgba(0,255,200,0.08);width:90%;max-width:600px;
+    }
+    .brand{font-size:clamp(2rem,5vw,3rem);font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#00e6e6}
+    h1{margin-top:10px;font-size:clamp(1rem,3vw,1.4rem);color:#cfcfcf}
+    p{color:#bfbfbf;margin:18px 0 20px;line-height:1.6;font-size:clamp(0.92rem,2.5vw,1rem)}
+    .maintenance{color:#dfeff2;font-size:0.95em;margin-bottom:18px;display:block;opacity:0.9}
+    .email-box{display:flex;justify-content:center;align-items:center;background:rgba(255,255,255,0.04);border-radius:50px;padding:6px;max-width:380px;margin:0 auto 20px;gap:8px;flex-wrap:wrap}
+    input{background:transparent;border:none;outline:none;color:#fff;flex:1;min-width:180px;padding:12px 15px;font-size:14px}
+    input::placeholder{color:#889}
+    button{background:linear-gradient(45deg,#00ffc3,#0099ff);border:none;color:#000;font-weight:600;padding:12px 25px;border-radius:30px;cursor:not-allowed}
+    .ventures{font-weight:600;background:linear-gradient(45deg,#00ffc3,#0099ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .project-line{font-size:clamp(0.8rem,2vw,0.9rem);color:#aaa;margin-top:20px}
+    footer{font-size:12px;color:#777;margin-top:8px}
+    @media (max-width:480px){ .container{padding:26px 18px;margin-top:4vh} .email-box{flex-direction:column} button{width:100%} }
+  </style>
 </head>
 <body>
-<canvas id="bg"></canvas>
+  <!-- ThreeJS mounts here -->
+  <div id="bg-root" aria-hidden="true"></div>
 
-<div class="container">
-  <div class="brand">AOLFS</div>
-  <h1>Advanced Operations, Logistics & Financial Solutions</h1>
-  <p>Building the future of business scaling — where AI, automation, and intelligent workflows power next-gen operations, logistics, and finance.</p>
-  <span class="maintenance">(This site is under maintenance.)</span>
+  <!-- Content -->
+  <div class="container">
+    <div class="brand">AOLFS</div>
+    <h1>Advanced Operations, Logistics & Financial Solutions</h1>
+    <p>Building the future of business scaling — where AI, automation, and intelligent workflows power next-gen operations, logistics, and finance.</p>
+    <span class="maintenance">(This site is under maintenance.)</span>
 
-  <div class="email-box">
-    <input type="email" placeholder="Get notified when we relaunch..." disabled>
-    <button disabled>Notify Me</button>
+    <div class="email-box">
+      <input type="email" placeholder="Get notified when we relaunch..." disabled>
+      <button disabled>Notify Me</button>
+    </div>
+
+    <div class="project-line">A Project of <span class="ventures">ABCD Ventures</span></div>
+    <footer>© 2025 AOLFS. All rights reserved.</footer>
   </div>
 
-  <div class="project-line">A Project of <span class="ventures">ABCD Ventures</span></div>
-  <footer>© 2025 AOLFS. All rights reserved.</footer>
-</div>
+  <!-- Three.js -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
-<script>
-let scene, camera, renderer, galaxy, streaks;
+  <script>
+  (function () {
+    const root = document.getElementById('bg-root');
 
-init();
-animate();
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.domElement.style.width = '100%';
+    renderer.domElement.style.height = '100%';
+    renderer.domElement.style.display = 'block';
+    root.appendChild(renderer.domElement);
 
-function init(){
-  renderer = new THREE.WebGLRenderer({canvas:document.getElementById("bg"),antialias:true});
-  renderer.setSize(window.innerWidth,window.innerHeight);
-  renderer.setPixelRatio(window.devicePixelRatio);
-  scene = new THREE.Scene();
+    const scene = new THREE.Scene();
 
-  camera = new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,1,5000);
-  camera.position.z = 1000;
+    // Camera — pulled back so objects feel distant
+    const camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, 0.1, 10000);
+    camera.position.set(0, 40, 2000);
+    camera.lookAt(0, 0, 0);
 
-  // Galaxy stars
-  const starsGeo = new THREE.BufferGeometry();
-  const starCount = 2000;
-  const pos = new Float32Array(starCount*3);
-  const colors = new Float32Array(starCount*3);
-  const palette = [0xffffff,0x99ccff,0xffcccc,0xffe0b0];
-  for(let i=0;i<starCount;i++){
-    const r = 800+Math.random()*800;
-    const theta = Math.random()*2*Math.PI;
-    const phi = Math.acos(2*Math.random()-1);
-    pos[i*3]=r*Math.sin(phi)*Math.cos(theta);
-    pos[i*3+1]=r*Math.sin(phi)*Math.sin(theta);
-    pos[i*3+2]=r*Math.cos(phi)-1500; // pushed far back
-    const c=new THREE.Color(palette[Math.floor(Math.random()*palette.length)]);
-    colors[i*3]=c.r;colors[i*3+1]=c.g;colors[i*3+2]=c.b;
-  }
-  starsGeo.setAttribute("position",new THREE.BufferAttribute(pos,3));
-  starsGeo.setAttribute("color",new THREE.BufferAttribute(colors,3));
-  const starMat=new THREE.PointsMaterial({size:2,vertexColors:true,transparent:true,opacity:0.9,blending:THREE.AdditiveBlending});
-  galaxy=new THREE.Points(starsGeo,starMat);
-  scene.add(galaxy);
+    // Resize
+    function onResize() {
+      renderer.setSize(innerWidth, innerHeight);
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+    }
+    window.addEventListener('resize', onResize);
+    onResize();
 
-  // Interstellar streaks far in background
-  const streakGeo=new THREE.BufferGeometry();
-  const streakCount=200;
-  const sPos=new Float32Array(streakCount*3);
-  for(let i=0;i<streakCount;i++){
-    sPos[i*3]=-2000+Math.random()*4000; // start spread
-    sPos[i*3+1]=(Math.random()-0.5)*1000;
-    sPos[i*3+2]=-1200-Math.random()*1000;
-  }
-  streakGeo.setAttribute("position",new THREE.BufferAttribute(sPos,3));
-  const streakMat=new THREE.PointsMaterial({color:0x99ddff,size:3,transparent:true,opacity:0.4,blending:THREE.AdditiveBlending});
-  streaks=new THREE.Points(streakGeo,streakMat);
-  scene.add(streaks);
+    // Create a soft circular texture used for stars
+    function makeSoftCircle(colorize) {
+      const size = 128;
+      const c = document.createElement('canvas');
+      c.width = c.height = size;
+      const ctx = c.getContext('2d');
+      const grad = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+      grad.addColorStop(0, 'rgba(255,255,255,1)');
+      grad.addColorStop(0.12, 'rgba(255,255,255,0.9)');
+      grad.addColorStop(0.35, 'rgba(255,255,255,0.5)');
+      grad.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0,0,size,size);
 
-  window.addEventListener("resize",()=>{
-    camera.aspect=window.innerWidth/window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth,window.innerHeight);
-  });
-}
+      // If colorize requested, tint canvas
+      if (colorize) {
+        const img = ctx.getImageData(0,0,size,size);
+        for (let i=0;i<img.data.length;i+=4){
+          // multiply by color
+          img.data[i] = img.data[i] * colorize.r;
+          img.data[i+1] = img.data[i+1] * colorize.g;
+          img.data[i+2] = img.data[i+2] * colorize.b;
+        }
+        ctx.putImageData(img, 0, 0);
+      }
 
-function animate(){
-  requestAnimationFrame(animate);
-  galaxy.rotation.y+=0.0003;
-  galaxy.rotation.x+=0.0001;
+      return new THREE.CanvasTexture(c);
+    }
 
-  // move streaks left→right slowly
-  const arr=streaks.geometry.attributes.position.array;
-  for(let i=0;i<arr.length;i+=3){
-    arr[i]+=1.5;
-    if(arr[i]>2000){arr[i]=-2000;}
-  }
-  streaks.geometry.attributes.position.needsUpdate=true;
+    const whiteStarTex = makeSoftCircle(null);
 
-  renderer.render(scene,camera);
-}
-</script>
+    // ========== FAR GALAXY (soft cinematic nebula & distributed stars) ==========
+    function makeGalaxy() {
+      const area = innerWidth * innerHeight;
+      const count = Math.round(Math.min(4200, Math.max(1200, area / 600)));
+
+      const geometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(count * 3);
+      const colors = new Float32Array(count * 3);
+      const sizes = new Float32Array(count);
+
+      // bluish-teal & subtle purple palette
+      const palette = [
+        new THREE.Color(0xffffff), // white
+        new THREE.Color(0xBEEBFF), // teal-cyan
+        new THREE.Color(0xC8B6FF), // faint violet
+        new THREE.Color(0xE9E8FF), // cool white
+        new THREE.Color(0xFFD9C0)  // warm accent (rare)
+      ];
+
+      const maxR = Math.min(innerWidth, innerHeight) * 0.9;
+
+      for (let i = 0; i < count; i++) {
+        // radial distribution: dense core, sparser outskirts
+        const r = Math.pow(Math.random(), 0.75) * maxR * (0.4 + Math.random() * 0.9);
+        // spiral-like angle bias so we get mild arm curvature but still spread around
+        const arms = 2.3;
+        const arm = Math.floor(Math.random() * arms);
+        const armOffset = (arm / arms) * Math.PI * 2;
+        const angle = r * 0.0032 + armOffset + (Math.random() - 0.5) * 0.9;
+        const x = Math.cos(angle) * r * (1 + (Math.random() - 0.5) * 0.1);
+        const y = Math.sin(angle) * r * 0.55 * (1 + (Math.random() - 0.5) * 0.08);
+        const z = -800 - Math.random() * 1200; // placed very far back for distance
+
+        positions[i*3]     = x;
+        positions[i*3 + 1] = y;
+        positions[i*3 + 2] = z;
+
+        const col = palette[Math.floor(Math.random() * palette.length)];
+        colors[i*3]     = col.r;
+        colors[i*3 + 1] = col.g;
+        colors[i*3 + 2] = col.b;
+
+        sizes[i] = 0.8 + Math.random() * 2.6;
+      }
+
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+      const material = new THREE.ShaderMaterial({
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+        vertexColors: true,
+        uniforms: {
+          pointTexture: { value: whiteStarTex },
+          pixelRatio: { value: renderer.getPixelRatio() }
+        },
+        vertexShader: `
+          attribute float size;
+          varying vec3 vColor;
+          uniform float pixelRatio;
+          void main(){
+            vColor = color;
+            vec4 mv = modelViewMatrix * vec4(position, 1.0);
+            gl_PointSize = size * (900.0 / -mv.z) * pixelRatio;
+            gl_Position = projectionMatrix * mv;
+          }
+        `,
+        fragmentShader: `
+          uniform sampler2D pointTexture;
+          varying vec3 vColor;
+          void main(){
+            vec4 tex = texture2D(pointTexture, gl_PointCoord);
+            vec4 col = vec4(vColor,1.0) * tex;
+            if (col.a < 0.02) discard;
+            gl_FragColor = col;
+          }
+        `
+      });
+
+      const points = new THREE.Points(geometry, material);
+      points.rotation.x = THREE.Math.degToRad(8);
+      scene.add(points);
+      return points;
+    }
+
+    // big glowing core sprite (behind the galaxy) — soft, cinematic
+    function makeCore() {
+      const size = 1024;
+      const c = document.createElement('canvas');
+      c.width = c.height = size;
+      const ctx = c.getContext('2d');
+      const g = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+      g.addColorStop(0, 'rgba(200,230,255,0.95)');     // bright center (cool)
+      g.addColorStop(0.18, 'rgba(160,210,255,0.55)');
+      g.addColorStop(0.35, 'rgba(140,170,220,0.28)');
+      g.addColorStop(0.6, 'rgba(100,120,160,0.12)');
+      g.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0,0,size,size);
+      const tex = new THREE.CanvasTexture(c);
+      tex.minFilter = THREE.LinearMipMapLinearFilter;
+      const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, blending: THREE.AdditiveBlending, opacity: 0.9 });
+      const spr = new THREE.Sprite(mat);
+      spr.scale.set(2200, 2200, 1);
+      spr.position.set(0, -40, -600);
+      scene.add(spr);
+      return spr;
+    }
+
+    // near-mid dust layer for depth (soft faint points closer)
+    function makeDust() {
+      const count = Math.round(Math.min(800, Math.max(300, (innerWidth*innerHeight)/2500)));
+      const geo = new THREE.BufferGeometry();
+      const pos = new Float32Array(count*3);
+      const col = new Float32Array(count*3);
+      for (let i=0;i<count;i++){
+        pos[i*3]   = (Math.random()-0.5) * innerWidth * 1.4;
+        pos[i*3+1] = (Math.random()-0.5) * innerHeight * 1.0;
+        pos[i*3+2] = -200 - Math.random()*700;
+        const v = 0.68 + Math.random()*0.32;
+        col[i*3]=v; col[i*3+1]=v*1.02; col[i*3+2]=v*1.08;
+      }
+      geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+      geo.setAttribute('color', new THREE.BufferAttribute(col,3));
+      const mat = new THREE.PointsMaterial({ size:1.2, vertexColors:true, transparent:true, opacity:0.14, blending: THREE.AdditiveBlending });
+      const pts = new THREE.Points(geo, mat);
+      scene.add(pts);
+      return pts;
+    }
+
+    // distant left->right warp streaks (thin planes with gradient) — very far back and faint
+    function makeWarpStreaks() {
+      const count = 80;
+      const group = new THREE.Group();
+
+      // create a gradient texture for a streak
+      const w = 1024, h = 32;
+      const cvs = document.createElement('canvas'); cvs.width = w; cvs.height = h;
+      const ctx = cvs.getContext('2d');
+      // horizontal gradient (center bright, edges fade)
+      const g = ctx.createLinearGradient(0,0,w,0);
+      g.addColorStop(0, 'rgba(0,0,0,0)');
+      g.addColorStop(0.2, 'rgba(150,220,255,0.05)');
+      g.addColorStop(0.5, 'rgba(180,245,255,0.18)');
+      g.addColorStop(0.8, 'rgba(150,220,255,0.05)');
+      g.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0,0,w,h);
+
+      const tex = new THREE.CanvasTexture(cvs);
+      tex.minFilter = THREE.LinearFilter;
+
+      for (let i=0;i<count;i++){
+        const geom = new THREE.PlaneGeometry(1200, 20);
+        const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: 0.14, blending: THREE.AdditiveBlending, depthWrite: false });
+        const m = new THREE.Mesh(geom, mat);
+        // start spread across X and Y, but far on Z side
+        m.position.x = (Math.random()-0.5) * innerWidth * 1.2 - innerWidth; // start left area
+        m.position.y = (Math.random()-0.5) * innerHeight * 0.9;
+        m.position.z = -1100 - Math.random() * 1200; // place far
+        m.rotation.z = (Math.random()-0.5) * 0.12;
+        m.scale.x = 0.6 + Math.random() * 1.8;
+        group.add(m);
+      }
+      scene.add(group);
+      return group;
+    }
+
+    // Build layers
+    let galaxy = makeGalaxy();
+    const core = makeCore();
+    const dust = makeDust();
+    const warps = makeWarpStreaks();
+
+    // subtle mouse parallax & drift
+    let mx = 0, my = 0;
+    window.addEventListener('mousemove', (e)=>{ mx = (e.clientX / innerWidth) * 2 - 1; my = - (e.clientY / innerHeight) * 2 + 1; });
+
+    // animation
+    let time = 0;
+    function loop(){
+      time += 0.7;
+
+      // galaxy slow rotation (very subtle)
+      galaxy.rotation.z = Math.sin(time*0.00011) * 0.02;
+      galaxy.rotation.y += 0.00006;
+
+      // core slight pulse
+      core.material.opacity = 0.85 + Math.sin(time*0.0009) * 0.045;
+
+      // dust gentle drift
+      dust.rotation.y += 0.00022;
+
+      // move warp streaks left -> right slowly to feel distant (wrap when offscreen)
+      warps.children.forEach((m, idx) => {
+        m.position.x += 0.6 + (idx % 5) * 0.02; // varied speeds
+        // small vertical wobble
+        m.position.y += Math.sin((time*0.001) + idx) * 0.02;
+        if (m.position.x > innerWidth * 1.3) {
+          m.position.x = -innerWidth * 1.6 - Math.random()*400;
+          m.position.z = -1100 - Math.random()*1200;
+          m.scale.x = 0.8 + Math.random()*1.8;
+        }
+      });
+
+      // subtle camera parallax
+      camera.position.x += (mx * 80 - camera.position.x) * 0.02;
+      camera.position.y += (my * 30 - camera.position.y) * 0.02;
+      camera.lookAt(0, -30, -700);
+
+      renderer.render(scene, camera);
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    // handle resizing by rebuilding heavy layers (keeps density proper)
+    let resizeTimer;
+    window.addEventListener('resize', ()=> {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(()=> {
+        // remove old
+        scene.remove(galaxy);
+        warps.children.forEach(c=> warps.remove(c));
+        scene.remove(warps);
+        scene.remove(dust);
+        // rebuild
+        galaxy = makeGalaxy();
+        scene.add(makeDust());
+        scene.add(makeWarpStreaks());
+        onResize();
+      }, 250);
+    });
+
+  })();
+  </script>
 </body>
 </html>

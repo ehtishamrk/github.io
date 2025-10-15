@@ -1,178 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>AOLFS | Advanced Operations, Logistics & Financial Solutions</title>
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+    html,body{height:100%;width:100%;overflow:hidden;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;flex-direction:column;}
 
-    body {
-      height: 100vh;
-      overflow: hidden;
-      background: radial-gradient(circle at 50% 30%, #000, #020202, #000);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      position: relative;
-      padding: 20px;
-    }
-
-    canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
+    #bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       z-index: 0;
+      background: radial-gradient(ellipse at center, #050505 0%, #000 80%);
     }
 
     .container {
       position: relative;
       z-index: 2;
       text-align: center;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
       border-radius: 20px;
       padding: 40px 30px;
-      backdrop-filter: blur(20px);
-      box-shadow: 0 0 50px rgba(0, 255, 200, 0.2);
-      animation: fadeIn 2s ease;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 0 50px rgba(0,255,200,0.12);
       width: 90%;
       max-width: 600px;
+      animation: fadeIn 900ms ease;
     }
+    @keyframes fadeIn { from {opacity:0; transform: translateY(14px)} to {opacity:1; transform:none} }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .brand {
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 800;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: #00ffc3;
-      text-shadow: none;
-    }
-
-    h1 {
-      margin-top: 10px;
-      font-size: clamp(1rem, 3vw, 1.4rem);
-      color: #ccc;
-      text-shadow: none;
-    }
-
-    p {
-      color: #aaa;
-      margin: 20px 0 40px;
-      line-height: 1.6;
-      font-size: clamp(0.9rem, 2.5vw, 1rem);
-    }
-
-    .maintenance {
-      color: #777;
-      font-size: 0.9em;
-      margin-bottom: 20px;
-      display: block;
-    }
-
-    .email-box {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: rgba(255,255,255,0.08);
-      border-radius: 50px;
-      padding: 6px;
-      max-width: 380px;
-      margin: 0 auto 20px;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    input {
-      background: transparent;
-      border: none;
-      outline: none;
-      color: #fff;
-      flex: 1;
-      min-width: 180px;
-      padding: 12px 15px;
-      font-size: 14px;
-    }
-
-    input::placeholder {
-      color: #777;
-    }
-
-    button {
-      background: linear-gradient(45deg, #00ffc3, #0099ff);
-      border: none;
-      color: #000;
-      font-weight: 600;
-      padding: 12px 25px;
-      border-radius: 30px;
-      cursor: not-allowed;
-      transition: 0.3s;
-      flex-shrink: 0;
-    }
-
-    .ventures {
-      font-weight: 600;
-      background: linear-gradient(45deg, #00ffc3, #0099ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: none;
-    }
-
-    .project-line {
-      font-size: clamp(0.8rem, 2vw, 0.9rem);
-      color: #aaa;
-      margin-top: 30px;
-    }
-
-    footer {
-      font-size: clamp(0.7rem, 1.8vw, 0.8rem);
-      color: #666;
-      margin-top: 10px;
-    }
-
-    @media (max-width: 480px) {
-      body {
-        overflow-y: auto;
-      }
-
-      .container {
-        padding: 30px 20px;
-      }
-
-      .email-box {
-        flex-direction: column;
-        border-radius: 15px;
-      }
-
-      button {
-        width: 100%;
-      }
-    }
+    .brand { font-size:clamp(2rem,5vw,3rem); font-weight:800; letter-spacing:3px; text-transform:uppercase; color:#fff; }
+    h1 { margin-top:10px; font-size:clamp(1rem,3vw,1.4rem); color:#ccc; }
+    p { color:#aaa; margin:20px 0 20px; line-height:1.6; font-size:clamp(0.92rem,2.5vw,1rem) }
+    .maintenance { color:#ddd; font-size:0.95em; margin-bottom:18px; display:block; }
+    .email-box { display:flex; justify-content:center; align-items:center; background:rgba(255,255,255,0.06); border-radius:50px; padding:6px; max-width:380px; margin:0 auto 20px; gap:8px; flex-wrap:wrap; }
+    input { background:transparent; border:none; outline:none; color:#fff; flex:1; min-width:180px; padding:12px 15px; font-size:14px; }
+    input::placeholder{ color:#888 }
+    button { background:linear-gradient(45deg,#00ffc3,#0099ff); border:none; color:#000; font-weight:600; padding:12px 25px; border-radius:30px; cursor:not-allowed; }
+    .ventures { font-weight:600; background:linear-gradient(45deg,#00ffc3,#0099ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .project-line{ font-size:clamp(0.8rem,2vw,0.9rem); color:#aaa; margin-top:20px }
+    footer{ font-size:12px; color:#666; margin-top:8px }
   </style>
 </head>
 <body>
-  <canvas id="neural"></canvas>
+
+  <canvas id="bg"></canvas>
 
   <div class="container">
     <div class="brand">AOLFS</div>
     <h1>Advanced Operations, Logistics & Financial Solutions</h1>
-    <p>
-      Building the future of business scaling — where AI, automation, and intelligent workflows power next-gen operations, logistics, and finance.
-    </p>
+
+    <p>Building the future of business scaling — where AI, automation, and intelligent workflows power next-gen operations, logistics, and finance.</p>
 
     <span class="maintenance">(This site is under maintenance.)</span>
 
@@ -185,61 +69,71 @@
     <footer>© 2025 AOLFS. All rights reserved.</footer>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
   <script>
-    const canvas = document.getElementById('neural');
-    const ctx = canvas.getContext('2d');
-    let w, h;
-    const particles = [];
+    let scene, camera, renderer, stars;
 
-    function resize() {
-      w = canvas.width = window.innerWidth;
-      h = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
-
-    class Particle {
-      constructor() {
-        this.x = Math.random() * w;
-        this.y = Math.random() * h;
-        this.size = Math.random() * 2;
-        this.speedX = (Math.random() - 0.5) * 0.3;
-        this.speedY = (Math.random() - 0.5) * 0.3;
-      }
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        if (this.x < 0 || this.x > w) this.speedX *= -1;
-        if (this.y < 0 || this.y > h) this.speedY *= -1;
-      }
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0,255,195,0.5)';
-        ctx.fill();
-      }
-    }
+    init();
+    animate();
 
     function init() {
-      for (let i = 0; i < 80; i++) {
-        particles.push(new Particle());
+      const canvas = document.getElementById("bg");
+
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+
+      scene = new THREE.Scene();
+
+      camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000);
+      camera.position.z = 1000;
+
+      // Create stars
+      const starQty = 5000;
+      const geometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(starQty * 3);
+      const sizes = new Float32Array(starQty);
+
+      for (let i = 0; i < starQty; i++) {
+        const r = 600 + Math.random() * 800;
+        const theta = Math.random() * 2 * Math.PI;
+        const phi = Math.acos(2 * Math.random() - 1);
+        positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+        positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+        positions[i * 3 + 2] = r * Math.cos(phi);
+        sizes[i] = Math.random() * 1.8 + 0.5;
       }
+
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+      const material = new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 2,
+        transparent: true,
+        opacity: 0.9,
+        blending: THREE.AdditiveBlending,
+      });
+
+      stars = new THREE.Points(geometry, material);
+      scene.add(stars);
+
+      window.addEventListener("resize", onWindowResize);
     }
-    init();
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
 
     function animate() {
-      ctx.clearRect(0, 0, w, h);
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-        p.update();
-        p.draw();
-      }
       requestAnimationFrame(animate);
+      stars.rotation.y += 0.0007;
+      stars.rotation.x += 0.0003;
+      renderer.render(scene, camera);
     }
-    animate();
   </script>
-  <audio id="bg-music" autoplay loop>
-  <source src="https://cdn.pixabay.com/download/audio/2023/02/28/audio_3bb17b39a7.mp3?filename=ambient-futuristic-background-142074.mp3" type="audio/mpeg">
-</audio>
+
 </body>
 </html>

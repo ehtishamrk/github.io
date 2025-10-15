@@ -177,18 +177,13 @@
       const colors = new Float32Array(starQty * 3);
       const color = new THREE.Color();
 
-      // ⭐ New palette with your provided hex colors
+      // 🌌 New custom palette (your provided hex colors)
       const palette = [
-        new THREE.Color("#fbffff"),
-        new THREE.Color("#fdfdfd"),
-        new THREE.Color("#ffffff"),
-        new THREE.Color("#ffffff"),
-        new THREE.Color("#fcfcff"),
-        new THREE.Color("#fefcfd"),
-        new THREE.Color("#fffafc"),
-        new THREE.Color("#ffffff"),
-        new THREE.Color("#fefcff"),
-        new THREE.Color("#fffbff")
+        new THREE.Color("#bf8699"), new THREE.Color("#654455"), new THREE.Color("#4c3348"),
+        new THREE.Color("#4e3650"), new THREE.Color("#7e5468"), new THREE.Color("#73566a"),
+        new THREE.Color("#946c84"), new THREE.Color("#a06f84"), new THREE.Color("#6a4f62"),
+        new THREE.Color("#b8899b"), new THREE.Color("#61495f"), new THREE.Color("#a3798f"),
+        new THREE.Color("#373b58"), new THREE.Color("#8c5666"), new THREE.Color("#64485e")
       ];
 
       for (let i = 0; i < starQty; i++) {

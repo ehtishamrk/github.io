@@ -1,140 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>AOLFS | Advanced Operations, Logistics & Financial Solutions</title>
+
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      height: 100%;
-      background: black;
-      font-family: 'Orbitron', sans-serif;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
 
-    #galaxyCanvas {
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+    html,body{height:100%;width:100%;overflow:hidden;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;flex-direction:column;}
+
+    #bg {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       z-index: 0;
+      background: radial-gradient(ellipse at center, #050505 0%, #000 80%);
     }
 
-    .content {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
+    .container {
+      position: relative;
       z-index: 2;
-      color: #00e6e6;
+      text-align: center;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 40px 30px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 0 50px rgba(0,255,200,0.12);
+      width: 90%;
+      max-width: 600px;
+      animation: fadeIn 900ms ease;
     }
+    @keyframes fadeIn { from {opacity:0; transform: translateY(14px)} to {opacity:1; transform:none} }
 
-    .content h1 {
-      font-size: 6em;
-      letter-spacing: 10px;
-      text-shadow: 0 0 20px #00ffff, 0 0 60px #00e6e6, 0 0 100px #00cccc;
-    }
-
-    .content p {
-      font-size: 1.3em;
-      color: #b8d8d8;
-      text-shadow: 0 0 10px #00e6e6;
-    }
+    .brand { font-size:clamp(2rem,5vw,3rem); font-weight:800; letter-spacing:3px; text-transform:uppercase; color:#00e6e6; }
+    h1 { margin-top:10px; font-size:clamp(1rem,3vw,1.4rem); color:#ccc; }
+    p { color:#aaa; margin:20px 0 20px; line-height:1.6; font-size:clamp(0.92rem,2.5vw,1rem) }
+    .maintenance { color:#ddd; font-size:0.95em; margin-bottom:18px; display:block; }
+    .email-box { display:flex; justify-content:center; align-items:center; background:rgba(255,255,255,0.06); border-radius:50px; padding:6px; max-width:380px; margin:0 auto 20px; gap:8px; flex-wrap:wrap; }
+    input { background:transparent; border:none; outline:none; color:#fff; flex:1; min-width:180px; padding:12px 15px; font-size:14px; }
+    input::placeholder{ color:#888 }
+    button { background:linear-gradient(45deg,#00ffc3,#0099ff); border:none; color:#000; font-weight:600; padding:12px 25px; border-radius:30px; cursor:not-allowed; }
+    .ventures { font-weight:600; background:linear-gradient(45deg,#00ffc3,#0099ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .project-line{ font-size:clamp(0.8rem,2vw,0.9rem); color:#aaa; margin-top:20px }
+    footer{ font-size:12px; color:#666; margin-top:8px }
   </style>
 </head>
 <body>
-  <canvas id="galaxyCanvas"></canvas>
 
-  <div class="content">
-    <h1>AOLFS</h1>
-    <p>Advanced Operations, Logistics & Financial Solutions</p>
+  <canvas id="bg"></canvas>
+
+  <div class="container">
+    <div class="brand">AOLFS</div>
+    <h1>Advanced Operations, Logistics & Financial Solutions</h1>
+
+    <p>Building the future of business scaling — where AI, automation, and intelligent workflows power next-gen operations, logistics, and finance.</p>
+
+    <span class="maintenance">(This site is under maintenance.)</span>
+
+    <div class="email-box">
+      <input type="email" placeholder="Get notified when we relaunch..." disabled>
+      <button disabled>Notify Me</button>
+    </div>
+
+    <div class="project-line">A Project of <span class="ventures">ABCD Ventures</span></div>
+    <footer>© 2025 AOLFS. All rights reserved.</footer>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
   <script>
-    const canvas = document.getElementById("galaxyCanvas");
-    const ctx = canvas.getContext("2d");
-    let stars = [];
+    let scene, camera, renderer, stars;
 
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
+    init();
+    animate();
 
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    const numStars = 2500;
+    function init() {
+      const canvas = document.getElementById("bg");
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
 
-    // Define star colors (Andromeda-like mix)
-    const colors = [
-      "rgba(255,255,255,0.9)",
-      "rgba(200,180,255,0.9)",
-      "rgba(255,180,180,0.8)",
-      "rgba(180,220,255,0.8)",
-      "rgba(255,210,240,0.8)"
-    ];
+      scene = new THREE.Scene();
 
-    // Create spiral galaxy stars
-    for (let i = 0; i < numStars; i++) {
-      const spiralArms = 4;
-      const arm = i % spiralArms;
-      const angle = (i / numStars) * Math.PI * 2 * spiralArms + arm * 0.5;
-      const distance = Math.pow(Math.random(), 0.5) * (canvas.width / 2);
-      const offset = (Math.random() - 0.5) * 50;
+      camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000);
+      camera.position.z = 1000;
 
-      stars.push({
-        x: centerX + Math.cos(angle) * distance + offset,
-        y: centerY + Math.sin(angle) * distance * 0.5 + offset / 2,
-        distance: distance,
-        angle: angle,
-        speed: 0.0003 + Math.random() * 0.0006,
-        size: Math.random() * 1.5 + 0.3,
-        color: colors[Math.floor(Math.random() * colors.length)]
+      const starQty = 5000;
+      const geometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(starQty * 3);
+      const colors = new Float32Array(starQty * 3);
+      const sizes = new Float32Array(starQty);
+
+      const colorOptions = [
+        new THREE.Color(1.0, 1.0, 1.0),   // White
+        new THREE.Color(0.7, 0.8, 1.0),   // Soft blue
+        new THREE.Color(1.0, 0.75, 0.75), // Soft pink/red
+        new THREE.Color(0.85, 0.7, 1.0),  // Lavender
+        new THREE.Color(0.9, 0.9, 1.0)    // Cool white
+      ];
+
+      for (let i = 0; i < starQty; i++) {
+        const r = 600 + Math.random() * 800;
+        const theta = Math.random() * 2 * Math.PI;
+        const phi = Math.acos(2 * Math.random() - 1);
+
+        positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+        positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+        positions[i * 3 + 2] = r * Math.cos(phi);
+        sizes[i] = Math.random() * 1.8 + 0.5;
+
+        const col = colorOptions[Math.floor(Math.random() * colorOptions.length)];
+        colors[i * 3] = col.r;
+        colors[i * 3 + 1] = col.g;
+        colors[i * 3 + 2] = col.b;
+      }
+
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+      const material = new THREE.PointsMaterial({
+        vertexColors: true,
+        size: 2,
+        transparent: true,
+        opacity: 0.9,
+        blending: THREE.AdditiveBlending,
       });
+
+      stars = new THREE.Points(geometry, material);
+      scene.add(stars);
+
+      window.addEventListener("resize", onWindowResize);
     }
 
-    function drawNebula() {
-      // soft nebula core gradient
-      const nebula = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 600);
-      nebula.addColorStop(0, "rgba(255,230,200,0.35)");
-      nebula.addColorStop(0.3, "rgba(255,200,255,0.25)");
-      nebula.addColorStop(0.6, "rgba(200,150,255,0.15)");
-      nebula.addColorStop(1, "rgba(0,0,0,0)");
-      ctx.fillStyle = nebula;
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, 800, 0, Math.PI * 2);
-      ctx.fill();
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
     function animate() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.25)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      drawNebula();
-
-      for (let star of stars) {
-        star.angle += star.speed;
-        const x = centerX + Math.cos(star.angle) * star.distance;
-        const y = centerY + Math.sin(star.angle) * star.distance * 0.55;
-
-        const depth = 1 - star.distance / (canvas.width / 2);
-        const brightness = 0.4 + depth * 0.6;
-
-        ctx.beginPath();
-        ctx.fillStyle = star.color.replace("0.9", brightness.toFixed(2));
-        ctx.arc(x, y, star.size * (1.2 - depth * 0.5), 0, Math.PI * 2);
-        ctx.fill();
-      }
-
       requestAnimationFrame(animate);
+      stars.rotation.y += 0.0007;
+      stars.rotation.x += 0.0003;
+      renderer.render(scene, camera);
     }
-
-    animate();
   </script>
+
 </body>
 </html>

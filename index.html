@@ -1,255 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>AOLFS | Advanced Operations, Logistics & Financial Solutions</title>
-
-  <!-- Beautiful teal 'A' favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,
-  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-    <rect width='100' height='100' fill='black'/>
-    <text x='50%' y='57%' text-anchor='middle' dominant-baseline='middle'
-          font-family='Inter, sans-serif' font-size='60' font-weight='800'
-          fill='%2300e6e6'>A</text>
-  </svg>">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AOLFS</title>
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
-    *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
-    html,body{
-      height:100%;width:100%;
-      overflow:hidden;
-      background:#000;
-      color:#fff;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      flex-direction:column;
+    /* General reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    #bg {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+    body {
+      background-color: black;
+      color: #e0e0e0;
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      position: relative;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
       z-index: 0;
-      background: radial-gradient(ellipse at center, #050505 0%, #000 80%);
     }
 
-    .container {
+    .content-box {
       position: relative;
       z-index: 2;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(0, 255, 200, 0.2);
+      box-shadow: 0 0 60px rgba(0, 255, 200, 0.15),
+                  inset 0 0 30px rgba(0, 255, 200, 0.1);
+      backdrop-filter: blur(6px);
+      padding: 3rem 4rem;
+      border-radius: 16px;
       text-align: center;
-      background: rgba(0, 0, 0, 0.85);
-      border-radius: 20px;
-      padding: 40px 30px;
-      width: 90%;
-      max-width: 600px;
-      animation: fadeIn 900ms ease;
+      max-width: 700px;
     }
 
-    .container::before {
-      content: "";
-      position: absolute;
-      inset: -2px;
-      border-radius: 22px;
-      background: linear-gradient(135deg, rgba(0,255,200,0.4), rgba(0,255,255,0.05), rgba(0,200,255,0.3));
-      filter: blur(12px);
-      z-index: -1;
-      opacity: 0.6;
-      animation: pulse 6s ease-in-out infinite alternate;
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #00ffd5;
+      letter-spacing: 2px;
+      text-shadow: 0 0 20px rgba(0, 255, 200, 0.4);
     }
 
-    @keyframes pulse {
-      0% { opacity: 0.45; filter: blur(10px);}
-      100% { opacity: 0.75; filter: blur(15px);}
+    p {
+      font-size: 1.1rem;
+      margin-top: 1rem;
+      line-height: 1.7;
+      color: #eaeaea;
     }
 
-    @keyframes fadeIn {
-      from {opacity:0; transform: translateY(14px)}
-      to {opacity:1; transform:none}
+    .maintenance {
+      margin-top: 1.5rem;
+      color: #aaa;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
     }
 
-    .brand {
-      font-size:clamp(2rem,5vw,3rem);
-      font-weight:800;
-      letter-spacing:3px;
-      text-transform:uppercase;
-      color:#00e6e6;
+    input[type="email"] {
+      margin-top: 1.5rem;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: 1px solid #00ffd5;
+      background-color: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      width: 80%;
+      max-width: 300px;
+      outline: none;
+      font-size: 1rem;
     }
 
-    h1 { margin-top:10px; font-size:clamp(1rem,3vw,1.4rem); color:#bbb; }
-    p { color:#999; margin:20px 0 20px; line-height:1.6; font-size:clamp(0.92rem,2.5vw,1rem) }
-    .maintenance { color:#ccc; font-size:0.95em; margin-bottom:18px; display:block; }
-
-    .email-box {
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      background:rgba(255,255,255,0.03);
-      border:1px solid rgba(255,255,255,0.06);
-      border-radius:50px;
-      padding:6px;
-      max-width:380px;
-      margin:0 auto 20px;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-
-    input {
-      background:transparent;
-      border:none;
-      outline:none;
-      color:#fff;
-      flex:1;
-      min-width:180px;
-      padding:12px 15px;
-      font-size:14px;
-    }
-    input::placeholder{ color:#666 }
     button {
-      background:linear-gradient(45deg,#00ffc3,#0099ff);
-      border:none;
-      color:#000;
-      font-weight:600;
-      padding:12px 25px;
-      border-radius:30px;
-      cursor:not-allowed;
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      border: none;
+      background: linear-gradient(90deg, #00ffd5, #007a70);
+      color: black;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
     }
 
-    .ventures {
-      font-weight:600;
-      background:linear-gradient(45deg,#00ffc3,#0099ff);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      text-decoration:none;
-      transition:opacity 0.2s ease;
+    button:hover {
+      background: linear-gradient(90deg, #00ffd5, #00ffa0);
+      box-shadow: 0 0 15px rgba(0, 255, 213, 0.5);
     }
-    .ventures:hover {
-      opacity:0.8;
-    }
-
-    .project-line{
-      font-size:clamp(0.8rem,2vw,0.9rem);
-      color:#888;
-      margin-top:20px
-    }
-
-    footer{ font-size:12px; color:#555; margin-top:8px }
   </style>
 </head>
+
 <body>
+  <canvas id="andromeda"></canvas>
 
-  <canvas id="bg"></canvas>
-
-  <div class="container">
-    <div class="brand">AOLFS</div>
-    <h1>Advanced Operations, Logistics & Financial Solutions</h1>
+  <div class="content-box">
+    <h1>AOLFS</h1>
     <p>We’re shaping the future of how businesses scale, using AI, automation, and intelligent workflows to power the next generation of operations, logistics, and finance.</p>
-    <span class="maintenance">(This site is under maintenance.)</span>
-
-    <div class="email-box">
-      <input type="email" placeholder="Get notified when we relaunch..." disabled>
-      <button disabled>Notify Me</button>
-    </div>
-
-    <div class="project-line">
-      A Project of 
-      <a href="https://www.linkedin.com/company/abcdventures" target="_blank" rel="noopener noreferrer" class="ventures">
-        ABCD Ventures
-      </a>
-    </div>
-
-    <footer>© 2025 AOLFS. All rights reserved.</footer>
+    <p class="maintenance">This site is under maintenance.</p>
+    <input type="email" placeholder="Enter your email" />
+    <button>Notify Me</button>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
-  <script>
-    let scene, camera, renderer, stars;
-
-    init();
-    animate();
-
-    function init() {
-      const canvas = document.getElementById("bg");
-
-      renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(window.devicePixelRatio);
-
-      scene = new THREE.Scene();
-
-      camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000);
-      camera.position.z = 1000;
-
-      const starQty = 5000;
-      const geometry = new THREE.BufferGeometry();
-      const positions = new Float32Array(starQty * 3);
-      const colors = new Float32Array(starQty * 3);
-      const color = new THREE.Color();
-
-      const palette = [
-        "#bf8699","#654455","#4c3348","#4e3650","#7e5468","#73566a",
-        "#946c84","#a06f84","#6a4f62","#b8899b","#61495f","#a3798f",
-        "#373b58","#8c5666","#64485e"
+  <script type="text/javascript" sandbox="allow-scripts">
+    (function() {
+      const canvas = document.getElementById("andromeda");
+      const ctx = canvas.getContext("2d");
+      let stars = [];
+      const numStars = 500;
+      const colors = [
+        "#bf8699", "#654455", "#4c3348", "#4e3650", "#7e5468", "#73566a",
+        "#946c84", "#a06f84", "#6a4f62", "#b8899b", "#61495f", "#a3798f",
+        "#373b58", "#8c5666", "#64485e"
       ];
 
-      for (let i = 0; i < starQty; i++) {
-        const r = 600 + Math.random() * 800;
-        const theta = Math.random() * 2 * Math.PI;
-        const phi = Math.acos(2 * Math.random() - 1);
-
-        positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-        positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-        positions[i * 3 + 2] = r * Math.cos(phi);
-
-        color.set(palette[Math.floor(Math.random() * palette.length)]);
-        color.multiplyScalar(1.3);
-        colors[i * 3] = color.r;
-        colors[i * 3 + 1] = color.g;
-        colors[i * 3 + 2] = color.b;
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
       }
 
-      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      function random(min, max) {
+        return Math.random() * (max - min) + min;
+      }
 
-      const material = new THREE.PointsMaterial({
-        size: 2.8,
-        vertexColors: true,
-        transparent: true,
-        opacity: 1.0,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false
+      function initStars() {
+        stars = [];
+        for (let i = 0; i < numStars; i++) {
+          const angle = Math.random() * 2 * Math.PI;
+          const radius = Math.sqrt(Math.random()) * Math.min(canvas.width, canvas.height) / 1.2;
+          const x = canvas.width / 2 + radius * Math.cos(angle);
+          const y = canvas.height / 2 + radius * Math.sin(angle);
+          const speed = 0.05 + Math.random() * 0.05;
+          stars.push({ x, y, angle, radius, speed, color: colors[Math.floor(Math.random() * colors.length)] });
+        }
+      }
+
+      function draw() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        stars.forEach(star => {
+          const distFromCenter = Math.sqrt((star.x - canvas.width / 2)**2 + (star.y - canvas.height / 2)**2);
+          const size = 0.5 + (distFromCenter / (canvas.width / 2)) * 1.2;
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, size, 0, 2 * Math.PI);
+          ctx.fillStyle = star.color;
+          ctx.shadowBlur = 5;
+          ctx.shadowColor = star.color;
+          ctx.fill();
+        });
+      }
+
+      function update() {
+        stars.forEach(star => {
+          star.angle += star.speed * 0.002;
+          const spiralFactor = 1.001;
+          star.radius *= spiralFactor;
+          star.x = canvas.width / 2 + star.radius * Math.cos(star.angle);
+          star.y = canvas.height / 2 + star.radius * Math.sin(star.angle * 1.1);
+        });
+      }
+
+      function animate() {
+        draw();
+        update();
+        requestAnimationFrame(animate);
+      }
+
+      resizeCanvas();
+      initStars();
+      animate();
+      window.addEventListener("resize", () => {
+        resizeCanvas();
+        initStars();
       });
-
-      stars = new THREE.Points(geometry, material);
-      scene.add(stars);
-
-      const nebulaGeometry = new THREE.SphereGeometry(1200, 32, 32);
-      const nebulaMaterial = new THREE.MeshBasicMaterial({
-        color: 0x002222,
-        transparent: true,
-        opacity: 0.08,
-        blending: THREE.AdditiveBlending
-      });
-      const nebula = new THREE.Mesh(nebulaGeometry, nebulaMaterial);
-      scene.add(nebula);
-
-      window.addEventListener("resize", onWindowResize);
-    }
-
-    function onWindowResize() {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    }
-
-    function animate() {
-      requestAnimationFrame(animate);
-      stars.rotation.y += 0.0007;
-      stars.rotation.x += 0.0003;
-      renderer.render(scene, camera);
-    }
+    })();
   </script>
 </body>
 </html>

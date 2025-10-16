@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>AOLFS | Advanced Operations, Logistics & Financial Solutions</title>
 
-  <!-- Teal 'A' favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,
   <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
     <rect width='100' height='100' fill='black'/>
@@ -213,6 +212,7 @@
       stars = new THREE.Points(geometry, material);
       scene.add(stars);
 
+      // Deep-space faint nebula
       const nebulaGeometry = new THREE.SphereGeometry(1400, 32, 32);
       const nebulaMaterial = new THREE.MeshBasicMaterial({
         color: 0x003333,
@@ -223,8 +223,8 @@
       const nebula = new THREE.Mesh(nebulaGeometry, nebulaMaterial);
       scene.add(nebula);
 
-      // 🌠 Interstellar streak (improved)
-      const shipGeometry = new THREE.PlaneGeometry(60, 2);
+      // 🌠 Interstellar distant streak
+      const shipGeometry = new THREE.PlaneGeometry(90, 2);
       const shipMaterial = new THREE.MeshBasicMaterial({
         color: 0xffffff,
         transparent: true,
@@ -232,6 +232,7 @@
         blending: THREE.AdditiveBlending
       });
       spaceship = new THREE.Mesh(shipGeometry, shipMaterial);
+      spaceship.position.z = -600; // far back in depth
       scene.add(spaceship);
       spaceship.visible = false;
 
@@ -241,17 +242,19 @@
 
     function triggerWarp() {
       spaceship.visible = true;
-      spaceship.position.set(-900, 0, 0);
-      spaceship.material.opacity = 1;
-      spaceship.material.color.setHSL(0.55 + Math.random() * 0.05, 1.0, 0.8);
+      spaceship.position.set(-1000, 0, -600);
+      spaceship.material.opacity = 0.9;
+      spaceship.material.color.set(0xb0e0ff); // cool white-blue streak
+
       let start = null;
       function flyWarp(timestamp) {
         if (!start) start = timestamp;
         const progress = timestamp - start;
-        spaceship.position.x = -900 + (progress * 3.2); // faster streak
-        spaceship.material.opacity = 1 - progress / 500;
-        spaceship.scale.y = 1 + progress / 120;
-        if (progress < 500) {
+        spaceship.position.x = -1000 + (progress * 4.5); // very fast warp
+        spaceship.material.opacity = Math.max(0, 1 - progress / 400);
+        spaceship.scale.y = 1 + progress / 250;
+
+        if (progress < 400) {
           requestAnimationFrame(flyWarp);
         } else {
           spaceship.visible = false;

@@ -2,183 +2,254 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>AOLFS | Advanced Operations, Logistics & Financial Solutions</title>
+
+  <!-- Teal 'A' favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,
+  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+    <rect width='100' height='100' fill='black'/>
+    <text x='50%' y='57%' text-anchor='middle' dominant-baseline='middle'
+          font-family='Inter, sans-serif' font-size='60' font-weight='800'
+          fill='%2300e6e6'>A</text>
+  </svg>">
+
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      height: 100%;
-      background: black;
-      font-family: 'Poppins', sans-serif;
-      color: white;
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+    html,body{
+      height:100%;width:100%;
+      overflow:hidden;
+      background:#000;
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
     }
 
-    canvas {
+    #bg {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       z-index: 0;
-      background: radial-gradient(circle at 50% 50%, #000010 0%, #000 100%);
+      background: radial-gradient(ellipse at center, #050505 0%, #000 80%);
     }
 
-    .content {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
+    .container {
+      position: relative;
       z-index: 2;
-      padding: 40px;
-      background: rgba(0, 0, 0, 0.75);
-      border: 1px solid rgba(0, 255, 255, 0.2);
+      text-align: center;
+      background: rgba(0, 0, 0, 0.85);
       border-radius: 20px;
-      box-shadow: 0 0 30px 5px rgba(0, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
+      padding: 40px 30px;
       width: 90%;
-      max-width: 500px;
+      max-width: 600px;
+      animation: fadeIn 900ms ease;
     }
 
-    h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 3em;
-      color: #00e6d2;
-      letter-spacing: 4px;
-      margin-bottom: 10px;
+    .container::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(0,255,200,0.4), rgba(0,255,255,0.05), rgba(0,200,255,0.3));
+      filter: blur(12px);
+      z-index: -1;
+      opacity: 0.6;
+      animation: pulse 6s ease-in-out infinite alternate;
     }
 
-    p {
-      color: #e0e0e0;
-      margin-bottom: 20px;
-      line-height: 1.5;
-      font-size: 1.1em;
+    @keyframes pulse {
+      0% { opacity: 0.45; filter: blur(10px); }
+      100% { opacity: 0.75; filter: blur(15px); }
     }
 
-    form {
-      margin-top: 20px;
+    @keyframes fadeIn {
+      from {opacity:0; transform: translateY(14px)}
+      to {opacity:1; transform:none}
     }
 
-    input[type="email"] {
-      padding: 10px 15px;
-      width: 80%;
-      border-radius: 8px;
-      border: none;
-      margin-bottom: 10px;
-      font-size: 1em;
-      outline: none;
+    .brand {
+      font-size:clamp(2rem,5vw,3rem);
+      font-weight:800;
+      letter-spacing:3px;
+      text-transform:uppercase;
+      color:#00e6e6;
     }
 
+    h1 { margin-top:10px; font-size:clamp(1rem,3vw,1.4rem); color:#bbb; }
+    p { color:#999; margin:20px 0 20px; line-height:1.6; font-size:clamp(0.92rem,2.5vw,1rem) }
+    .maintenance { color:#ccc; font-size:0.95em; margin-bottom:18px; display:block; }
+
+    .email-box {
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.06);
+      border-radius:50px;
+      padding:6px;
+      max-width:380px;
+      margin:0 auto 20px;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    input {
+      background:transparent;
+      border:none;
+      outline:none;
+      color:#fff;
+      flex:1;
+      min-width:180px;
+      padding:12px 15px;
+      font-size:14px;
+    }
+    input::placeholder{ color:#666 }
     button {
-      background-color: #00e6d2;
-      color: #000;
-      padding: 10px 25px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s ease;
+      background:linear-gradient(45deg,#00ffc3,#0099ff);
+      border:none;
+      color:#000;
+      font-weight:600;
+      padding:12px 25px;
+      border-radius:30px;
+      cursor:pointer;
+      transition:all .3s ease;
     }
-
     button:hover {
-      background-color: #00b3a4;
+      transform:translateY(-1px);
+      opacity:0.9;
     }
 
-    .spaceship {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      width: 50px;
-      height: 50px;
-      background: radial-gradient(circle at 50% 50%, #00e6d2, transparent 60%);
-      border-radius: 50%;
-      box-shadow: 0 0 20px #00e6d2, 0 0 40px rgba(0, 230, 210, 0.3);
-      z-index: 1;
-      opacity: 0.4;
-      animation: floatShip 12s ease-in-out infinite alternate;
-      transform: translate(-50%, -50%) scale(0.7);
-      filter: blur(1px);
+    .ventures {
+      font-weight:600;
+      background:linear-gradient(45deg,#00ffc3,#0099ff);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
     }
 
-    @keyframes floatShip {
-      0% { transform: translate(-55%, -50%) scale(0.7); opacity: 0.35; }
-      100% { transform: translate(-45%, -50%) scale(0.7); opacity: 0.45; }
+    .project-line{
+      font-size:clamp(0.8rem,2vw,0.9rem);
+      color:#888;
+      margin-top:20px;
     }
+
+    footer{ font-size:12px; color:#555; margin-top:8px }
   </style>
 </head>
 <body>
 
-  <canvas id="galaxy"></canvas>
+  <canvas id="bg"></canvas>
 
-  <div class="spaceship"></div>
+  <div class="container">
+    <div class="brand">AOLFS</div>
+    <h1>Advanced Operations, Logistics & Financial Solutions</h1>
+    <p>We’re shaping the future of how businesses scale, using AI, automation, and intelligent workflows to power the next generation of operations, logistics, and finance.</p>
+    <span class="maintenance">(This site is under maintenance.)</span>
 
-  <div class="content">
-    <h1>AOLFS</h1>
-    <p>Building the future of business scaling where AI, automation, and intelligent workflows shape next-generation operations, logistics, and finance.</p>
-    <p style="margin-top: 10px; color: #00e6d2;">This site is under maintenance.</p>
-
-    <form action="https://formspree.io/f/xldpapap" method="POST">
-      <input type="email" name="email" placeholder="Enter your email to get notified" required>
+    <!-- ✅ Real working Formspree form -->
+    <form action="https://formspree.io/f/xldpapap" method="POST" class="email-box">
+      <input type="email" name="email" placeholder="Get notified when we relaunch..." required>
       <input type="text" name="_gotcha" style="display:none">
       <button type="submit">Notify Me</button>
     </form>
+
+    <div class="project-line">A Project of <span class="ventures">ABCD Ventures</span></div>
+    <footer>© 2025 AOLFS. All rights reserved.</footer>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
   <script>
-    const canvas = document.getElementById('galaxy');
-    const ctx = canvas.getContext('2d');
+    let scene, camera, renderer, stars;
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    init();
+    animate();
 
-    const stars = [];
-    const colors = [
-      "#bf8699", "#654455", "#4c3348", "#4e3650", "#7e5468", "#73566a",
-      "#946c84", "#a06f84", "#6a4f62", "#b8899b", "#61495f", "#a3798f",
-      "#373b58", "#8c5666", "#64485e"
-    ];
+    function init() {
+      const canvas = document.getElementById("bg");
 
-    for (let i = 0; i < 400; i++) {
-      stars.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        z: Math.random() * canvas.width,
-        size: Math.random() * 2,
-        color: colors[Math.floor(Math.random() * colors.length)]
-      });
-    }
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
 
-    function moveStars() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.25)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      scene = new THREE.Scene();
 
-      for (let i = 0; i < stars.length; i++) {
-        const star = stars[i];
-        star.z -= 0.8;
-        if (star.z <= 0) {
-          star.z = canvas.width;
-        }
-        const k = 128.0 / star.z;
-        const px = star.x * k + canvas.width / 2;
-        const py = star.y * k + canvas.height / 2;
+      camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000);
+      camera.position.z = 1000;
 
-        if (px >= 0 && px <= canvas.width && py >= 0 && py <= canvas.height) {
-          const size = (1 - star.z / canvas.width) * 2;
-          ctx.beginPath();
-          ctx.arc(px, py, size, 0, Math.PI * 2);
-          ctx.fillStyle = star.color;
-          ctx.fill();
-        }
+      const starQty = 6000;
+      const geometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(starQty * 3);
+      const colors = new Float32Array(starQty * 3);
+      const color = new THREE.Color();
+
+      const palette = [
+        "#bf8699","#654455","#4c3348","#4e3650","#7e5468","#73566a",
+        "#946c84","#a06f84","#6a4f62","#b8899b","#61495f","#a3798f",
+        "#373b58","#8c5666","#64485e",
+        "#c7e3ff","#a8d8ff","#8ecfff","#b0f0ff","#dbfaff",
+        "#9ad5ff","#6fb3ff","#f4faff","#eaf6ff","#ffffff"
+      ];
+
+      for (let i = 0; i < starQty; i++) {
+        const r = 600 + Math.random() * 800;
+        const theta = Math.random() * 2 * Math.PI;
+        const phi = Math.acos(2 * Math.random() - 1);
+
+        positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+        positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+        positions[i * 3 + 2] = r * Math.cos(phi);
+
+        color.set(palette[Math.floor(Math.random() * palette.length)]);
+        color.multiplyScalar(1.1 + Math.random() * 0.5);
+        colors[i * 3] = color.r;
+        colors[i * 3 + 1] = color.g;
+        colors[i * 3 + 2] = color.b;
       }
 
-      requestAnimationFrame(moveStars);
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+      const material = new THREE.PointsMaterial({
+        size: 2.8,
+        vertexColors: true,
+        transparent: true,
+        opacity: 1.0,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+
+      stars = new THREE.Points(geometry, material);
+      scene.add(stars);
+
+      const nebulaGeometry = new THREE.SphereGeometry(1400, 32, 32);
+      const nebulaMaterial = new THREE.MeshBasicMaterial({
+        color: 0x003333,
+        transparent: true,
+        opacity: 0.08,
+        blending: THREE.AdditiveBlending
+      });
+      const nebula = new THREE.Mesh(nebulaGeometry, nebulaMaterial);
+      scene.add(nebula);
+
+      window.addEventListener("resize", onWindowResize);
     }
 
-    moveStars();
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
 
-    // Step 2: Success message without reloading
+    function animate() {
+      requestAnimationFrame(animate);
+      stars.rotation.y += 0.0006;
+      stars.rotation.x += 0.00025;
+      renderer.render(scene, camera);
+    }
+
+    // ✅ Step 2: Success Message Without Reload
     document.querySelector("form").addEventListener("submit", async (e) => {
       e.preventDefault();
       const form = e.target;
@@ -196,6 +267,5 @@
       }
     });
   </script>
-
 </body>
 </html>

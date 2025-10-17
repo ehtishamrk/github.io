@@ -4,536 +4,545 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Dappic — let's draw your brand to new heights</title>
-  <meta name="description" content="Dappic — Premium subscription-based digital agency. Branding, motion, digital marketing & web." />
+  <meta name="description" content="Dappic — Premium subscription-based digital agency. Branding, motion, marketing & web." />
+  <meta name="theme-color" content="#0b0f16">
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Satoshi:wght@400;600;800&display=swap" rel="stylesheet">
 
-  <!-- GSAP (for animation) -->
+  <!-- GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
 
   <style>
     :root{
-      --bg:#0b0f16;          /* deep navy/black base */
-      --panel:#0f1720;       /* slightly lighter panel */
-      --muted:#9aa4b3;
-      --white:#f6f8fb;
-      --accent:#1fb6ff;      /* cyan accent — aligns with modern agency neon */
-      --glass: rgba(255,255,255,0.03);
-      --radius:18px;
-      --max-width:1200px;
+      --bg-1: #06070a;           /* near-black base */
+      --bg-2: #0b1220;           /* deep navy */
+      --panel: rgba(255,255,255,0.03);
+      --muted: #9aa4b3;
+      --white: #f6f7f9;
+      --gold: #d8b88a;           /* champagne gold accent */
+      --glass: rgba(255,255,255,0.04);
+      --maxw: 1200px;
+      --radius: 18px;
     }
+
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      background: var(--bg);
-      color:var(--white);
       font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(24,36,58,0.22), transparent 6%),
+                  linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+      color:var(--white);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
       overflow-x:hidden;
-      line-height:1.45;
+      letter-spacing:0.01em;
     }
 
-    /* Page container */
-    .wrap{
-      max-width:var(--max-width);
-      margin:0 auto;
-      padding:48px 28px;
-      position:relative;
-      z-index:2;
+    /* Canvas background sits behind everything */
+    canvas#bg { position: fixed; inset: 0; z-index: 0; display:block; }
+
+    /* Root wrapper */
+    .site {
+      max-width: var(--maxw);
+      margin: 36px auto;
+      padding: 28px;
+      position: relative;
+      z-index: 2;
     }
 
     /* Header */
-    header{
-      display:flex; align-items:center; justify-content:space-between; gap:20px;
-      background:transparent;
-      padding-bottom:18px;
-    }
-    .brand{display:flex;gap:14px;align-items:center}
-    .brand img{width:56px;height:56px;border-radius:12px;object-fit:contain;background:rgba(255,255,255,0.03);padding:8px;box-shadow:0 10px 30px rgba(0,0,0,0.6)}
-    .brand h1{margin:0;font-size:18px;letter-spacing:0.6px;font-weight:700}
-    .brand p{margin:0;font-size:12px;color:var(--muted)}
-
-    nav{display:flex;gap:18px;align-items:center}
-    nav a{color:var(--muted);text-decoration:none;font-weight:600;font-size:14px;padding:8px 12px;border-radius:10px}
-    nav a:hover{color:var(--white)}
-    .cta{background:linear-gradient(90deg,var(--accent),#3ac0ff);padding:10px 14px;color:#02111a;font-weight:800;border-radius:12px;box-shadow:0 12px 40px rgba(31,182,255,0.06)}
-
-    /* Hero */
-    .hero{
-      position:relative;
-      height:82vh;
-      display:grid;
-      grid-template-columns:1fr 420px;
-      gap:40px;
-      align-items:center;
-      margin-top:10px;
-    }
-    .hero-inner{
-      max-width:780px;
-      padding-right:12px;
-    }
-    h2.title{
-      font-size:48px;
-      margin:0 0 14px;
-      font-weight:800;
-      line-height:1.02;
-      letter-spacing:-1px;
-      font-family: "Playfair Display", serif;
-      color:var(--white);
-      text-wrap:balance;
-    }
-    p.lead{
-      margin:0 0 26px;
-      color:var(--muted);
-      font-size:16px;
-      max-width:640px;
-    }
-    .hero-actions{display:flex;gap:12px;align-items:center}
-    .btn{
-      padding:14px 18px;border-radius:12px;border:0;cursor:pointer;font-weight:700;font-size:14px;
+    header {
+      display:flex; align-items:center; justify-content:space-between; gap:18px;
+      padding: 12px 4px;
       backdrop-filter: blur(6px);
     }
-    .btn.primary{background:linear-gradient(90deg,var(--accent),#6bd3ff); color:#04121a; box-shadow:0 18px 50px rgba(31,182,255,0.08)}
-    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--white)}
-
-    .hero-panel{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:18px; padding:28px; min-height:340px;box-shadow: 0 30px 80px rgba(0,0,0,0.6);
-      display:flex;flex-direction:column;justify-content:space-between;
-      border:1px solid rgba(255,255,255,0.02);
-      transform: translateY(0);
-    }
-    .hero-panel h3{margin:0 0 6px;font-size:18px}
-    .price{font-size:36px;font-weight:800;margin-top:6px}
-
-    /* Glowing subtle separator */
-    .section{
-      padding:90px 0;
-      position:relative;
-    }
-
-    /* how / highlights */
-    .highlights{display:flex;gap:22px}
-    .card{
+    .brand { display:flex; align-items:center; gap:14px; }
+    .brand img {
+      width:62px; height:62px; border-radius:14px; object-fit:contain;
       background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:14px;padding:20px;flex:1;box-shadow:0 18px 40px rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.02)
+      padding:8px; box-shadow: 0 20px 60px rgba(2,6,12,0.7);
+      border: 1px solid rgba(255,255,255,0.02);
     }
-    .card h4{margin:0 0 6px}
-    .card p{color:var(--muted);margin:0;font-size:14px}
+    .brand h1 { margin:0; font-weight:800; font-size:18px; letter-spacing:0.6px; font-family:Satoshi,Inter, sans-serif; }
+    .brand p { margin:0; color:var(--muted); font-size:12px; }
+
+    nav { display:flex; gap:14px; align-items:center; }
+    nav a { color:var(--muted); text-decoration:none; font-weight:600; padding:8px 12px; border-radius:10px; }
+    nav a:hover { color:var(--white); transform:translateY(-2px); transition:all .18s ease; }
+    .btn-cta {
+      background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.04));
+      padding:10px 14px; border-radius:12px; font-weight:800; color:var(--white);
+      border:1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 16px 50px rgba(2,6,12,0.6);
+    }
+
+    /* Hero */
+    .hero {
+      margin-top:28px;
+      min-height:78vh;
+      display:grid; grid-template-columns: 1fr 420px; gap:38px; align-items:center;
+      position:relative;
+      padding: 28px;
+    }
+
+    .hero-left { max-width:900px; z-index:3; }
+    h1.hero-title {
+      font-family: Satoshi, Inter, sans-serif;
+      font-weight:800; font-size:54px; line-height:1.02; margin:0 0 18px;
+      letter-spacing:-1px;
+      color: linear-gradient(90deg, var(--white), var(--white));
+      background-clip: text;
+    }
+    .hero-sub {
+      color:var(--muted); font-size:18px; margin:0 0 22px; max-width:680px;
+    }
+
+    .actions { display:flex; gap:14px; align-items:center; margin-top:6px; }
+    .btn { border:0; padding:14px 18px; border-radius:12px; cursor:pointer; font-weight:800; font-size:14px; }
+    .btn-primary {
+      background: linear-gradient(90deg, rgba(255,255,255,0.95), rgba(220,200,160,0.98));
+      color: #05121a; box-shadow: 0 22px 60px rgba(12,16,20,0.7);
+      border: 1px solid rgba(255,255,255,0.6);
+    }
+    .btn-outline {
+      background: transparent; color:var(--white); border:1px solid rgba(255,255,255,0.06);
+    }
+
+    /* Hero right panel (glass) */
+    .panel {
+      border-radius:20px; padding:26px; min-height:360px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.02);
+      box-shadow: 0 40px 120px rgba(2,6,12,0.75);
+      display:flex; flex-direction:column; justify-content:space-between;
+      transform: translateZ(0);
+    }
+    .panel .pkg { display:flex; gap:12px; align-items:center; }
+    .price { font-size:34px; font-weight:900; margin-top:8px; }
+
+    /* Sections (space & layout) */
+    section { padding: 110px 0; position:relative; z-index:2; }
+    .section-title { font-size:28px; margin:0 0 18px; font-weight:800; }
+    .muted { color:var(--muted); }
+
+    /* Expertise cards */
+    .grid-3 { display:grid; grid-template-columns:repeat(3, 1fr); gap:22px; }
+    .card {
+      border-radius:14px; padding:20px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.02); box-shadow: 0 30px 80px rgba(2,6,12,0.7);
+      transition: transform .42s cubic-bezier(.2,.9,.3,1), box-shadow .42s;
+    }
+    .card:hover { transform: translateY(-12px); box-shadow: 0 50px 140px rgba(2,6,12,0.85); border-color: rgba(216,184,138,0.18); }
 
     /* Portfolio */
-    .portfolio{
-      display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+    .portfolio { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+    .work {
+      height:260px; border-radius:12px; overflow:hidden; position:relative;
+      display:flex; align-items:flex-end; padding:18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      box-shadow: 0 30px 90px rgba(2,6,12,0.7); border:1px solid rgba(255,255,255,0.02);
+      cursor:pointer; transform: translateZ(0);
     }
-    .work{
-      height:260px;border-radius:14px;overflow:hidden;position:relative;background:#0f1722;padding:18px;
-      transition:transform .5s cubic-bezier(.2,.9,.3,1), box-shadow .4s;
-      box-shadow:0 18px 40px rgba(0,0,0,0.6);
-      border:1px solid rgba(255,255,255,0.02);cursor:pointer;
-      display:flex;align-items:flex-end;
-    }
-    .work:hover{transform:translateY(-12px)}
-    .work .meta{font-weight:700; font-size:18px;color:var(--white); text-shadow:0 10px 30px rgba(0,0,0,0.6)}
+    .work .meta { font-weight:800; font-size:18px; color:var(--white); }
 
     /* Pricing */
-    .pricing-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-    .plan{
-      padding:22px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      box-shadow:0 20px 50px rgba(0,0,0,0.6); border:1px solid rgba(255,255,255,0.02);
-      min-height:320px;display:flex;flex-direction:column;gap:12px;
+    .pricing { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:22px; }
+    .plan {
+      border-radius:14px; padding:22px; min-height:300px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.02);
+      box-shadow: 0 30px 90px rgba(2,6,12,0.7); display:flex; flex-direction:column; gap:12px;
+      transition: transform .35s cubic-bezier(.2,.9,.3,1), box-shadow .35s;
     }
-    .plan .price{font-size:28px;font-weight:800}
-    .plan .features{color:var(--muted);flex:1}
+    .plan:hover { transform: translateY(-10px); box-shadow: 0 60px 160px rgba(2,6,12,0.85); border-color: rgba(216,184,138,0.18); }
+    .plan .tag { font-size:13px; color:var(--muted); }
 
-    /* CTA section */
-    .cta-block{
-      border-radius:18px;padding:40px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      display:flex;align-items:center;justify-content:space-between;gap:20px;border:1px solid rgba(255,255,255,0.02);
+    /* CTA */
+    .cta-block {
+      margin-top:18px; border-radius:18px; padding:36px;
+      display:flex; align-items:center; justify-content:space-between; gap:18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.02);
+      box-shadow: 0 40px 120px rgba(2,6,12,0.75);
     }
-    .cta-block h3{margin:0;font-size:26px}
-    .cta-block p{margin:0;color:var(--muted)}
+    .cta-block h3 { margin:0; font-size:32px; font-weight:800; letter-spacing:-0.4px; }
+    .cta-block p { margin:0; color:var(--muted); }
 
-    footer{padding:36px 0;color:var(--muted);display:flex;justify-content:space-between;align-items:center;gap:20px}
+    footer { margin-top:40px; padding:28px 0; color:var(--muted); display:flex; justify-content:space-between; align-items:center; gap:16px; }
 
-    /* Tiny responsiveness */
-    @media (max-width:980px){
-      .hero{grid-template-columns:1fr;padding-bottom:40px;height:auto}
-      .portfolio{grid-template-columns:1fr}
-      .highlights{flex-direction:column}
-      .pricing-grid{grid-template-columns:1fr}
-      .wrap{padding:28px}
+    /* small screens */
+    @media (max-width:1024px){
+      .hero { grid-template-columns: 1fr; padding:36px 12px; gap:20px; }
+      .pricing { grid-template-columns:1fr; }
+      .portfolio { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .site { padding:18px; margin:12px auto; }
+      h1.hero-title { font-size:36px; }
     }
 
-    /* Reveal baseline */
-    .reveal{opacity:0;transform:translateY(20px);will-change:opacity,transform}
-    .reveal.in{opacity:1;transform:none;transition:all .9s cubic-bezier(.2,.9,.3,1)}
+    /* reveal helper */
+    .reveal { opacity:0; transform: translateY(18px); will-change:transform,opacity; }
+    .reveal.in { opacity:1; transform:none; transition: all .9s cubic-bezier(.2,.9,.3,1); }
+
   </style>
 </head>
 <body>
 
-  <!-- canvas for particles & subtle parallax -->
-  <canvas id="bgCanvas" style="position:fixed;inset:0;z-index:0;display:block"></canvas>
+  <!-- Ambient canvas (particles + orbs) -->
+  <canvas id="bg"></canvas>
 
-  <div class="wrap" id="page">
+  <div class="site" id="app">
     <header>
       <div class="brand">
-        <img src="logo.png" alt="Dappic logo" id="logo" />
+        <img id="logo-img" src="logo.png" alt="Dappic logo">
         <div>
           <h1>Dappic</h1>
-          <p>let's draw your brand to new heights</p>
+          <p class="muted">let's draw your brand to new heights</p>
         </div>
       </div>
 
       <nav>
-        <a href="#work">Work</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#contact">Contact</a>
-        <a class="cta" href="#contact">Let's create</a>
+        <a href="#work" onclick="goto('#work')">Work</a>
+        <a href="#pricing" onclick="goto('#pricing')">Pricing</a>
+        <a href="#contact" onclick="goto('#contact')">Contact</a>
+        <a class="btn-cta" href="#contact" onclick="goto('#contact')">Let's create</a>
       </nav>
     </header>
 
     <!-- HERO -->
-    <section class="hero" id="hero">
-      <div class="hero-inner">
-        <h2 class="title reveal" id="title-line">We craft premium brands — on subscription</h2>
-        <p class="lead reveal">Dappic is a subscription-first digital agency. Design, motion, marketing and web — a dedicated creative resource for your brand every month.</p>
+    <main>
+      <section class="hero" id="hero">
+        <div class="hero-left">
+          <!-- Hero title with subtle word split -->
+          <h1 class="hero-title reveal" id="hero-title">We draw premium brands — continuously.</h1>
+          <p class="hero-sub reveal">Subscription-based creative — design, motion, web and marketing — a dedicated team delivering predictable, world-class creative on a monthly cadence.</p>
 
-        <div class="hero-actions reveal">
-          <button class="btn primary" onclick="scrollToSection('#pricing')">View plans</button>
-          <button class="btn ghost" onclick="scrollToSection('#work')">See work</button>
+          <div class="actions reveal">
+            <button class="btn btn-primary" onclick="goto('#pricing')">View plans</button>
+            <button class="btn btn-outline" onclick="goto('#work')">See work</button>
+          </div>
+
+          <div style="height:22px"></div>
+          <div class="reveal" style="display:flex;gap:12px;">
+            <div style="padding:12px;border-radius:12px;background:var(--panel);border:1px solid rgba(255,255,255,0.02);">
+              <strong>Dedicated creative</strong><div class="muted" style="font-size:13px">A single monthly partner for consistent output.</div>
+            </div>
+            <div style="padding:12px;border-radius:12px;background:var(--panel);border:1px solid rgba(255,255,255,0.02);">
+              <strong>Predictable cost</strong><div class="muted" style="font-size:13px">Transparent subscriptions, no surprise invoices.</div>
+            </div>
+          </div>
         </div>
 
-        <div style="height:18px"></div>
-        <div class="reveal" style="display:flex;gap:14px">
-          <div style="padding:12px;border-radius:12px;background:rgba(255,255,255,0.02);box-shadow:0 12px 30px rgba(0,0,0,0.6)">
-            <strong>Predictable monthly work</strong><div style="color:var(--muted);font-size:13px">No surprises. Dedicated designer.</div>
-          </div>
-          <div style="padding:12px;border-radius:12px;background:rgba(255,255,255,0.02);box-shadow:0 12px 30px rgba(0,0,0,0.6)">
-            <strong>Fast turnarounds</strong><div style="color:var(--muted);font-size:13px">Prioritized requests, consistent quality.</div>
-          </div>
-        </div>
-      </div>
-
-      <aside class="hero-panel reveal" aria-hidden="false">
-        <!-- Animated logo brush: a soft animated stroke (CSS/JS) -->
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <div style="display:flex;gap:12px;align-items:center">
-            <div style="width:62px; height:62px; border-radius:12px; display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.02)">
-              <img src="logo.png" alt="" style="width:40px;height:40px;object-fit:contain">
+        <aside class="panel reveal" id="hero-panel">
+          <!-- Animated SVG mark overlay (fallback to logo image) -->
+          <div style="display:flex;align-items:center;gap:14px;">
+            <div style="width:64px;height:64px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.02)">
+              <img src="logo.png" alt="logo" style="width:44px;height:44px;object-fit:contain">
             </div>
             <div>
-              <h3 style="margin:0">Dappic — Starter</h3>
-              <div style="color:var(--muted);font-size:13px">1 brand • 1 request at a time</div>
+              <div style="font-size:14px;font-weight:800">Dappic — Starter</div>
+              <div class="muted" style="font-size:13px">1 brand • 1 request at a time</div>
             </div>
           </div>
 
           <div>
-            <div class="price">€400 <span style="color:var(--muted);font-size:13px">/mo</span></div>
-            <div style="color:var(--muted);font-size:13px;margin-top:8px">No motion graphics included.</div>
+            <div class="price">€400 <span style="font-size:13px;color:var(--muted)">/mo</span></div>
+            <div class="muted" style="margin-top:6px;font-size:13px">No motion graphics included.</div>
           </div>
+
+          <div style="display:flex;gap:12px;">
+            <button class="btn btn-primary" onclick="goto('#contact')">Start project</button>
+            <button class="btn btn-outline" onclick="goto('#pricing')">Plans</button>
+          </div>
+        </aside>
+      </section>
+
+      <!-- Essence / about -->
+      <section id="about">
+        <div class="reveal">
+          <h2 class="section-title">Where craft meets strategy</h2>
+          <p class="muted">We design visual systems, motion and websites that grow with your brand. Design for performance — beautiful, tested and built to convert.</p>
+        </div>
+      </section>
+
+      <!-- Expertise -->
+      <section id="expertise">
+        <div class="reveal">
+          <h2 class="section-title">Expertise</h2>
+          <p class="muted">A steady creative partner across disciplines.</p>
         </div>
 
-        <div style="display:flex;gap:12px;margin-top:8px;">
-          <button class="btn primary" onclick="scrollToSection('#contact')">Start a project</button>
-          <button class="btn ghost" onclick="scrollToSection('#pricing')">See plans</button>
-        </div>
-      </aside>
-    </section>
-
-    <!-- HOW -->
-    <section class="section" id="how">
-      <div class="wrap">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:20px">
-          <div>
-            <h3 class="reveal" style="font-size:34px;margin:0 0 12px">Where vision meets craft</h3>
-            <p class="reveal" style="color:var(--muted);max-width:680px">We combine identity, motion and web to create cohesive creative systems that scale. Work with a dedicated team for continuous creative output.</p>
-          </div>
-          <div style="max-width:360px" class="reveal">
-            <div style="padding:14px;border-radius:12px;background:rgba(255,255,255,0.02);box-shadow:0 12px 30px rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.02)">
-              <strong>Predictable costs</strong>
-              <div style="color:var(--muted);font-size:13px">Monthly subscription, prioritized requests, dedicated resource.</div>
-            </div>
-          </div>
-        </div>
-
-        <div style="height:36px"></div>
-
-        <div class="highlights">
+        <div class="grid-3" style="margin-top:20px">
           <div class="card reveal">
-            <h4>Brand Identity</h4>
-            <p>Logos, systems, guidelines and packaging that last.</p>
+            <h3 style="margin:0 0 8px">Brand Identity</h3>
+            <p class="muted">Logos, visual systems, packaging and guidelines that scale.</p>
           </div>
+
           <div class="card reveal">
-            <h4>Motion & Video</h4>
-            <p>Social motion, hero teasers, product spots — made to convert.</p>
+            <h3 style="margin:0 0 8px">Motion & Video</h3>
+            <p class="muted">Hero teasers, social motion and product spots with high polish.</p>
           </div>
+
           <div class="card reveal">
-            <h4>Web & Product</h4>
-            <p>Performance-first websites with beautiful UX and crisp motion.</p>
+            <h3 style="margin:0 0 8px">Web & Product</h3>
+            <p class="muted">Performance-first websites with considered interactions and motion.</p>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- WORK -->
-    <section class="section" id="work">
-      <div class="wrap">
-        <h3 class="reveal" style="margin:0 0 18px">Selected work</h3>
-        <div class="portfolio">
-          <div class="work reveal" onclick="openWork()" data-title="Branding — Fintech">
+      <!-- Work -->
+      <section id="work">
+        <div class="reveal">
+          <h2 class="section-title">Selected Work</h2>
+          <p class="muted">Case studies forthcoming — samples shown below.</p>
+        </div>
+
+        <div class="portfolio" style="margin-top:18px">
+          <div class="work reveal" onclick="openProject('Branding — Fintech')">
             <div class="meta">Branding — Fintech</div>
           </div>
-          <div class="work reveal" onclick="openWork()" data-title="Campaign — Food & Beverage">
+          <div class="work reveal" onclick="openProject('Campaign — F&B')">
             <div class="meta">Campaign — F&B</div>
           </div>
-          <div class="work reveal" onclick="openWork()" data-title="Motion — Retail">
+          <div class="work reveal" onclick="openProject('Motion — Retail')">
             <div class="meta">Motion — Retail</div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- PRICING -->
-    <section class="section" id="pricing">
-      <div class="wrap">
-        <h3 class="reveal" style="margin:0 0 18px">Subscription plans</h3>
-        <div class="pricing-grid">
-          <div class="plan reveal">
-            <h4>Starter</h4>
-            <div class="price">€400 <span style="color:var(--muted);font-size:13px">/mo</span></div>
-            <div class="features">1 brand • 1 request at a time • No motion graphics</div>
-            <div style="height:10px"></div>
-            <button class="btn primary">Get Starter</button>
+      <!-- Pricing -->
+      <section id="pricing">
+        <div class="reveal">
+          <h2 class="section-title">Subscription Plans</h2>
+          <p class="muted">Simple, transparent monthly plans — scale when you're ready.</p>
+        </div>
+
+        <div class="pricing reveal" style="margin-top:22px">
+          <div class="plan">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div><strong>Starter</strong><div class="tag muted">1 brand</div></div>
+              <div style="font-size:18px;font-weight:900">€400</div>
+            </div>
+            <div class="muted" style="margin-top:10px">1 request at a time • No motion graphics</div>
+            <div style="flex:1"></div>
+            <button class="btn btn-primary">Subscribe — €400</button>
           </div>
 
-          <div class="plan reveal">
-            <h4>Pro</h4>
-            <div class="price">€800 <span style="color:var(--muted);font-size:13px">/mo</span></div>
-            <div class="features">1 brand • All platforms • Motion graphics</div>
-            <div style="height:10px"></div>
-            <button class="btn primary">Get Pro</button>
+          <div class="plan">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div><strong>Pro</strong><div class="tag muted">1 brand • all platforms</div></div>
+              <div style="font-size:18px;font-weight:900">€800</div>
+            </div>
+            <div class="muted" style="margin-top:10px">Motion graphics included</div>
+            <div style="flex:1"></div>
+            <button class="btn btn-primary">Subscribe — €800</button>
           </div>
 
-          <div class="plan reveal">
-            <h4>Scale</h4>
-            <div class="price">€1,000 <span style="color:var(--muted);font-size:13px">/mo</span></div>
-            <div class="features">1 brand • 2 requests at once • Digital marketing</div>
-            <div style="height:10px"></div>
-            <button class="btn primary">Get Scale</button>
+          <div class="plan">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div><strong>Scale</strong><div class="tag muted">2 requests</div></div>
+              <div style="font-size:18px;font-weight:900">€1,000</div>
+            </div>
+            <div class="muted" style="margin-top:10px">Digital marketing & prioritized requests</div>
+            <div style="flex:1"></div>
+            <button class="btn btn-primary">Subscribe — €1,000</button>
           </div>
 
-          <div class="plan reveal">
-            <h4>Enterprise</h4>
-            <div class="price">€1,400 <span style="color:var(--muted);font-size:13px">/mo</span></div>
-            <div class="features">All services • Hosting & maintenance • Dev & management</div>
-            <div style="height:10px"></div>
-            <button class="btn primary">Contact Sales</button>
+          <div class="plan">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div><strong>Elite</strong><div class="tag muted">Full suite</div></div>
+              <div style="font-size:18px;font-weight:900">€1,400</div>
+            </div>
+            <div class="muted" style="margin-top:10px">All services, hosting, dev & management</div>
+            <div style="flex:1"></div>
+            <button class="btn btn-primary">Contact Sales</button>
           </div>
         </div>
-        <p style="color:var(--muted);margin-top:16px">Month-to-month plans. Annual discounts and custom enterprise contracts available.</p>
-      </div>
-    </section>
+      </section>
 
-    <!-- CTA -->
-    <section class="section" id="contact">
-      <div class="wrap">
-        <div class="cta-block reveal">
-          <div>
-            <h3>Let’s create together</h3>
-            <p style="color:var(--muted)">Share your brief and we’ll propose the right plan and next steps.</p>
-          </div>
-          <div style="display:flex;gap:12px;align-items:center">
-            <button class="btn primary" onclick="scrollToTop()">Start a project</button>
-            <button class="btn ghost" onclick="scrollToTop()">Book a consult</button>
+      <!-- CTA -->
+      <section id="contact">
+        <div class="reveal">
+          <div class="cta-block">
+            <div>
+              <h3>Let’s create together</h3>
+              <p class="muted">Share your brief and we'll propose the right plan and timeline.</p>
+            </div>
+            <div style="display:flex;gap:12px">
+              <button class="btn btn-primary" onclick="goto('#pricing')">Start a Project</button>
+              <button class="btn btn-outline" onclick="goto('#pricing')">Request Proposal</button>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <footer>
-      <div>© <strong>Dappic</strong> — let's draw your brand to new heights</div>
-      <div style="display:flex;gap:12px;align-items:center;color:var(--muted)">
-        <a href="mailto:hello@dappic.com" style="color:var(--muted);text-decoration:none">hello@dappic.com</a>
-        <span>•</span>
-        <a href="#" style="color:var(--muted);text-decoration:none">LinkedIn</a>
-        <a href="#" style="color:var(--muted);text-decoration:none">Instagram</a>
-      </div>
-    </footer>
+      <footer>
+        <div>© <strong>Dappic</strong> — let's draw your brand to new heights</div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <a href="mailto:hello@dappic.com" style="color:var(--muted);text-decoration:none">hello@dappic.com</a>
+          <span style="color:var(--muted)">•</span>
+          <a href="#" style="color:var(--muted);text-decoration:none">LinkedIn</a>
+          <a href="#" style="color:var(--muted);text-decoration:none">Instagram</a>
+        </div>
+      </footer>
+    </main>
   </div>
 
   <script>
-    /*********************
-     * Canvas particles & subtle parallax
-     *********************/
+    /* ========== Canvas ambient / floating orbs ==========
+       Lightweight, performant, subtle luxe glow + mouse parallax
+    */
     (function(){
-      const canvas = document.getElementById('bgCanvas');
+      const canvas = document.getElementById('bg');
       const ctx = canvas.getContext('2d');
-      let w = canvas.width = innerWidth;
-      let h = canvas.height = innerHeight;
-      const particles = [];
-      const PARTICLE_COUNT = Math.round((w*h)/90000); // scalable count
-      const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent') || '#1fb6ff';
+      let W = canvas.width = innerWidth;
+      let H = canvas.height = innerHeight;
+
+      const orbs = [];
+      const ORB_COUNT = Math.max(6, Math.round((W*H)/220000));
 
       function rand(min,max){ return Math.random()*(max-min)+min; }
-
-      function createParticles(){
-        particles.length = 0;
-        for(let i=0;i<PARTICLE_COUNT;i++){
-          particles.push({
-            x: Math.random()*w,
-            y: Math.random()*h,
-            r: rand(0.6,2.6),
-            a: rand(0.05,0.25),
-            vx: rand(-0.15,0.15),
-            vy: rand(-0.05,0.05),
-            hueShift: rand(-20,20)
+      function makeOrbs(){
+        orbs.length = 0;
+        for(let i=0;i<ORB_COUNT;i++){
+          orbs.push({
+            x: rand(0,W),
+            y: rand(0,H),
+            r: rand(80,260),
+            vx: rand(-0.05,0.05),
+            vy: rand(-0.02,0.02),
+            hue: rand(200,260), // cool hue base
+            alpha: rand(0.06,0.18)
           });
         }
       }
+      makeOrbs();
+
+      window.addEventListener('resize', ()=>{
+        W = canvas.width = innerWidth;
+        H = canvas.height = innerHeight;
+        makeOrbs();
+      });
+
+      let mouse = {x:W/2, y:H/2};
+      window.addEventListener('mousemove', (e)=>{ mouse.x=e.clientX; mouse.y=e.clientY; });
 
       function draw(){
-        ctx.clearRect(0,0,w,h);
-
-        // subtle gradient overlay for depth
-        const g = ctx.createLinearGradient(0,0,w,h);
-        g.addColorStop(0, 'rgba(20,26,38,0.65)');
-        g.addColorStop(1, 'rgba(5,8,12,0.55)');
+        ctx.clearRect(0,0,W,H);
+        // base vignette
+        const g = ctx.createLinearGradient(0,0,W,H);
+        g.addColorStop(0, 'rgba(6,10,14,0.45)');
+        g.addColorStop(1, 'rgba(2,3,6,0.6)');
         ctx.fillStyle = g;
-        ctx.fillRect(0,0,w,h);
+        ctx.fillRect(0,0,W,H);
 
-        // particles
-        particles.forEach(p=>{
-          p.x += p.vx;
-          p.y += p.vy;
-          if(p.x < -20) p.x = w+20;
-          if(p.x > w+20) p.x = -20;
-          if(p.y < -20) p.y = h+20;
-          if(p.y > h+20) p.y = -20;
+        // subtle textured grain overlay (very small rects)
+        for(let i=0;i<3;i++){
+          // orbs
+          orbs.forEach((o, idx)=>{
+            o.x += o.vx + (mouse.x - W/2) * 0.00002;
+            o.y += o.vy + (mouse.y - H/2) * 0.00002;
+            if(o.x < -o.r) o.x = W + o.r;
+            if(o.x > W + o.r) o.x = -o.r;
+            if(o.y < -o.r) o.y = H + o.r;
+            if(o.y > H + o.r) o.y = -o.r;
 
-          const g2 = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r*8);
-          g2.addColorStop(0, `rgba(31,182,255,${p.a*0.9})`);
-          g2.addColorStop(0.4, `rgba(31,182,255,${p.a*0.35})`);
-          g2.addColorStop(1, 'rgba(10,14,20,0)');
-          ctx.fillStyle = g2;
-          ctx.beginPath();
-          ctx.arc(p.x,p.y,p.r*8,0,Math.PI*2);
-          ctx.fill();
-        });
+            const grd = ctx.createRadialGradient(o.x, o.y, 10, o.x, o.y, o.r);
+            grd.addColorStop(0, `rgba(220,200,160, ${o.alpha})`); // gold warmer center
+            grd.addColorStop(0.4, `rgba(60,150,220, ${o.alpha*0.35})`);
+            grd.addColorStop(1, 'rgba(2,4,8,0)');
+            ctx.fillStyle = grd;
+            ctx.beginPath();
+            ctx.arc(o.x, o.y, o.r, 0, Math.PI*2);
+            ctx.fill();
+          });
+        }
+        requestAnimationFrame(draw);
       }
-
-      function onResize(){
-        w = canvas.width = innerWidth;
-        h = canvas.height = innerHeight;
-        createParticles();
-      }
-      addEventListener('resize', onResize);
-      createParticles();
-      let rafId;
-      (function loop(){ draw(); rafId = requestAnimationFrame(loop); })();
-
-      // subtle parallax with mouse
-      window.addEventListener('mousemove', (e)=>{
-        const cx = e.clientX / w - 0.5;
-        const cy = e.clientY / h - 0.5;
-        particles.forEach((p,i)=>{
-          p.vx += cx*0.001*(i%3===0?1.2:0.6);
-          p.vy += cy*0.0008;
-        });
-      });
-
-      // pause when not visible (save CPU)
-      document.addEventListener('visibilitychange', ()=>{
-        if(document.hidden) cancelAnimationFrame(rafId);
-        else (function loop(){ draw(); rafId = requestAnimationFrame(loop); })();
-      });
+      draw();
     })();
 
-    /*********************
-     * GSAP scroll reveal setup
-     *********************/
-    gsap.registerPlugin(ScrollTrigger);
+    /* ========== GSAP ScrollReveal (ScrollTrigger) ==========
+       Smooth staggered reveals for all .reveal elements
+    */
+    gsap.registerPlugin(ScrollTrigger, gsap.plugins.ScrollToPlugin);
 
-    // reveal .reveal elements on scroll with stagger
+    // global reveal
     gsap.utils.toArray('.reveal').forEach((el, i) => {
-      gsap.fromTo(el, {y: 26, opacity: 0}, {
-        y:0, opacity:1, duration: 1.0, ease: 'power3.out',
+      gsap.fromTo(el, {y: 30, opacity: 0}, {
+        y: 0, opacity: 1, duration: 1.0, ease: 'power4.out',
         scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' },
         delay: i * 0.03
       });
     });
 
-    // subtle title emphasis animation on load
-    gsap.from("#title-line", {opacity:0, y:20, duration:1.1, ease:'power3.out', delay:0.2});
+    // floating hero panel micro motion
+    gsap.to('#hero-panel', {y: -8, duration:6, ease:'sine.inOut', repeat:-1, yoyo:true});
+    gsap.from('#logo-img', {scale:0.86, opacity:0, duration:0.9, ease:'elastic.out(1,0.75)', delay:0.1});
 
-    // hero panel float
-    gsap.to('.hero-panel', {y: -6, duration:6, ease:'sine.inOut', repeat:-1, yoyo:true, opacity:1});
-
-    // plan hover micro interactions
-    document.querySelectorAll('.plan').forEach(plan => {
-      plan.addEventListener('mouseenter', ()=> gsap.to(plan, {scale:1.02, boxShadow: '0 30px 80px rgba(0,0,0,0.7)', duration:0.35}));
-      plan.addEventListener('mouseleave', ()=> gsap.to(plan, {scale:1, boxShadow: '0 20px 50px rgba(0,0,0,0.55)', duration:0.35}));
-    });
-
-    // port tiles tilt on mouse move
+    // tilt micro-interaction for .work tiles
     document.querySelectorAll('.work').forEach(tile=>{
       tile.addEventListener('mousemove', (e)=>{
         const r = tile.getBoundingClientRect();
-        const px = (e.clientX - r.left) / r.width;
-        const py = (e.clientY - r.top) / r.height;
+        const px = (e.clientX - r.left)/r.width;
+        const py = (e.clientY - r.top)/r.height;
         const rx = (py - 0.5) * 6;
         const ry = (px - 0.5) * -8;
-        gsap.to(tile, {rotationX: rx, rotationY: ry, transformPerspective:800, transformOrigin:'center', duration:0.35, ease:'power3.out'});
+        gsap.to(tile, {rotationX: rx, rotationY: ry, transformPerspective:800, transformOrigin:'center', duration:0.45, ease:'power3.out'});
       });
-      tile.addEventListener('mouseleave', ()=> gsap.to(tile, {rotationX:0, rotationY:0, duration:0.6, ease:'power3.out'}));
+      tile.addEventListener('mouseleave', ()=> gsap.to(tile, {rotationX:0, rotationY:0, duration:0.7, ease:'power3.out'}));
+      tile.addEventListener('mouseenter', ()=> gsap.to(tile, {scale:1.02, duration:0.35}));
+      tile.addEventListener('mouseleave', ()=> gsap.to(tile, {scale:1, duration:0.4}));
     });
 
-    // smooth scroll helpers
-    function scrollToSection(sel){
-      const el = document.querySelector(sel);
-      if(!el) return;
-      gsap.to(window, {duration:1.05, scrollTo: {y: el, offsetY: 80}, ease:'power3.inOut'});
-    }
-    function scrollToTop(){
-      gsap.to(window, {duration:0.9, scrollTo: {y:0}, ease:'power3.inOut'});
+    // pricing card hover depth
+    document.querySelectorAll('.plan').forEach(p => {
+      p.addEventListener('mouseenter', ()=> gsap.to(p, {y:-12, boxShadow:'0 60px 160px rgba(2,6,12,0.9)', duration:0.32}));
+      p.addEventListener('mouseleave', ()=> gsap.to(p, {y:0, boxShadow:'0 30px 90px rgba(2,6,12,0.7)', duration:0.5}));
+    });
+
+    // smooth goto
+    function goto(hash){ 
+      try{
+        const el = document.querySelector(hash);
+        if(!el) return;
+        gsap.to(window, {duration:1.0, scrollTo: {y: el, offsetY: 80}, ease:'power3.inOut'});
+      }catch(e){
+        // fallback
+        const el = document.querySelector(hash);
+        if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      }
     }
 
-    // fallback if ScrollTo plugin isn't available: simple scroll
-    if(typeof gsap.plugins.scrollTo === 'undefined'){
-      gsap.registerPlugin();
-      gsap.to = gsap.to; // noop - keep api available; scrollTo still used above may fail in older envs
-      // Simple fallback handlers:
-      window.scrollToSmooth = function(y){ window.scrollTo({top:y, behavior:'smooth'}); }
-      scrollToSection = function(sel){ const el=document.querySelector(sel); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); }
-      scrollToTop = function(){ window.scrollTo({top:0, behavior:'smooth'}); }
-    }
-
-    // small helper for "openWork" placeholder
-    function openWork(){
-      // For now just animate a small micro-modal feel on top
-      const tag = event.currentTarget?.dataset?.title || 'Project';
+    // basic modal placeholder for work items
+    function openProject(title){
       const overlay = document.createElement('div');
       overlay.style.position='fixed'; overlay.style.inset=0; overlay.style.zIndex=9999;
-      overlay.style.background='linear-gradient(180deg, rgba(2,6,10,0.86), rgba(2,6,10,0.92))';
+      overlay.style.background='linear-gradient(180deg, rgba(2,6,12,0.92), rgba(2,6,12,0.96))';
       overlay.style.display='flex'; overlay.style.alignItems='center'; overlay.style.justifyContent='center';
       overlay.style.backdropFilter='blur(6px)';
       const card = document.createElement('div');
-      card.style.width='min(920px,92vw)'; card.style.padding='36px'; card.style.borderRadius='14px';
+      card.style.width='min(1100px,92vw)'; card.style.padding='36px'; card.style.borderRadius='12px';
       card.style.background='linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01))';
-      card.style.boxShadow='0 40px 120px rgba(0,0,0,0.8)';
-      card.innerHTML = `<h3 style="margin:0 0 8px">${tag}</h3><p style="color:${getComputedStyle(document.documentElement).getPropertyValue('--muted')}">This is a placeholder for a portfolio piece. Replace with images, case details and video. Close to return.</p><div style="height:18px"></div><button style="padding:12px 16px;border-radius:10px;background:linear-gradient(90deg,var(--accent),#3ac0ff);border:0;font-weight:800;cursor:pointer" id="closeBtn">Close</button>`;
+      card.style.boxShadow='0 80px 180px rgba(2,6,12,0.95)';
+      card.innerHTML = `<h3 style="margin:0 0 8px">${title}</h3>
+        <p style="color:${getComputedStyle(document.documentElement).getPropertyValue('--muted')}">A case study will be added here. Replace with images, video and text.</p>
+        <div style="height:18px"></div>
+        <button id="closeBtn" style="padding:12px 16px;border-radius:10px;background:${getComputedStyle(document.documentElement).getPropertyValue('--gold') || '#d8b88a'};border:0;font-weight:800;cursor:pointer">Close</button>`;
       overlay.appendChild(card);
       document.body.appendChild(overlay);
       document.getElementById('closeBtn').onclick = ()=> overlay.remove();
     }
 
-    // Fire initial micro-entrance (logo subtle glow)
-    gsap.fromTo('#logo', {scale:0.86, opacity:0}, {scale:1, opacity:1, duration:0.9, ease:'elastic.out(1,0.8)'});
+    // Accessibility: keyboard focus outlines
+    document.body.addEventListener('keyup', (e)=>{ if(e.key === 'Tab') document.body.classList.add('show-focus'); });
+
+    // ensure ScrollTrigger refresh (helps with canvas height)
+    ScrollTrigger.addEventListener("refreshInit", () => { /* noop */ });
+    ScrollTrigger.refresh();
 
   </script>
-
 </body>
 </html>

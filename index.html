@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>AOLFS | Advanced Operations, Logistics & Financial Solutions</title>
 
-  <!-- Teal 'A' favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,
   <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
     <rect width='100' height='100' fill='black'/>
@@ -45,14 +44,16 @@
       padding: 40px 30px;
       width: 90%;
       max-width: 600px;
+      transition: opacity 0.6s ease, transform 0.6s ease;
       opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 1s ease, transform 1s ease;
+      transform: translateY(30px);
     }
+
     .container.visible {
       opacity: 1;
-      transform: none;
+      transform: translateY(0);
     }
+
     .container.hidden {
       opacity: 0;
       transform: translateY(40px);
@@ -126,8 +127,8 @@
 
     footer{ font-size:12px; color:#555; margin-top:8px }
 
-    /* === Premium Multi-Letter Intro === */
-    #logo-intro {
+    /* === Premium Intro Sequence === */
+    #intro-sequence {
       position: fixed;
       inset: 0;
       background: #000;
@@ -135,38 +136,35 @@
       align-items: center;
       justify-content: center;
       z-index: 9999;
-      perspective: 1000px;
+      perspective: 1200px;
+      overflow: hidden;
     }
 
-    .intro-letter {
+    .intro-word {
       font-family: 'Inter', sans-serif;
-      font-size: clamp(5rem, 9vw, 8rem);
       font-weight: 800;
       color: #00e6e6;
+      font-size: clamp(4rem, 8vw, 6rem);
       opacity: 0;
       transform: translateZ(-300px) scale(0.8);
-      animation: logoDepth 1.2s cubic-bezier(0.77,0,0.175,1) forwards;
+      animation: reveal3D 1s ease forwards;
     }
 
-    @keyframes logoDepth {
+    @keyframes reveal3D {
       0% {
         opacity: 0;
         transform: translateZ(-300px) scale(0.8);
         filter: blur(8px);
       }
-      35% {
+      40% {
         opacity: 1;
         transform: translateZ(0) scale(1);
         filter: blur(0);
       }
-      70% {
-        opacity: 1;
-        transform: translateZ(100px) scale(1.05);
-      }
       100% {
         opacity: 0;
-        transform: translateZ(-400px) scale(0.9);
-        filter: blur(8px);
+        transform: translateZ(300px) scale(1.1);
+        filter: blur(6px);
       }
     }
   </style>
@@ -175,9 +173,9 @@
 
   <canvas id="bg"></canvas>
 
-  <!-- ✅ Multi-Letter Intro -->
-  <div id="logo-intro">
-    <span class="intro-letter">A</span>
+  <!-- Premium 3-step intro -->
+  <div id="intro-sequence">
+    <span class="intro-word" id="intro-word">A</span>
   </div>
 
   <div class="container">
@@ -198,10 +196,9 @@
 
   <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
   <script>
-    // === Starfield ===
+    // === STARFIELD BACKGROUND ===
     let scene, camera, renderer, stars;
-    init();
-    animate();
+    init(); animate();
 
     function init() {
       const canvas = document.getElementById("bg");
@@ -218,15 +215,20 @@
       const positions = new Float32Array(starQty * 3);
       const colors = new Float32Array(starQty * 3);
       const color = new THREE.Color();
-      const palette = ["#c7e3ff","#a8d8ff","#8ecfff","#b0f0ff","#ffffff"];
+      const palette = [
+        "#c7e3ff","#a8d8ff","#8ecfff","#b0f0ff","#dbfaff",
+        "#9ad5ff","#6fb3ff","#f4faff","#eaf6ff","#ffffff"
+      ];
 
       for (let i = 0; i < starQty; i++) {
         const r = 600 + Math.random() * 800;
         const theta = Math.random() * 2 * Math.PI;
         const phi = Math.acos(2 * Math.random() - 1);
+
         positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
         positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
         positions[i * 3 + 2] = r * Math.cos(phi);
+
         color.set(palette[Math.floor(Math.random() * palette.length)]);
         colors[i * 3] = color.r;
         colors[i * 3 + 1] = color.g;
@@ -237,72 +239,70 @@
       geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
       const material = new THREE.PointsMaterial({
-        size: 2.8,
+        size: 2.6,
         vertexColors: true,
         transparent: true,
+        opacity: 0.9,
         blending: THREE.AdditiveBlending,
         depthWrite: false
       });
 
       stars = new THREE.Points(geometry, material);
       scene.add(stars);
-      window.addEventListener("resize", onWindowResize);
-    }
 
-    function onWindowResize() {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
     }
 
     function animate() {
       requestAnimationFrame(animate);
-      stars.rotation.y += 0.0005;
-      stars.rotation.x += 0.0002;
+      stars.rotation.y += 0.0006;
+      stars.rotation.x += 0.00025;
       renderer.render(scene, camera);
     }
 
-    // === Multi-letter sequence ===
-    const intro = document.getElementById('logo-intro');
-    const container = document.querySelector('.container');
-    const letters = ['A','O','L','F','S'];
+    // === INTRO SEQUENCE LOGIC ===
+    const words = ["A", "For", "AI"];
+    const intro = document.getElementById("intro-sequence");
+    const wordEl = document.getElementById("intro-word");
+    const container = document.querySelector(".container");
+
     let index = 0;
 
-    function showNextLetter() {
-      if (index >= letters.length) {
-        intro.style.transition = 'opacity 0.8s ease';
-        intro.style.opacity = '0';
-        setTimeout(() => {
-          intro.remove();
-          container.classList.add('visible');
-        }, 800);
-        return;
-      }
-      intro.innerHTML = `<span class="intro-letter">${letters[index]}</span>`;
-      index++;
-      setTimeout(showNextLetter, 800);
-    }
-
-    window.addEventListener('load', () => {
-      setTimeout(showNextLetter, 300);
-    });
-
-    // === Scroll Fade ===
-    let ticking = false;
-    function handleScroll() {
-      const scrollY = window.scrollY;
-      if (scrollY > 80) {
-        container.classList.add('hidden');
+    function playSequence() {
+      if (index < words.length) {
+        wordEl.textContent = words[index];
+        wordEl.style.animation = "none";
+        void wordEl.offsetWidth;
+        wordEl.style.animation = "reveal3D 1s ease forwards";
+        index++;
+        setTimeout(playSequence, 950);
       } else {
-        container.classList.remove('hidden');
+        setTimeout(() => {
+          intro.style.opacity = "0";
+          setTimeout(() => {
+            intro.remove();
+            container.classList.add("visible");
+          }, 800);
+        }, 600);
       }
-      ticking = false;
     }
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        requestAnimationFrame(handleScroll);
-        ticking = true;
+
+    window.addEventListener("load", playSequence);
+
+    // === SCROLL FADE EFFECT ===
+    let lastScroll = 0;
+    window.addEventListener("scroll", () => {
+      const currentScroll = window.scrollY;
+      if (currentScroll > lastScroll + 30) {
+        container.classList.add("hidden");
+      } else if (currentScroll < lastScroll - 30 || currentScroll <= 0) {
+        container.classList.remove("hidden");
       }
+      lastScroll = currentScroll;
     });
   </script>
 </body>

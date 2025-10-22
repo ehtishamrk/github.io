@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>AOLFS | Advanced Operations, Logistics & Financial Solutions</title>
 
-  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,
   <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
     <rect width='100' height='100' fill='black'/>
@@ -16,133 +15,135 @@
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif;}
 
-    html, body {
-      height: 100%; width: 100%;
-      overflow: hidden;
-      background: #000;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
+    html,body{
+      height:100%;width:100%;
+      overflow:hidden;
+      background:#000;
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
     }
 
-    #bg {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 0;
-      background: radial-gradient(ellipse at center, #050505 0%, #000 80%);
+    #bg{
+      position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;
+      background:radial-gradient(ellipse at center,#050505 0%,#000 80%);
     }
 
-    /* === Container restored from original === */
-    .container {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      background: rgba(0, 0, 0, 0.85);
-      border-radius: 20px;
-      padding: 40px 30px;
-      width: 90%;
-      max-width: 600px;
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 1.2s ease, transform 1.2s ease;
+    /* === Main Container (Original Restored) === */
+    .container{
+      position:relative;
+      z-index:2;
+      text-align:center;
+      background:rgba(0,0,0,0.85);
+      border-radius:20px;
+      padding:40px 30px;
+      width:90%;max-width:600px;
+      opacity:0;
+      transform:translateY(40px);
+      transition:opacity 1.2s ease,transform 1.2s ease;
     }
-    .container.visible { opacity: 1; transform: translateY(0); }
-    .container.hidden { opacity: 0; transform: translateY(40px); pointer-events: none; }
+    .container.visible{opacity:1;transform:translateY(0);}
+    .container.hidden{opacity:0;transform:translateY(40px);pointer-events:none;}
 
-    .container::before {
-      content: "";
-      position: absolute;
-      inset: -2px;
-      border-radius: 22px;
-      background: linear-gradient(135deg, rgba(0,255,200,0.4), rgba(0,255,255,0.05), rgba(0,200,255,0.3));
-      filter: blur(12px);
-      z-index: -1;
-      opacity: 0.6;
-      animation: pulse 6s ease-in-out infinite alternate;
+    .container::before{
+      content:"";
+      position:absolute;inset:-2px;border-radius:22px;
+      background:linear-gradient(135deg,rgba(0,255,200,0.4),rgba(0,255,255,0.05),rgba(0,200,255,0.3));
+      filter:blur(12px);z-index:-1;opacity:0.6;
+      animation:pulse 6s ease-in-out infinite alternate;
     }
 
-    @keyframes pulse {
-      0% { opacity: 0.45; filter: blur(10px); }
-      100% { opacity: 0.75; filter: blur(15px); }
+    @keyframes pulse{
+      0%{opacity:0.45;filter:blur(10px);}
+      100%{opacity:0.75;filter:blur(15px);}
     }
 
-    .brand {
-      font-size: clamp(2rem,5vw,3rem);
-      font-weight: 800;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: #00e6e6;
+    .brand{
+      font-size:clamp(2rem,5vw,3rem);
+      font-weight:800;
+      letter-spacing:3px;
+      text-transform:uppercase;
+      color:#00e6e6;
     }
-    h1 { margin-top: 10px; font-size: clamp(1rem,3vw,1.4rem); color: #bbb; }
-    p { color: #999; margin: 20px 0; line-height: 1.6; font-size: clamp(0.92rem,2.5vw,1rem); }
-    .maintenance { color: #ccc; font-size: 0.95em; margin-bottom: 18px; display: block; }
+    h1{margin-top:10px;font-size:clamp(1rem,3vw,1.4rem);color:#bbb;}
+    p{color:#999;margin:20px 0;line-height:1.6;font-size:clamp(0.92rem,2.5vw,1rem);}
+    .maintenance{color:#ccc;font-size:0.95em;margin-bottom:18px;display:block;}
 
-    .email-box {
-      display: flex; justify-content: center; align-items: center;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 50px; padding: 6px;
-      max-width: 380px; margin: 0 auto 20px;
-      gap: 8px; flex-wrap: wrap;
-    }
-
-    input {
-      background: transparent; border: none; outline: none;
-      color: #fff; flex: 1; min-width: 180px;
-      padding: 12px 15px; font-size: 14px;
-    }
-    input::placeholder { color: #666; }
-    button {
-      background: linear-gradient(45deg,#00ffc3,#0099ff);
-      border: none; color: #000; font-weight: 600;
-      padding: 12px 25px; border-radius: 30px;
-      cursor: pointer; transition: all .3s ease;
-    }
-    button:hover { transform: translateY(-1px); opacity: 0.9; }
-
-    .ventures {
-      font-weight: 600;
-      background: linear-gradient(45deg,#00ffc3,#0099ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .project-line { font-size: clamp(0.8rem,2vw,0.9rem); color: #888; margin-top: 20px; }
-    footer { font-size: 12px; color: #555; margin-top: 8px; }
-
-    /* === Premium Apple-level Intro === */
-    #intro-sequence {
-      position: fixed;
-      inset: 0;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      perspective: 1400px;
+    .email-box{
+      display:flex;justify-content:center;align-items:center;
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.06);
+      border-radius:50px;padding:6px;
+      max-width:380px;margin:0 auto 20px;
+      gap:8px;flex-wrap:wrap;
     }
 
-    .intro-word {
-      font-family: 'Inter', sans-serif;
-      font-weight: 800;
-      background: linear-gradient(180deg, #e9f9ff, #00e6e6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-size: clamp(4rem, 8vw, 6rem);
-      opacity: 0;
-      transform: translateZ(-300px) scale(0.8);
-      animation: revealApple 1.4s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    input{
+      background:transparent;border:none;outline:none;color:#fff;
+      flex:1;min-width:180px;padding:12px 15px;font-size:14px;
+    }
+    input::placeholder{color:#666;}
+    button{
+      background:linear-gradient(45deg,#00ffc3,#0099ff);
+      border:none;color:#000;font-weight:600;
+      padding:12px 25px;border-radius:30px;
+      cursor:pointer;transition:all .3s ease;
+    }
+    button:hover{transform:translateY(-1px);opacity:0.9;}
+
+    .ventures{
+      font-weight:600;
+      background:linear-gradient(45deg,#00ffc3,#0099ff);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+    .project-line{font-size:clamp(0.8rem,2vw,0.9rem);color:#888;margin-top:20px;}
+    footer{font-size:12px;color:#555;margin-top:8px;}
+
+    /* === Premium Apple-Style Intro === */
+    #intro-sequence{
+      position:fixed;inset:0;background:#000;
+      display:flex;align-items:center;justify-content:center;
+      z-index:9999;perspective:1400px;overflow:hidden;
     }
 
-    @keyframes revealApple {
-      0% { opacity: 0; transform: translateZ(-300px) scale(0.8) translateY(20px); filter: blur(10px); }
-      30% { opacity: 1; transform: translateZ(0) scale(1) translateY(0); filter: blur(0); }
-      70% { opacity: 1; transform: translateZ(50px) scale(1.02); }
-      100% { opacity: 0; transform: translateZ(300px) scale(1.06); filter: blur(8px); }
+    .intro-word{
+      position:relative;
+      font-weight:800;
+      background:linear-gradient(180deg,#e9f9ff,#00e6e6);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      font-size:clamp(4rem,8vw,6rem);
+      opacity:0;
+      transform:translateZ(-300px) scale(0.8);
+      animation:revealApple 1.4s cubic-bezier(0.25,0.1,0.25,1) forwards;
+    }
+
+    /* Subtle moving sheen effect */
+    .intro-word::after{
+      content:"";
+      position:absolute;inset:0;
+      background:linear-gradient(75deg,transparent 30%,rgba(255,255,255,0.3) 50%,transparent 70%);
+      transform:translateX(-150%);
+      animation:sheen 2.5s ease-in-out infinite;
+      mix-blend-mode:screen;
+    }
+
+    @keyframes sheen{
+      0%{transform:translateX(-150%);}
+      60%{transform:translateX(150%);}
+      100%{transform:translateX(150%);}
+    }
+
+    @keyframes revealApple{
+      0%{opacity:0;transform:translateZ(-300px) scale(0.8) translateY(20px);filter:blur(10px);}
+      30%{opacity:1;transform:translateZ(0) scale(1) translateY(0);filter:blur(0);}
+      70%{opacity:1;transform:translateZ(50px) scale(1.02);}
+      100%{opacity:0;transform:translateZ(300px) scale(1.06);filter:blur(8px);}
     }
   </style>
 </head>
@@ -173,112 +174,97 @@
 
   <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
   <script>
-    // === STARFIELD with ORIGINAL COLOR PALETTE ===
-    let scene, camera, renderer, stars;
+    // === STARFIELD (Original Premium Palette) ===
+    let scene,camera,renderer,stars;
     init(); animate();
-
-    function init() {
-      const canvas = document.getElementById("bg");
-      renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-      renderer.setSize(window.innerWidth, window.innerHeight);
+    function init(){
+      const canvas=document.getElementById("bg");
+      renderer=new THREE.WebGLRenderer({canvas,antialias:true});
+      renderer.setSize(window.innerWidth,window.innerHeight);
       renderer.setPixelRatio(window.devicePixelRatio);
-
-      scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000);
-      camera.position.z = 1000;
-
-      const starQty = 6000;
-      const geometry = new THREE.BufferGeometry();
-      const positions = new Float32Array(starQty * 3);
-      const colors = new Float32Array(starQty * 3);
-      const color = new THREE.Color();
-
-      const palette = [
+      scene=new THREE.Scene();
+      camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,1,2000);
+      camera.position.z=1000;
+      const starQty=6000;
+      const geometry=new THREE.BufferGeometry();
+      const positions=new Float32Array(starQty*3);
+      const colors=new Float32Array(starQty*3);
+      const color=new THREE.Color();
+      const palette=[
         "#bf8699","#654455","#4c3348","#4e3650","#7e5468","#73566a",
         "#946c84","#a06f84","#6a4f62","#b8899b","#61495f","#a3798f",
         "#373b58","#8c5666","#64485e",
         "#c7e3ff","#a8d8ff","#8ecfff","#b0f0ff","#dbfaff",
         "#9ad5ff","#6fb3ff","#f4faff","#eaf6ff","#ffffff"
       ];
-
-      for (let i = 0; i < starQty; i++) {
-        const r = 600 + Math.random() * 800;
-        const theta = Math.random() * 2 * Math.PI;
-        const phi = Math.acos(2 * Math.random() - 1);
-        positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-        positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-        positions[i * 3 + 2] = r * Math.cos(phi);
-        color.set(palette[Math.floor(Math.random() * palette.length)]);
-        color.multiplyScalar(1.1 + Math.random() * 0.5);
-        colors[i * 3] = color.r;
-        colors[i * 3 + 1] = color.g;
-        colors[i * 3 + 2] = color.b;
+      for(let i=0;i<starQty;i++){
+        const r=600+Math.random()*800;
+        const theta=Math.random()*2*Math.PI;
+        const phi=Math.acos(2*Math.random()-1);
+        positions[i*3]=r*Math.sin(phi)*Math.cos(theta);
+        positions[i*3+1]=r*Math.sin(phi)*Math.sin(theta);
+        positions[i*3+2]=r*Math.cos(phi);
+        color.set(palette[Math.floor(Math.random()*palette.length)]);
+        color.multiplyScalar(1.1+Math.random()*0.5);
+        colors[i*3]=color.r;
+        colors[i*3+1]=color.g;
+        colors[i*3+2]=color.b;
       }
-
-      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-      const material = new THREE.PointsMaterial({
-        size: 2.8,
-        vertexColors: true,
-        transparent: true,
-        opacity: 1.0,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false
+      geometry.setAttribute('position',new THREE.BufferAttribute(positions,3));
+      geometry.setAttribute('color',new THREE.BufferAttribute(colors,3));
+      const material=new THREE.PointsMaterial({
+        size:2.8,vertexColors:true,transparent:true,opacity:1.0,
+        blending:THREE.AdditiveBlending,depthWrite:false
       });
-
-      stars = new THREE.Points(geometry, material);
+      stars=new THREE.Points(geometry,material);
       scene.add(stars);
-
-      window.addEventListener("resize", () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
+      window.addEventListener("resize",()=>{
+        camera.aspect=window.innerWidth/window.innerHeight;
         camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(window.innerWidth,window.innerHeight);
       });
     }
-
-    function animate() {
+    function animate(){
       requestAnimationFrame(animate);
-      stars.rotation.y += 0.0006;
-      stars.rotation.x += 0.00025;
-      renderer.render(scene, camera);
+      stars.rotation.y+=0.0006;
+      stars.rotation.x+=0.00025;
+      renderer.render(scene,camera);
     }
 
-    // === Apple Intro Sequence ===
-    const words = ["A", "For", "Ai"];
-    const intro = document.getElementById("intro-sequence");
-    const wordEl = document.getElementById("intro-word");
-    const container = document.querySelector(".container");
-
-    let index = 0;
-    function playSequence() {
-      if (index < words.length) {
-        wordEl.textContent = words[index];
-        wordEl.style.animation = "none";
+    // === Intro Sequence ===
+    const words=["A","For","Ai"];
+    const intro=document.getElementById("intro-sequence");
+    const wordEl=document.getElementById("intro-word");
+    const container=document.querySelector(".container");
+    let index=0;
+    function playSequence(){
+      if(index<words.length){
+        wordEl.textContent=words[index];
+        wordEl.style.animation="none";
         void wordEl.offsetWidth;
-        wordEl.style.animation = "revealApple 1.4s cubic-bezier(0.25, 0.1, 0.25, 1) forwards";
+        wordEl.style.animation="revealApple 1.4s cubic-bezier(0.25,0.1,0.25,1) forwards";
         index++;
-        setTimeout(playSequence, 1300);
+        setTimeout(playSequence,1300);
       } else {
-        setTimeout(() => {
-          intro.style.transition = "opacity 1s ease";
-          intro.style.opacity = "0";
-          setTimeout(() => {
+        setTimeout(()=>{
+          intro.style.transition="opacity 1s ease";
+          intro.style.opacity="0";
+          setTimeout(()=>{
             intro.remove();
             container.classList.add("visible");
-          }, 1000);
-        }, 700);
+          },1000);
+        },700);
       }
     }
-    window.addEventListener("load", playSequence);
+    window.addEventListener("load",playSequence);
 
-    // === Scroll Fade Effect ===
-    let lastScroll = 0;
-    window.addEventListener("scroll", () => {
-      const currentScroll = window.scrollY;
-      if (currentScroll > lastScroll + 30) container.classList.add("hidden");
-      else if (currentScroll < lastScroll - 30 || currentScroll <= 0) container.classList.remove("hidden");
-      lastScroll = currentScroll;
+    // === Scroll Fade ===
+    let lastScroll=0;
+    window.addEventListener("scroll",()=>{
+      const currentScroll=window.scrollY;
+      if(currentScroll>lastScroll+30)container.classList.add("hidden");
+      else if(currentScroll<lastScroll-30||currentScroll<=0)container.classList.remove("hidden");
+      lastScroll=currentScroll;
     });
   </script>
 </body>

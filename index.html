@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>AOLFS | Advanced Operations, Logistics & Financial Solutions</title>
 
+  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,
   <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
     <rect width='100' height='100' fill='black'/>
@@ -15,16 +16,17 @@
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
-    *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
-    html,body{
-      height:100%;width:100%;
-      overflow:hidden;
-      background:#000;
-      color:#fff;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      flex-direction:column;
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+
+    html, body {
+      height: 100%; width: 100%;
+      overflow: hidden;
+      background: #000;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
     }
 
     #bg {
@@ -35,6 +37,7 @@
       background: radial-gradient(ellipse at center, #050505 0%, #000 80%);
     }
 
+    /* === Container restored from original === */
     .container {
       position: relative;
       z-index: 2;
@@ -44,57 +47,74 @@
       padding: 40px 30px;
       width: 90%;
       max-width: 600px;
-      transition: opacity 1s ease, transform 1s ease;
       opacity: 0;
       transform: translateY(40px);
+      transition: opacity 1.2s ease, transform 1.2s ease;
     }
     .container.visible { opacity: 1; transform: translateY(0); }
-    .container.hidden { opacity: 0; transform: translateY(40px); pointer-events:none; }
+    .container.hidden { opacity: 0; transform: translateY(40px); pointer-events: none; }
+
+    .container::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(0,255,200,0.4), rgba(0,255,255,0.05), rgba(0,200,255,0.3));
+      filter: blur(12px);
+      z-index: -1;
+      opacity: 0.6;
+      animation: pulse 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.45; filter: blur(10px); }
+      100% { opacity: 0.75; filter: blur(15px); }
+    }
 
     .brand {
-      font-size:clamp(2rem,5vw,3rem);
-      font-weight:800;
-      letter-spacing:3px;
-      text-transform:uppercase;
-      color:#00e6e6;
+      font-size: clamp(2rem,5vw,3rem);
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #00e6e6;
     }
-    h1 { margin-top:10px; font-size:clamp(1rem,3vw,1.4rem); color:#bbb; }
-    p { color:#999; margin:20px 0 20px; line-height:1.6; font-size:clamp(0.92rem,2.5vw,1rem) }
-    .maintenance { color:#ccc; font-size:0.95em; margin-bottom:18px; display:block; }
+    h1 { margin-top: 10px; font-size: clamp(1rem,3vw,1.4rem); color: #bbb; }
+    p { color: #999; margin: 20px 0; line-height: 1.6; font-size: clamp(0.92rem,2.5vw,1rem); }
+    .maintenance { color: #ccc; font-size: 0.95em; margin-bottom: 18px; display: block; }
 
     .email-box {
-      display:flex; justify-content:center; align-items:center;
-      background:rgba(255,255,255,0.03);
-      border:1px solid rgba(255,255,255,0.06);
-      border-radius:50px; padding:6px;
-      max-width:380px; margin:0 auto 20px;
-      gap:8px; flex-wrap:wrap;
+      display: flex; justify-content: center; align-items: center;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 50px; padding: 6px;
+      max-width: 380px; margin: 0 auto 20px;
+      gap: 8px; flex-wrap: wrap;
     }
 
     input {
-      background:transparent; border:none; outline:none;
-      color:#fff; flex:1; min-width:180px;
-      padding:12px 15px; font-size:14px;
+      background: transparent; border: none; outline: none;
+      color: #fff; flex: 1; min-width: 180px;
+      padding: 12px 15px; font-size: 14px;
     }
-    input::placeholder{ color:#666 }
+    input::placeholder { color: #666; }
     button {
-      background:linear-gradient(45deg,#00ffc3,#0099ff);
-      border:none; color:#000; font-weight:600;
-      padding:12px 25px; border-radius:30px;
-      cursor:pointer; transition:all .3s ease;
+      background: linear-gradient(45deg,#00ffc3,#0099ff);
+      border: none; color: #000; font-weight: 600;
+      padding: 12px 25px; border-radius: 30px;
+      cursor: pointer; transition: all .3s ease;
     }
-    button:hover { transform:translateY(-1px); opacity:0.9; }
+    button:hover { transform: translateY(-1px); opacity: 0.9; }
 
     .ventures {
-      font-weight:600;
-      background:linear-gradient(45deg,#00ffc3,#0099ff);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
+      font-weight: 600;
+      background: linear-gradient(45deg,#00ffc3,#0099ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    .project-line{ font-size:clamp(0.8rem,2vw,0.9rem); color:#888; margin-top:20px; }
-    footer{ font-size:12px; color:#555; margin-top:8px }
+    .project-line { font-size: clamp(0.8rem,2vw,0.9rem); color: #888; margin-top: 20px; }
+    footer { font-size: 12px; color: #555; margin-top: 8px; }
 
-    /* === APPLE-STYLE INTRO SEQUENCE === */
+    /* === Premium Apple-level Intro === */
     #intro-sequence {
       position: fixed;
       inset: 0;
@@ -104,13 +124,14 @@
       justify-content: center;
       z-index: 9999;
       perspective: 1400px;
-      overflow: hidden;
     }
 
     .intro-word {
       font-family: 'Inter', sans-serif;
       font-weight: 800;
-      color: #00e6e6;
+      background: linear-gradient(180deg, #e9f9ff, #00e6e6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       font-size: clamp(4rem, 8vw, 6rem);
       opacity: 0;
       transform: translateZ(-300px) scale(0.8);
@@ -129,7 +150,7 @@
 
   <canvas id="bg"></canvas>
 
-  <!-- Premium Apple-style intro -->
+  <!-- Apple-style intro -->
   <div id="intro-sequence">
     <span class="intro-word" id="intro-word">A</span>
   </div>
@@ -152,7 +173,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
   <script>
-    // === STARFIELD BACKGROUND ===
+    // === STARFIELD with ORIGINAL COLOR PALETTE ===
     let scene, camera, renderer, stars;
     init(); animate();
 
@@ -171,7 +192,14 @@
       const positions = new Float32Array(starQty * 3);
       const colors = new Float32Array(starQty * 3);
       const color = new THREE.Color();
-      const palette = ["#c7e3ff","#a8d8ff","#8ecfff","#b0f0ff","#dbfaff","#ffffff"];
+
+      const palette = [
+        "#bf8699","#654455","#4c3348","#4e3650","#7e5468","#73566a",
+        "#946c84","#a06f84","#6a4f62","#b8899b","#61495f","#a3798f",
+        "#373b58","#8c5666","#64485e",
+        "#c7e3ff","#a8d8ff","#8ecfff","#b0f0ff","#dbfaff",
+        "#9ad5ff","#6fb3ff","#f4faff","#eaf6ff","#ffffff"
+      ];
 
       for (let i = 0; i < starQty; i++) {
         const r = 600 + Math.random() * 800;
@@ -181,16 +209,24 @@
         positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
         positions[i * 3 + 2] = r * Math.cos(phi);
         color.set(palette[Math.floor(Math.random() * palette.length)]);
-        colors[i * 3] = color.r; colors[i * 3 + 1] = color.g; colors[i * 3 + 2] = color.b;
+        color.multiplyScalar(1.1 + Math.random() * 0.5);
+        colors[i * 3] = color.r;
+        colors[i * 3 + 1] = color.g;
+        colors[i * 3 + 2] = color.b;
       }
 
       geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
       geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
       const material = new THREE.PointsMaterial({
-        size: 2.6, vertexColors: true, transparent: true, opacity: 0.9,
-        blending: THREE.AdditiveBlending, depthWrite: false
+        size: 2.8,
+        vertexColors: true,
+        transparent: true,
+        opacity: 1.0,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
       });
+
       stars = new THREE.Points(geometry, material);
       scene.add(stars);
 
@@ -203,12 +239,12 @@
 
     function animate() {
       requestAnimationFrame(animate);
-      stars.rotation.y += 0.0005;
-      stars.rotation.x += 0.0002;
+      stars.rotation.y += 0.0006;
+      stars.rotation.x += 0.00025;
       renderer.render(scene, camera);
     }
 
-    // === APPLE-STYLE INTRO LOGIC ===
+    // === Apple Intro Sequence ===
     const words = ["A", "For", "Ai"];
     const intro = document.getElementById("intro-sequence");
     const wordEl = document.getElementById("intro-word");
@@ -236,7 +272,7 @@
     }
     window.addEventListener("load", playSequence);
 
-    // === SCROLL FADE EFFECT ===
+    // === Scroll Fade Effect ===
     let lastScroll = 0;
     window.addEventListener("scroll", () => {
       const currentScroll = window.scrollY;

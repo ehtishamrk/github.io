@@ -45,30 +45,18 @@
       padding: 40px 30px;
       width: 90%;
       max-width: 600px;
-      animation: fadeIn 900ms ease;
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
     }
-
-    .container::before {
-      content: "";
-      position: absolute;
-      inset: -2px;
-      border-radius: 22px;
-      background: linear-gradient(135deg, rgba(0,255,200,0.4), rgba(0,255,255,0.05), rgba(0,200,255,0.3));
-      filter: blur(12px);
-      z-index: -1;
-      opacity: 0.6;
-      animation: pulse 6s ease-in-out infinite alternate;
+    .container.visible {
+      opacity: 1;
+      transform: none;
     }
-
-    @keyframes pulse {
-      0% { opacity: 0.45; filter: blur(10px); }
-      100% { opacity: 0.75; filter: blur(15px); }
-    }
-
-    @keyframes fadeIn {
-      from {opacity:0; transform: translateY(14px)}
-      to {opacity:1; transform:none}
+    .container.hidden {
+      opacity: 0;
+      transform: translateY(40px);
+      pointer-events: none;
     }
 
     .brand {
@@ -138,7 +126,7 @@
 
     footer{ font-size:12px; color:#555; margin-top:8px }
 
-    /* === Premium Intro Animation === */
+    /* === Premium Multi-Letter Intro === */
     #logo-intro {
       position: fixed;
       inset: 0;
@@ -147,43 +135,39 @@
       align-items: center;
       justify-content: center;
       z-index: 9999;
-      opacity: 1;
-      transition: opacity 0.6s ease-in-out;
+      perspective: 1000px;
     }
 
-    .intro-logo {
+    .intro-letter {
       font-family: 'Inter', sans-serif;
-      font-size: clamp(4rem, 8vw, 6rem);
+      font-size: clamp(5rem, 9vw, 8rem);
       font-weight: 800;
       color: #00e6e6;
-      letter-spacing: 2px;
       opacity: 0;
-      transform: scale(0.96);
-      animation: logoFlash 1s ease-in-out forwards;
+      transform: translateZ(-300px) scale(0.8);
+      animation: logoDepth 1.2s cubic-bezier(0.77,0,0.175,1) forwards;
     }
 
-    @keyframes logoFlash {
+    @keyframes logoDepth {
       0% {
         opacity: 0;
-        transform: scale(0.94);
-        filter: blur(4px);
+        transform: translateZ(-300px) scale(0.8);
+        filter: blur(8px);
       }
-      40% {
+      35% {
         opacity: 1;
-        transform: scale(1);
+        transform: translateZ(0) scale(1);
         filter: blur(0);
+      }
+      70% {
+        opacity: 1;
+        transform: translateZ(100px) scale(1.05);
       }
       100% {
         opacity: 0;
-        transform: scale(1.04);
-        filter: blur(3px);
+        transform: translateZ(-400px) scale(0.9);
+        filter: blur(8px);
       }
-    }
-
-    .container.hidden {
-      opacity: 0;
-      transform: translateY(40px);
-      pointer-events: none;
     }
   </style>
 </head>
@@ -191,9 +175,9 @@
 
   <canvas id="bg"></canvas>
 
-  <!-- ✅ Premium Logo Intro -->
+  <!-- ✅ Multi-Letter Intro -->
   <div id="logo-intro">
-    <span class="intro-logo">A</span>
+    <span class="intro-letter">A</span>
   </div>
 
   <div class="container">
@@ -202,7 +186,6 @@
     <p>We’re shaping the future of how businesses scale, using AI, automation, and intelligent workflows to power the next generation of operations, logistics, and finance.</p>
     <span class="maintenance">(This site is under maintenance.)</span>
 
-    <!-- ✅ Real working Formspree form -->
     <form action="https://formspree.io/f/xldpapap" method="POST" class="email-box">
       <input type="email" name="email" placeholder="Get notified when we relaunch..." required>
       <input type="text" name="_gotcha" style="display:none">
@@ -215,20 +198,18 @@
 
   <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
   <script>
+    // === Starfield ===
     let scene, camera, renderer, stars;
-
     init();
     animate();
 
     function init() {
       const canvas = document.getElementById("bg");
-
       renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.setPixelRatio(window.devicePixelRatio);
 
       scene = new THREE.Scene();
-
       camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000);
       camera.position.z = 1000;
 
@@ -237,26 +218,16 @@
       const positions = new Float32Array(starQty * 3);
       const colors = new Float32Array(starQty * 3);
       const color = new THREE.Color();
-
-      const palette = [
-        "#bf8699","#654455","#4c3348","#4e3650","#7e5468","#73566a",
-        "#946c84","#a06f84","#6a4f62","#b8899b","#61495f","#a3798f",
-        "#373b58","#8c5666","#64485e",
-        "#c7e3ff","#a8d8ff","#8ecfff","#b0f0ff","#dbfaff",
-        "#9ad5ff","#6fb3ff","#f4faff","#eaf6ff","#ffffff"
-      ];
+      const palette = ["#c7e3ff","#a8d8ff","#8ecfff","#b0f0ff","#ffffff"];
 
       for (let i = 0; i < starQty; i++) {
         const r = 600 + Math.random() * 800;
         const theta = Math.random() * 2 * Math.PI;
         const phi = Math.acos(2 * Math.random() - 1);
-
         positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
         positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
         positions[i * 3 + 2] = r * Math.cos(phi);
-
         color.set(palette[Math.floor(Math.random() * palette.length)]);
-        color.multiplyScalar(1.1 + Math.random() * 0.5);
         colors[i * 3] = color.r;
         colors[i * 3 + 1] = color.g;
         colors[i * 3 + 2] = color.b;
@@ -269,24 +240,12 @@
         size: 2.8,
         vertexColors: true,
         transparent: true,
-        opacity: 1.0,
         blending: THREE.AdditiveBlending,
         depthWrite: false
       });
 
       stars = new THREE.Points(geometry, material);
       scene.add(stars);
-
-      const nebulaGeometry = new THREE.SphereGeometry(1400, 32, 32);
-      const nebulaMaterial = new THREE.MeshBasicMaterial({
-        color: 0x003333,
-        transparent: true,
-        opacity: 0.08,
-        blending: THREE.AdditiveBlending
-      });
-      const nebula = new THREE.Mesh(nebulaGeometry, nebulaMaterial);
-      scene.add(nebula);
-
       window.addEventListener("resize", onWindowResize);
     }
 
@@ -298,49 +257,52 @@
 
     function animate() {
       requestAnimationFrame(animate);
-      stars.rotation.y += 0.0006;
-      stars.rotation.x += 0.00025;
+      stars.rotation.y += 0.0005;
+      stars.rotation.x += 0.0002;
       renderer.render(scene, camera);
     }
 
-    // ✅ Form success message
-    document.querySelector("form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const form = e.target;
-      const data = new FormData(form);
-      const response = await fetch(form.action, {
-        method: form.method,
-        body: data,
-        headers: { 'Accept': 'application/json' }
-      });
-      if (response.ok) {
-        alert("✅ Thanks! You'll be notified when we relaunch.");
-        form.reset();
-      } else {
-        alert("❌ There was an error. Please try again later.");
-      }
-    });
-
-    // === Intro Logo Animation ===
-    window.addEventListener('load', () => {
-      const intro = document.getElementById('logo-intro');
-      setTimeout(() => {
-        intro.style.opacity = '0';
-        setTimeout(() => intro.remove(), 600);
-      }, 900); // how long before fade-out starts
-    });
-
-    // === Scroll Fade Effect ===
+    // === Multi-letter sequence ===
+    const intro = document.getElementById('logo-intro');
     const container = document.querySelector('.container');
-    let lastScroll = 0;
-    window.addEventListener('scroll', () => {
-      const currentScroll = window.scrollY;
-      if (currentScroll > lastScroll + 40) {
+    const letters = ['A','O','L','F','S'];
+    let index = 0;
+
+    function showNextLetter() {
+      if (index >= letters.length) {
+        intro.style.transition = 'opacity 0.8s ease';
+        intro.style.opacity = '0';
+        setTimeout(() => {
+          intro.remove();
+          container.classList.add('visible');
+        }, 800);
+        return;
+      }
+      intro.innerHTML = `<span class="intro-letter">${letters[index]}</span>`;
+      index++;
+      setTimeout(showNextLetter, 800);
+    }
+
+    window.addEventListener('load', () => {
+      setTimeout(showNextLetter, 300);
+    });
+
+    // === Scroll Fade ===
+    let ticking = false;
+    function handleScroll() {
+      const scrollY = window.scrollY;
+      if (scrollY > 80) {
         container.classList.add('hidden');
-      } else if (currentScroll < lastScroll - 40 || currentScroll <= 0) {
+      } else {
         container.classList.remove('hidden');
       }
-      lastScroll = currentScroll;
+      ticking = false;
+    }
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(handleScroll);
+        ticking = true;
+      }
     });
   </script>
 </body>

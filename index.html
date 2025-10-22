@@ -46,6 +46,7 @@
       width: 90%;
       max-width: 600px;
       animation: fadeIn 900ms ease;
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
 
     .container::before {
@@ -136,11 +137,64 @@
     }
 
     footer{ font-size:12px; color:#555; margin-top:8px }
+
+    /* === Premium Intro Animation === */
+    #logo-intro {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 1;
+      transition: opacity 0.6s ease-in-out;
+    }
+
+    .intro-logo {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(4rem, 8vw, 6rem);
+      font-weight: 800;
+      color: #00e6e6;
+      letter-spacing: 2px;
+      opacity: 0;
+      transform: scale(0.96);
+      animation: logoFlash 1s ease-in-out forwards;
+    }
+
+    @keyframes logoFlash {
+      0% {
+        opacity: 0;
+        transform: scale(0.94);
+        filter: blur(4px);
+      }
+      40% {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1.04);
+        filter: blur(3px);
+      }
+    }
+
+    .container.hidden {
+      opacity: 0;
+      transform: translateY(40px);
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
 
   <canvas id="bg"></canvas>
+
+  <!-- ✅ Premium Logo Intro -->
+  <div id="logo-intro">
+    <span class="intro-logo">A</span>
+  </div>
 
   <div class="container">
     <div class="brand">AOLFS</div>
@@ -249,7 +303,7 @@
       renderer.render(scene, camera);
     }
 
-    // ✅ Step 2: Success Message Without Reload
+    // ✅ Form success message
     document.querySelector("form").addEventListener("submit", async (e) => {
       e.preventDefault();
       const form = e.target;
@@ -265,6 +319,28 @@
       } else {
         alert("❌ There was an error. Please try again later.");
       }
+    });
+
+    // === Intro Logo Animation ===
+    window.addEventListener('load', () => {
+      const intro = document.getElementById('logo-intro');
+      setTimeout(() => {
+        intro.style.opacity = '0';
+        setTimeout(() => intro.remove(), 600);
+      }, 900); // how long before fade-out starts
+    });
+
+    // === Scroll Fade Effect ===
+    const container = document.querySelector('.container');
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.scrollY;
+      if (currentScroll > lastScroll + 40) {
+        container.classList.add('hidden');
+      } else if (currentScroll < lastScroll - 40 || currentScroll <= 0) {
+        container.classList.remove('hidden');
+      }
+      lastScroll = currentScroll;
     });
   </script>
 </body>

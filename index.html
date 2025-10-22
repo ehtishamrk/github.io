@@ -44,21 +44,12 @@
       padding: 40px 30px;
       width: 90%;
       max-width: 600px;
-      transition: opacity 0.6s ease, transform 0.6s ease;
-      opacity: 0;
-      transform: translateY(30px);
-    }
-
-    .container.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .container.hidden {
+      transition: opacity 1s ease, transform 1s ease;
       opacity: 0;
       transform: translateY(40px);
-      pointer-events: none;
     }
+    .container.visible { opacity: 1; transform: translateY(0); }
+    .container.hidden { opacity: 0; transform: translateY(40px); pointer-events:none; }
 
     .brand {
       font-size:clamp(2rem,5vw,3rem);
@@ -67,50 +58,32 @@
       text-transform:uppercase;
       color:#00e6e6;
     }
-
     h1 { margin-top:10px; font-size:clamp(1rem,3vw,1.4rem); color:#bbb; }
     p { color:#999; margin:20px 0 20px; line-height:1.6; font-size:clamp(0.92rem,2.5vw,1rem) }
     .maintenance { color:#ccc; font-size:0.95em; margin-bottom:18px; display:block; }
 
     .email-box {
-      display:flex;
-      justify-content:center;
-      align-items:center;
+      display:flex; justify-content:center; align-items:center;
       background:rgba(255,255,255,0.03);
       border:1px solid rgba(255,255,255,0.06);
-      border-radius:50px;
-      padding:6px;
-      max-width:380px;
-      margin:0 auto 20px;
-      gap:8px;
-      flex-wrap:wrap;
+      border-radius:50px; padding:6px;
+      max-width:380px; margin:0 auto 20px;
+      gap:8px; flex-wrap:wrap;
     }
 
     input {
-      background:transparent;
-      border:none;
-      outline:none;
-      color:#fff;
-      flex:1;
-      min-width:180px;
-      padding:12px 15px;
-      font-size:14px;
+      background:transparent; border:none; outline:none;
+      color:#fff; flex:1; min-width:180px;
+      padding:12px 15px; font-size:14px;
     }
     input::placeholder{ color:#666 }
     button {
       background:linear-gradient(45deg,#00ffc3,#0099ff);
-      border:none;
-      color:#000;
-      font-weight:600;
-      padding:12px 25px;
-      border-radius:30px;
-      cursor:pointer;
-      transition:all .3s ease;
+      border:none; color:#000; font-weight:600;
+      padding:12px 25px; border-radius:30px;
+      cursor:pointer; transition:all .3s ease;
     }
-    button:hover {
-      transform:translateY(-1px);
-      opacity:0.9;
-    }
+    button:hover { transform:translateY(-1px); opacity:0.9; }
 
     .ventures {
       font-weight:600;
@@ -118,16 +91,10 @@
       -webkit-background-clip:text;
       -webkit-text-fill-color:transparent;
     }
-
-    .project-line{
-      font-size:clamp(0.8rem,2vw,0.9rem);
-      color:#888;
-      margin-top:20px;
-    }
-
+    .project-line{ font-size:clamp(0.8rem,2vw,0.9rem); color:#888; margin-top:20px; }
     footer{ font-size:12px; color:#555; margin-top:8px }
 
-    /* === Premium Intro Sequence === */
+    /* === APPLE-STYLE INTRO SEQUENCE === */
     #intro-sequence {
       position: fixed;
       inset: 0;
@@ -136,7 +103,7 @@
       align-items: center;
       justify-content: center;
       z-index: 9999;
-      perspective: 1200px;
+      perspective: 1400px;
       overflow: hidden;
     }
 
@@ -147,25 +114,14 @@
       font-size: clamp(4rem, 8vw, 6rem);
       opacity: 0;
       transform: translateZ(-300px) scale(0.8);
-      animation: reveal3D 1s ease forwards;
+      animation: revealApple 1.4s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
     }
 
-    @keyframes reveal3D {
-      0% {
-        opacity: 0;
-        transform: translateZ(-300px) scale(0.8);
-        filter: blur(8px);
-      }
-      40% {
-        opacity: 1;
-        transform: translateZ(0) scale(1);
-        filter: blur(0);
-      }
-      100% {
-        opacity: 0;
-        transform: translateZ(300px) scale(1.1);
-        filter: blur(6px);
-      }
+    @keyframes revealApple {
+      0% { opacity: 0; transform: translateZ(-300px) scale(0.8) translateY(20px); filter: blur(10px); }
+      30% { opacity: 1; transform: translateZ(0) scale(1) translateY(0); filter: blur(0); }
+      70% { opacity: 1; transform: translateZ(50px) scale(1.02); }
+      100% { opacity: 0; transform: translateZ(300px) scale(1.06); filter: blur(8px); }
     }
   </style>
 </head>
@@ -173,7 +129,7 @@
 
   <canvas id="bg"></canvas>
 
-  <!-- Premium 3-step intro -->
+  <!-- Premium Apple-style intro -->
   <div id="intro-sequence">
     <span class="intro-word" id="intro-word">A</span>
   </div>
@@ -215,38 +171,26 @@
       const positions = new Float32Array(starQty * 3);
       const colors = new Float32Array(starQty * 3);
       const color = new THREE.Color();
-      const palette = [
-        "#c7e3ff","#a8d8ff","#8ecfff","#b0f0ff","#dbfaff",
-        "#9ad5ff","#6fb3ff","#f4faff","#eaf6ff","#ffffff"
-      ];
+      const palette = ["#c7e3ff","#a8d8ff","#8ecfff","#b0f0ff","#dbfaff","#ffffff"];
 
       for (let i = 0; i < starQty; i++) {
         const r = 600 + Math.random() * 800;
         const theta = Math.random() * 2 * Math.PI;
         const phi = Math.acos(2 * Math.random() - 1);
-
         positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
         positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
         positions[i * 3 + 2] = r * Math.cos(phi);
-
         color.set(palette[Math.floor(Math.random() * palette.length)]);
-        colors[i * 3] = color.r;
-        colors[i * 3 + 1] = color.g;
-        colors[i * 3 + 2] = color.b;
+        colors[i * 3] = color.r; colors[i * 3 + 1] = color.g; colors[i * 3 + 2] = color.b;
       }
 
       geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
       geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
       const material = new THREE.PointsMaterial({
-        size: 2.6,
-        vertexColors: true,
-        transparent: true,
-        opacity: 0.9,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false
+        size: 2.6, vertexColors: true, transparent: true, opacity: 0.9,
+        blending: THREE.AdditiveBlending, depthWrite: false
       });
-
       stars = new THREE.Points(geometry, material);
       scene.add(stars);
 
@@ -259,49 +203,45 @@
 
     function animate() {
       requestAnimationFrame(animate);
-      stars.rotation.y += 0.0006;
-      stars.rotation.x += 0.00025;
+      stars.rotation.y += 0.0005;
+      stars.rotation.x += 0.0002;
       renderer.render(scene, camera);
     }
 
-    // === INTRO SEQUENCE LOGIC ===
-    const words = ["A", "For", "AI"];
+    // === APPLE-STYLE INTRO LOGIC ===
+    const words = ["A", "For", "Ai"];
     const intro = document.getElementById("intro-sequence");
     const wordEl = document.getElementById("intro-word");
     const container = document.querySelector(".container");
 
     let index = 0;
-
     function playSequence() {
       if (index < words.length) {
         wordEl.textContent = words[index];
         wordEl.style.animation = "none";
         void wordEl.offsetWidth;
-        wordEl.style.animation = "reveal3D 1s ease forwards";
+        wordEl.style.animation = "revealApple 1.4s cubic-bezier(0.25, 0.1, 0.25, 1) forwards";
         index++;
-        setTimeout(playSequence, 950);
+        setTimeout(playSequence, 1300);
       } else {
         setTimeout(() => {
+          intro.style.transition = "opacity 1s ease";
           intro.style.opacity = "0";
           setTimeout(() => {
             intro.remove();
             container.classList.add("visible");
-          }, 800);
-        }, 600);
+          }, 1000);
+        }, 700);
       }
     }
-
     window.addEventListener("load", playSequence);
 
     // === SCROLL FADE EFFECT ===
     let lastScroll = 0;
     window.addEventListener("scroll", () => {
       const currentScroll = window.scrollY;
-      if (currentScroll > lastScroll + 30) {
-        container.classList.add("hidden");
-      } else if (currentScroll < lastScroll - 30 || currentScroll <= 0) {
-        container.classList.remove("hidden");
-      }
+      if (currentScroll > lastScroll + 30) container.classList.add("hidden");
+      else if (currentScroll < lastScroll - 30 || currentScroll <= 0) container.classList.remove("hidden");
       lastScroll = currentScroll;
     });
   </script>

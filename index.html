@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>AOLFS | Advanced Operations, Logistics & Financial Solutions</title>
-
   <!-- Teal 'A' favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,
   <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
@@ -13,28 +12,34 @@
           font-family='Inter, sans-serif' font-size='60' font-weight='800'
           fill='%2300e6e6'>A</text>
   </svg>">
-
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+
     html, body {
-      height: 100%; width: 100%;
+      height: 100%;
+      width: 100%;
       background: #000;
       color: #fff;
       overflow: hidden;
-      display: flex; align-items: center; justify-content: center; flex-direction: column;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
     }
 
-    /* === BACKGROUND === */
+    /* --- BACKGROUND --- */
     #bg {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
       z-index: 0;
       background: radial-gradient(ellipse at center, #050505 0%, #000 80%);
+      opacity: 0;
+      transition: opacity 2s ease;
     }
 
-    /* === MAIN CONTAINER === */
+    /* --- CONTAINER (Main Website) --- */
     .container {
       position: relative;
       z-index: 2;
@@ -42,13 +47,16 @@
       background: rgba(0, 0, 0, 0.85);
       border-radius: 20px;
       padding: 40px 30px;
-      width: 90%; max-width: 600px;
+      width: 90%;
+      max-width: 600px;
       opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 1s cubic-bezier(0.83, 0, 0.17, 1), transform 1s cubic-bezier(0.83, 0, 0.17, 1);
+      transform: translateY(60px);
+      transition: opacity 1.5s ease, transform 1.5s ease;
     }
+
     .container.visible {
-      opacity: 1; transform: translateY(0);
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .container::before {
@@ -56,100 +64,126 @@
       position: absolute;
       inset: -2px;
       border-radius: 22px;
-      background: linear-gradient(135deg, rgba(0,255,200,0.4), rgba(0,255,255,0.05), rgba(0,200,255,0.3));
+      background: linear-gradient(135deg, rgba(0,255,200,0.35), rgba(0,255,255,0.1), rgba(0,200,255,0.25));
       filter: blur(12px);
       z-index: -1;
-      opacity: 0.6;
+      opacity: 0.5;
       animation: pulse 6s ease-in-out infinite alternate;
     }
 
     @keyframes pulse {
-      0% { opacity: 0.45; filter: blur(10px); }
-      100% { opacity: 0.75; filter: blur(15px); }
+      0% { opacity: 0.4; filter: blur(10px); }
+      100% { opacity: 0.7; filter: blur(15px); }
     }
 
     .brand {
-      font-size: clamp(2rem,5vw,3rem);
+      font-size: clamp(2rem, 5vw, 3rem);
       font-weight: 800;
       letter-spacing: 3px;
       text-transform: uppercase;
       color: #00e6e6;
     }
-    h1 { margin-top: 10px; font-size: clamp(1rem,3vw,1.4rem); color: #bbb; }
-    p { color: #999; margin: 20px 0; line-height: 1.6; font-size: clamp(0.92rem,2.5vw,1rem); }
+
+    h1 { margin-top: 10px; font-size: clamp(1rem, 3vw, 1.4rem); color: #bbb; }
+    p { color: #999; margin: 20px 0; line-height: 1.6; font-size: clamp(0.92rem, 2.5vw, 1rem); }
     .maintenance { color: #ccc; font-size: 0.95em; margin-bottom: 18px; display: block; }
 
     .email-box {
-      display: flex; justify-content: center; align-items: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.06);
       border-radius: 50px;
-      padding: 6px; max-width: 380px; margin: 0 auto 20px;
-      gap: 8px; flex-wrap: wrap;
+      padding: 6px;
+      max-width: 380px;
+      margin: 0 auto 20px;
+      gap: 8px;
+      flex-wrap: wrap;
     }
+
     input {
-      background: transparent; border: none; outline: none; color: #fff;
-      flex: 1; min-width: 180px; padding: 12px 15px; font-size: 14px;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      flex: 1;
+      min-width: 180px;
+      padding: 12px 15px;
+      font-size: 14px;
     }
+
     input::placeholder { color: #666; }
+
     button {
-      background: linear-gradient(45deg,#00ffc3,#0099ff);
-      border: none; color: #000; font-weight: 600;
-      padding: 12px 25px; border-radius: 30px;
-      cursor: pointer; transition: all .3s ease;
+      background: linear-gradient(45deg, #00ffc3, #0099ff);
+      border: none;
+      color: #000;
+      font-weight: 600;
+      padding: 12px 25px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
     }
-    button:hover { transform: translateY(-1px); opacity: 0.9; }
+
+    button:hover {
+      transform: translateY(-1px);
+      opacity: 0.9;
+    }
 
     .ventures {
       font-weight: 600;
-      background: linear-gradient(45deg,#00ffc3,#0099ff);
+      background: linear-gradient(45deg, #00ffc3, #0099ff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .project-line { font-size: clamp(0.8rem,2vw,0.9rem); color: #888; margin-top: 20px; }
+
+    .project-line { font-size: clamp(0.8rem, 2vw, 0.9rem); color: #888; margin-top: 20px; }
     footer { font-size: 12px; color: #555; margin-top: 8px; }
 
-    /* === CINEMATIC INTRO === */
+    /* --- CINEMATIC INTRO --- */
     #intro {
       position: fixed;
       inset: 0;
       background: #000;
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       z-index: 9999;
-      overflow: hidden;
-    }
-    .intro-text {
-      font-weight: 800;
-      color: #00e6e6;
-      font-size: clamp(3rem, 7vw, 6rem);
-      letter-spacing: 2px;
-      opacity: 0;
-      transform: scale(0.96);
-      animation: introSequence 3s forwards cubic-bezier(0.83, 0, 0.17, 1);
     }
 
-    @keyframes introSequence {
-      0% { opacity: 0; transform: scale(0.9); filter: blur(8px); content: "A"; }
-      10% { opacity: 1; transform: scale(1); filter: blur(0); }
-      30% { opacity: 0; transform: scale(1.04); filter: blur(4px); }
-      31% { opacity: 0; }
-      40% { opacity: 1; transform: scale(1); filter: blur(0); content: "For"; }
-      60% { opacity: 0; transform: scale(1.04); filter: blur(4px); }
-      61% { opacity: 0; }
-      70% { opacity: 1; transform: scale(1); filter: blur(0); content: "Ai"; }
-      100% { opacity: 0; transform: scale(1.06); filter: blur(6px); }
+    .intro-word {
+      font-weight: 800;
+      font-size: clamp(3.5rem, 8vw, 6rem);
+      color: #e0f7ff;
+      opacity: 0;
+      transform: scale(0.96) translateY(20px);
+      letter-spacing: 1px;
+      transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .intro-word.visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    .intro-word.fade-out {
+      opacity: 0;
+      transform: scale(1.04) translateY(-20px);
     }
   </style>
 </head>
-
 <body>
+
   <canvas id="bg"></canvas>
 
+  <!-- CINEMATIC INTRO -->
   <div id="intro">
-    <span class="intro-text" id="introText">A</span>
+    <span class="intro-word" id="introWord">A</span>
   </div>
 
-  <div class="container" id="mainContent">
+  <!-- MAIN CONTENT -->
+  <div class="container">
     <div class="brand">AOLFS</div>
     <h1>Advanced Operations, Logistics & Financial Solutions</h1>
     <p>We’re shaping the future of how businesses scale, using AI, automation, and intelligent workflows to power the next generation of operations, logistics, and finance.</p>
@@ -165,18 +199,17 @@
     <footer>© 2025 AOLFS. All rights reserved.</footer>
   </div>
 
+  <!-- THREE JS -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
   <script>
     // === STARFIELD ===
     let scene, camera, renderer, stars;
-    init();
-    animate();
-
-    function init() {
+    function initStars() {
       const canvas = document.getElementById("bg");
       renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.setPixelRatio(window.devicePixelRatio);
+
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000);
       camera.position.z = 1000;
@@ -186,7 +219,6 @@
       const positions = new Float32Array(starQty * 3);
       const colors = new Float32Array(starQty * 3);
       const color = new THREE.Color();
-
       const palette = [
         "#bf8699","#654455","#4c3348","#4e3650","#7e5468","#73566a",
         "#946c84","#a06f84","#6a4f62","#b8899b","#61495f","#a3798f",
@@ -199,92 +231,73 @@
         const r = 600 + Math.random() * 800;
         const theta = Math.random() * 2 * Math.PI;
         const phi = Math.acos(2 * Math.random() - 1);
-        positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-        positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-        positions[i * 3 + 2] = r * Math.cos(phi);
+        positions[i*3] = r * Math.sin(phi) * Math.cos(theta);
+        positions[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
+        positions[i*3+2] = r * Math.cos(phi);
+
         color.set(palette[Math.floor(Math.random() * palette.length)]);
-        colors[i * 3] = color.r;
-        colors[i * 3 + 1] = color.g;
-        colors[i * 3 + 2] = color.b;
+        colors[i*3] = color.r;
+        colors[i*3+1] = color.g;
+        colors[i*3+2] = color.b;
       }
 
       geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
       geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-      const material = new THREE.PointsMaterial({
-        size: 2.8,
-        vertexColors: true,
-        transparent: true,
-        opacity: 1.0,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false
-      });
-
+      const material = new THREE.PointsMaterial({ size: 2.8, vertexColors: true, transparent: true, blending: THREE.AdditiveBlending });
       stars = new THREE.Points(geometry, material);
       scene.add(stars);
 
-      window.addEventListener("resize", onWindowResize);
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
     }
 
-    function onWindowResize() {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    }
-
-    function animate() {
-      requestAnimationFrame(animate);
+    function animateStars() {
+      requestAnimationFrame(animateStars);
       if (stars) {
-        stars.rotation.y += 0.0006;
-        stars.rotation.x += 0.00025;
+        stars.rotation.y += 0.0005;
+        stars.rotation.x += 0.0002;
+        renderer.render(scene, camera);
       }
-      renderer.render(scene, camera);
     }
 
     // === INTRO SEQUENCE ===
-    const introText = document.getElementById('introText');
-    const mainContent = document.getElementById('mainContent');
-    const intro = document.getElementById('intro');
-
+    const intro = document.getElementById("intro");
+    const introWord = document.getElementById("introWord");
+    const container = document.querySelector(".container");
+    const bg = document.getElementById("bg");
     const sequence = ["A", "For", "Ai"];
-    let i = 0;
+    let idx = 0;
 
-    function playIntro() {
-      const durations = [800, 800, 800]; // milliseconds per stage
-      function nextStage() {
-        if (i < sequence.length) {
-          introText.textContent = sequence[i];
-          introText.animate([
-            { opacity: 0, transform: "scale(0.9) translateY(10px)", filter: "blur(8px)" },
-            { opacity: 1, transform: "scale(1) translateY(0)", filter: "blur(0)" },
-            { opacity: 0, transform: "scale(1.04) translateY(-10px)", filter: "blur(6px)" }
-          ], {
-            duration: durations[i],
-            easing: "cubic-bezier(0.83, 0, 0.17, 1)",
-            fill: "forwards"
-          });
-          setTimeout(() => { i++; nextStage(); }, durations[i]);
+    function nextWord() {
+      if (idx > 0) introWord.classList.add("fade-out");
+      setTimeout(() => {
+        introWord.classList.remove("fade-out");
+        introWord.textContent = sequence[idx];
+        introWord.classList.add("visible");
+        idx++;
+        if (idx < sequence.length) {
+          setTimeout(nextWord, 1300);
         } else {
-          intro.style.transition = "opacity 0.8s ease";
-          intro.style.opacity = 0;
+          // End intro
           setTimeout(() => {
-            intro.remove();
-            mainContent.classList.add("visible");
-          }, 800);
+            intro.style.transition = "opacity 1.5s ease";
+            intro.style.opacity = 0;
+            bg.style.opacity = 1;
+            initStars(); animateStars();
+            setTimeout(() => {
+              intro.remove();
+              container.classList.add("visible");
+            }, 1600);
+          }, 1400);
         }
-      }
-      nextStage();
+      }, 600);
     }
-    window.addEventListener('load', playIntro);
 
-    // === FORM ===
-    document.querySelector("form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const form = e.target;
-      const data = new FormData(form);
-      const response = await fetch(form.action, { method: form.method, body: data, headers: { 'Accept': 'application/json' } });
-      if (response.ok) { alert("✅ Thanks! You'll be notified when we relaunch."); form.reset(); }
-      else { alert("❌ There was an error. Please try again later."); }
+    window.addEventListener("load", () => {
+      setTimeout(nextWord, 400);
     });
   </script>
 </body>

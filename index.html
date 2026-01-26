@@ -1,2053 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AOLFS - Advanced Operations, Logistics, and Financial Services</title>
-    <meta name="description" content="AOLFS provides comprehensive business solutions including free system audits to help entrepreneurs grow exponentially. Specializing in operations, logistics, and finances.">
-    <meta name="keywords" content="business consulting, operations optimization, logistics management, financial services, free system audits, business growth">
-    <meta property="og:title" content="AOLFS - Empowering Business Growth">
-    <meta property="og:description" content="Free audits and expert solutions for operations, logistics, and finances.">
-    <meta property="og:image" content="/assets/og-image.jpg">
-    <meta property="og:url" content="https://www.aolfs.com">
-    <meta name="twitter:card" content="summary_large_image">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%2300366C'/><text x='50' y='70' font-size='70' text-anchor='middle' fill='%23FFFFFF' font-family='serif'>A</text></svg>">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        /* Root Variables for Theme Consistency */
-        :root {
-            --primary-blue: #00366C; /* Deep professional blue for trust */
-            --accent-blue: #00AEEF; /* Vibrant blue for highlights and CTAs */
-            --neutral-gray: #F8F9FA; /* Light background for sections */
-            --text-dark: #1A202C; /* Primary text color for readability */
-            --text-muted: #4A5568; /* Secondary text for subtitles */
-            --bg-white: #FFFFFF; /* Clean white backgrounds */
-            --bg-light: #F0F4F8; /* Subtle light blue-gray for accents */
-            --success-green: #38A169; /* For positive feedback */
-            --warning-yellow: #ECC94B; /* For alerts */
-            --error-red: #E53E3E; /* For errors */
-            --border-light: #E2E8F0; /* Subtle borders */
-            --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            --transition-fast: 0.2s ease-in-out;
-            --transition-medium: 0.3s ease-in-out;
-            --container-width: 1280px; /* Wide but contained for large screens */
-            --spacing-xs: 0.5rem;
-            --spacing-sm: 1rem;
-            --spacing-md: 1.5rem;
-            --spacing-lg: 2rem;
-            --spacing-xl: 3rem;
-            --spacing-xxl: 4rem;
-            --font-size-base: 1rem;
-            --font-size-sm: 0.875rem;
-            --font-size-lg: 1.125rem;
-            --font-size-xl: 1.5rem;
-            --font-size-2xl: 2rem;
-            --font-size-3xl: 2.5rem;
-            --font-size-4xl: 3rem;
-            --border-radius-sm: 0.25rem;
-            --border-radius-md: 0.5rem;
-            --border-radius-lg: 1rem;
-            --gradient-primary: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-blue) 100%);
-        }
-
-        /* Dark Mode Variables */
-        body.dark {
-            --primary-blue: #1A202C; /* Darker for night mode */
-            --accent-blue: #63B3ED;
-            --neutral-gray: #2D3748;
-            --text-dark: #EDF2F7;
-            --text-muted: #A0AEC0;
-            --bg-white: #1A202C;
-            --bg-light: #2D3748;
-            --border-light: #4A5568;
-        }
-
-        /* Reset and Base Styles */
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            font-size: var(--font-size-base);
-        }
-
-        body {
-            font-family: var(--font-family);
-            color: var(--text-dark);
-            background: var(--bg-white);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            overflow-x: hidden;
-        }
-
-        a {
-            color: var(--accent-blue);
-            text-decoration: none;
-            transition: color var(--transition-fast);
-        }
-
-        a:hover {
-            color: darken(var(--accent-blue), 10%);
-        }
-
-        button {
-            cursor: pointer;
-            transition: background var(--transition-medium);
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        /* Utility Classes */
-        .container {
-            max-width: var(--container-width);
-            margin: 0 auto;
-            padding: 0 var(--spacing-md);
-        }
-
-        .flex {
-            display: flex;
-        }
-
-        .flex-col {
-            flex-direction: column;
-        }
-
-        .items-center {
-            align-items: center;
-        }
-
-        .justify-center {
-            justify-content: center;
-        }
-
-        .justify-between {
-            justify-content: space-between;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .mx-auto {
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .my-md {
-            margin-top: var(--spacing-md);
-            margin-bottom: var(--spacing-md);
-        }
-
-        .py-xl {
-            padding-top: var(--spacing-xl);
-            padding-bottom: var(--spacing-xl);
-        }
-
-        .bg-gradient-primary {
-            background: var(--gradient-primary);
-        }
-
-        .shadow-soft {
-            box-shadow: var(--shadow-soft);
-        }
-
-        .rounded-md {
-            border-radius: var(--border-radius-md);
-        }
-
-        .transition {
-            transition: var(--transition-medium);
-        }
-
-        /* Typography */
-        h1, .h1 {
-            font-size: var(--font-size-4xl);
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: var(--spacing-lg);
-        }
-
-        h2, .h2 {
-            font-size: var(--font-size-3xl);
-            font-weight: 700;
-            line-height: 1.3;
-            margin-bottom: var(--spacing-md);
-        }
-
-        h3, .h3 {
-            font-size: var(--font-size-2xl);
-            font-weight: 600;
-            line-height: 1.4;
-            margin-bottom: var(--spacing-sm);
-        }
-
-        p {
-            font-size: var(--font-size-lg);
-            color: var(--text-muted);
-            margin-bottom: var(--spacing-md);
-        }
-
-        .lead {
-            font-size: var(--font-size-xl);
-            font-weight: 300;
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: var(--spacing-sm) var(--spacing-lg);
-            font-weight: 600;
-            border-radius: var(--border-radius-md);
-            transition: var(--transition-medium);
-        }
-
-        .btn-primary {
-            background: var(--accent-blue);
-            color: var(--bg-white);
-        }
-
-        .btn-primary:hover {
-            background: darken(var(--accent-blue), 5%);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-soft);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            border: 2px solid var(--accent-blue);
-            color: var(--accent-blue);
-        }
-
-        .btn-secondary:hover {
-            background: var(--accent-blue);
-            color: var(--bg-white);
-        }
-
-        /* Header */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: var(--bg-white);
-            box-shadow: none;
-            transition: box-shadow var(--transition-medium);
-            z-index: 1000;
-        }
-
-        header.scrolled {
-            box-shadow: var(--shadow-soft);
-        }
-
-        .header-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 80px;
-        }
-
-        .logo {
-            font-size: var(--font-size-2xl);
-            font-weight: 800;
-            color: var(--primary-blue);
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: var(--spacing-lg);
-        }
-
-        nav a {
-            font-weight: 500;
-            color: var(--text-dark);
-            position: relative;
-        }
-
-        nav a:hover, nav a.active {
-            color: var(--accent-blue);
-        }
-
-        nav a.active::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--accent-blue);
-        }
-
-        .header-cta {
-            margin-left: var(--spacing-lg);
-        }
-
-        .mobile-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: var(--font-size-xl);
-            color: var(--primary-blue);
-        }
-
-        /* Hero */
-        .hero {
-            position: relative;
-            overflow: hidden;
-            padding: 12rem 0 8rem;
-            color: var(--bg-white);
-            text-align: center;
-        }
-
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient-primary);
-            z-index: -1;
-        }
-
-        .hero-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.3;
-            animation: float 20s infinite ease-in-out;
-        }
-
-        .hero-orb-1 {
-            width: 400px;
-            height: 400px;
-            background: rgba(255, 255, 255, 0.2);
-            top: -10%;
-            right: 10%;
-        }
-
-        .hero-orb-2 {
-            width: 300px;
-            height: 300px;
-            background: rgba(0, 0, 0, 0.1);
-            bottom: -15%;
-            left: 15%;
-            animation-delay: -5s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .hero h1 {
-            max-width: 800px;
-            margin: 0 auto var(--spacing-md);
-        }
-
-        .hero p {
-            max-width: 600px;
-            margin: 0 auto var(--spacing-lg);
-            font-size: var(--font-size-xl);
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        /* Sections General */
-        section {
-            padding: var(--spacing-xxl) 0;
-        }
-
-        .section-alternate {
-            background: var(--neutral-gray);
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: var(--spacing-xl);
-        }
-
-        /* About */
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--spacing-xl);
-            align-items: center;
-        }
-
-        .about-image {
-            position: relative;
-        }
-
-        .about-image img {
-            border-radius: var(--border-radius-lg);
-            box-shadow: var(--shadow-medium);
-            transition: transform var(--transition-medium);
-        }
-
-        .about-image:hover img {
-            transform: scale(1.02);
-        }
-
-        /* Services */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: var(--spacing-lg);
-        }
-
-        .service-card {
-            padding: var(--spacing-lg);
-            background: var(--bg-white);
-            border-radius: var(--border-radius-md);
-            box-shadow: var(--shadow-soft);
-            text-align: center;
-            transition: transform var(--transition-medium), box-shadow var(--transition-medium);
-        }
-
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .service-icon {
-            font-size: 3rem;
-            color: var(--accent-blue);
-            margin-bottom: var(--spacing-md);
-            transition: color var(--transition-fast);
-        }
-
-        .service-card:hover .service-icon {
-            color: var(--primary-blue);
-        }
-
-        /* Audits */
-        .audits-content {
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .audits-stats {
-            display: flex;
-            justify-content: center;
-            gap: var(--spacing-xl);
-            margin-top: var(--spacing-xl);
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: var(--font-size-3xl);
-            font-weight: 800;
-            color: var(--accent-blue);
-        }
-
-        .stat-label {
-            font-size: var(--font-size-sm);
-            color: var(--text-muted);
-        }
-
-        /* Testimonials */
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--spacing-lg);
-        }
-
-        .testimonial-card {
-            padding: var(--spacing-lg);
-            background: var(--bg-white);
-            border-radius: var(--border-radius-md);
-            box-shadow: var(--shadow-soft);
-            position: relative;
-        }
-
-        .testimonial-quote {
-            font-size: 3rem;
-            color: var(--neutral-gray);
-            position: absolute;
-            top: 0;
-            left: var(--spacing-md);
-        }
-
-        .testimonial-text {
-            font-style: italic;
-            color: var(--text-muted);
-            margin-bottom: var(--spacing-md);
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-        }
-
-        .author-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--neutral-gray);
-        }
-
-        .author-name {
-            font-weight: 600;
-        }
-
-        .author-role {
-            font-size: var(--font-size-sm);
-            color: var(--text-muted);
-        }
-
-        /* Contact */
-        .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .form-group {
-            margin-bottom: var(--spacing-md);
-        }
-
-        .form-label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .form-input, .form-textarea {
-            width: 100%;
-            padding: var(--spacing-sm);
-            border: 1px solid var(--border-light);
-            border-radius: var(--border-radius-sm);
-            transition: border-color var(--transition-fast);
-        }
-
-        .form-input:focus, .form-textarea:focus {
-            border-color: var(--accent-blue);
-        }
-
-        .form-textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--primary-blue);
-            color: var(--bg-white);
-            padding: var(--spacing-xxl) 0 var(--spacing-lg);
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: var(--spacing-xl);
-        }
-
-        .footer-logo {
-            font-size: var(--font-size-2xl);
-            font-weight: 800;
-            margin-bottom: var(--spacing-md);
-        }
-
-        .footer-desc {
-            opacity: 0.8;
-        }
-
-        .footer-title {
-            font-size: var(--font-size-lg);
-            font-weight: 600;
-            margin-bottom: var(--spacing-md);
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.8);
-            transition: color var(--transition-fast);
-        }
-
-        .footer-links a:hover {
-            color: var(--bg-white);
-        }
-
-        .footer-social {
-            display: flex;
-            gap: var(--spacing-md);
-            margin-top: var(--spacing-md);
-        }
-
-        .footer-social a {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1.25rem;
-            transition: color var(--transition-fast);
-        }
-
-        .footer-social a:hover {
-            color: var(--bg-white);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: var(--spacing-lg);
-            text-align: center;
-            opacity: 0.8;
-            font-size: var(--font-size-sm);
-        }
-
-        /* Modals */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity var(--transition-medium);
-            z-index: 2000;
-        }
-
-        .modal-overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal {
-            background: var(--bg-white);
-            padding: var(--spacing-xl);
-            border-radius: var(--border-radius-lg);
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-            transform: scale(0.95);
-            opacity: 0;
-            transition: transform var(--transition-medium), opacity var(--transition-medium);
-        }
-
-        .modal-overlay.show .modal {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: var(--spacing-md);
-            right: var(--spacing-md);
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: color var(--transition-fast);
-        }
-
-        .modal-close:hover {
-            color: var(--text-dark);
-        }
-
-        .modal-title {
-            font-size: var(--font-size-2xl);
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .modal-subtitle {
-            color: var(--text-muted);
-            margin-bottom: var(--spacing-lg);
-        }
-
-        /* Cookie Consent */
-        .cookie-consent {
-            position: fixed;
-            bottom: var(--spacing-lg);
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--bg-white);
-            padding: var(--spacing-md) var(--spacing-lg);
-            border-radius: var(--border-radius-md);
-            box-shadow: var(--shadow-medium);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-md);
-            max-width: 800px;
-            z-index: 1500;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity var(--transition-medium), transform var(--transition-medium);
-        }
-
-        .cookie-consent.show {
-            opacity: 1;
-            transform: translateY(0) translateX(-50%);
-        }
-
-        .cookie-icon i {
-            font-size: 2rem;
-            color: var(--accent-blue);
-        }
-
-        .cookie-text h4 {
-            font-size: var(--font-size-lg);
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .cookie-text p {
-            font-size: var(--font-size-sm);
-        }
-
-        .cookie-actions {
-            display: flex;
-            gap: var(--spacing-sm);
-        }
-
-        /* Scroll Progress */
-        .scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 4px;
-            background: var(--accent-blue);
-            width: 0;
-            z-index: 1100;
-            transition: width 0.1s linear;
-        }
-
-        /* Preloader */
-        .preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--primary-blue);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 3000;
-            transition: opacity 0.5s ease;
-        }
-
-        .preloader.complete {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .preloader-content {
-            color: var(--bg-white);
-            font-size: var(--font-size-2xl);
-            font-weight: 700;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* Noise Overlay for Subtle Texture */
-        .noise-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-            opacity: 0.02;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        /* Reveal Animations */
-        .reveal {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity var(--transition-medium), transform var(--transition-medium);
-        }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Media Queries for Responsiveness */
-        @media (max-width: 1024px) {
-            .container {
-                padding: 0 var(--spacing-sm);
-            }
-
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .testimonials-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .about-content {
-                grid-template-columns: 1fr;
-            }
-
-            .hero {
-                padding: 10rem 0 6rem;
-            }
-
-            h1 {
-                font-size: var(--font-size-3xl);
-            }
-
-            .header-container {
-                height: 70px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            nav ul {
-                display: none;
-            }
-
-            .mobile-toggle {
-                display: block;
-            }
-
-            .mobile-menu {
-                position: absolute;
-                top: 70px;
-                left: 0;
-                width: 100%;
-                background: var(--bg-white);
-                padding: var(--spacing-lg);
-                box-shadow: var(--shadow-medium);
-                display: none;
-            }
-
-            .mobile-menu.open {
-                display: block;
-            }
-
-            .mobile-menu ul {
-                list-style: none;
-                display: flex;
-                flex-direction: column;
-                gap: var(--spacing-md);
-            }
-
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .testimonials-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .hero h1 {
-                font-size: var(--font-size-2xl);
-            }
-
-            .hero p {
-                font-size: var(--font-size-lg);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .cookie-consent {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .cookie-actions {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .cookie-actions button {
-                width: 100%;
-                margin-bottom: var(--spacing-sm);
-            }
-        }
-
-        /* Accessibility Enhancements */
-        :focus-visible {
-            outline: 2px solid var(--accent-blue);
-            outline-offset: 2px;
-        }
-
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
-        /* More Extended CSS for Line Count */
-        /* Button Hover Effects */
-        .btn:hover {
-            box-shadow: 0 0 0 4px rgba(var(--accent-blue), 0.1);
-        }
-
-        /* Card Hover */
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--accent-blue);
-            transform: scaleX(0);
-            transition: transform var(--transition-fast);
-        }
-
-        .service-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        /* Input Focus Effects */
-        .form-input:focus {
-            box-shadow: 0 0 0 4px rgba(var(--accent-blue), 0.1);
-        }
-
-        /* Scrollbar Styling */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--neutral-gray);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent-blue);
-            border-radius: 4px;
-        }
-
-        /* Selection Color */
-        ::selection {
-            background: var(--accent-blue);
-            color: var(--bg-white);
-        }
-
-        /* Placeholder Color */
-        ::placeholder {
-            color: var(--text-muted);
-            opacity: 0.7;
-        }
-
-        /* Disabled State */
-        [disabled] {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* Print Styles */
-        @media print {
-            body {
-                color: #000;
-                background: #fff;
-            }
-
-            .no-print {
-                display: none;
-            }
-
-            a {
-                color: #000;
-            }
-        }
-
-        /* High Contrast Mode */
-        @media (prefers-contrast: high) {
-            :root {
-                --text-dark: #000;
-                --text-muted: #333;
-                --bg-white: #fff;
-                --border-light: #000;
-            }
-        }
-
-        /* Reduced Motion */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                transition: none !important;
-                animation: none !important;
-            }
-        }
-
-        /* Additional Components for Completeness */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: var(--spacing-lg);
-            margin-top: var(--spacing-xl);
-        }
-
-        .stat-card {
-            text-align: center;
-            padding: var(--spacing-lg);
-            background: var(--bg-light);
-            border-radius: var(--border-radius-md);
-        }
-
-        .stat-icon {
-            font-size: 2.5rem;
-            color: var(--accent-blue);
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .stat-value {
-            font-size: var(--font-size-3xl);
-            font-weight: 800;
-        }
-
-        .stat-desc {
-            font-size: var(--font-size-sm);
-            color: var(--text-muted);
-        }
-
-        .client-logos {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: var(--spacing-xl);
-            margin-top: var(--spacing-xl);
-        }
-
-        .client-logo {
-            max-width: 150px;
-            opacity: 0.8;
-            transition: opacity var(--transition-fast);
-        }
-
-        .client-logo:hover {
-            opacity: 1;
-        }
-
-        .case-study {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--spacing-xl);
-            margin-bottom: var(--spacing-xl);
-        }
-
-        .case-image {
-            border-radius: var(--border-radius-lg);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .case-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .case-title {
-            font-size: var(--font-size-2xl);
-            margin-bottom: var(--spacing-md);
-        }
-
-        .case-desc {
-            margin-bottom: var(--spacing-md);
-        }
-
-        .case-cta {
-            width: fit-content;
-        }
-
-        /* FAQ Accordion */
-        .faq-item {
-            border-bottom: 1px solid var(--border-light);
-            margin-bottom: var(--spacing-md);
-        }
-
-        .faq-question {
-            background: none;
-            border: none;
-            width: 100%;
-            text-align: left;
-            font-weight: 600;
-            font-size: var(--font-size-lg);
-            padding: var(--spacing-md) 0;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .faq-question::after {
-            content: '\f067';
-            font-family: "Font Awesome 6 Free";
-            position: absolute;
-            right: 0;
-            transition: transform var(--transition-fast);
-        }
-
-        .faq-item.open .faq-question::after {
-            content: '\f068';
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height var(--transition-medium);
-        }
-
-        .faq-item.open .faq-answer {
-            max-height: 500px; /* Adjust based on content */
-            padding-bottom: var(--spacing-md);
-        }
-
-        /* Blog Card */
-        .blog-card {
-            background: var(--bg-white);
-            border-radius: var(--border-radius-md);
-            box-shadow: var(--shadow-soft);
-            overflow: hidden;
-            transition: transform var(--transition-medium);
-        }
-
-        .blog-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .blog-image {
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .blog-content {
-            padding: var(--spacing-lg);
-        }
-
-        .blog-title {
-            font-size: var(--font-size-xl);
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .blog-excerpt {
-            color: var(--text-muted);
-            margin-bottom: var(--spacing-md);
-        }
-
-        .blog-meta {
-            font-size: var(--font-size-sm);
-            color: var(--text-muted);
-            display: flex;
-            gap: var(--spacing-sm);
-        }
-
-        /* Legal Content */
-        .legal-content h2 {
-            font-size: var(--font-size-2xl);
-            margin-top: var(--spacing-xl);
-            margin-bottom: var(--spacing-md);
-        }
-
-        .legal-content h3 {
-            font-size: var(--font-size-xl);
-            margin-top: var(--spacing-lg);
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .legal-content ul {
-            list-style-type: disc;
-            padding-left: var(--spacing-lg);
-            margin-bottom: var(--spacing-md);
-        }
-
-        .legal-content li {
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .legal-update {
-            text-align: right;
-            font-size: var(--font-size-sm);
-            color: var(--text-muted);
-            margin-bottom: var(--spacing-lg);
-        }
-
-        /* To reach 5000 lines, add more detailed CSS for variants, states, etc. */
-        /* Example: Button Sizes */
-        .btn-sm {
-            padding: var(--spacing-xs) var(--spacing-md);
-            font-size: var(--font-size-sm);
-        }
-
-        .btn-lg {
-            padding: var(--spacing-md) var(--spacing-xl);
-            font-size: var(--font-size-lg);
-        }
-
-        /* Input Variants */
-        .form-input-sm {
-            padding: var(--spacing-xs);
-            font-size: var(--font-size-sm);
-        }
-
-        /* Grid Variants */
-        .grid-cols-1 {
-            grid-template-columns: 1fr;
-        }
-
-        .grid-cols-2 {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        .grid-cols-3 {
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        .grid-cols-4 {
-            grid-template-columns: repeat(4, 1fr);
-        }
-
-        /* Flex Wrap */
-        .flex-wrap {
-            flex-wrap: wrap;
-        }
-
-        /* Positions */
-        .relative {
-            position: relative;
-        }
-
-        .absolute {
-            position: absolute;
-        }
-
-        /* Overflow */
-        .overflow-hidden {
-            overflow: hidden;
-        }
-
-        /* Z-Index */
-        .z-10 {
-            z-index: 10;
-        }
-
-        .z-20 {
-            z-index: 20;
-        }
-
-        /* Opacity */
-        .opacity-50 {
-            opacity: 0.5;
-        }
-
-        .opacity-75 {
-            opacity: 0.75;
-        }
-
-        /* More utilities... (repeat patterns to extend) */
-        /* This can be extended with hundreds of utility classes like Tailwind to reach line count. */
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>AOLFS | Advanced Operations, Logistics & Financial Solutions</title>
+  <!-- Teal 'A' favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,
+  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+    <rect width='100' height='100' fill='black'/>
+    <text x='50%' y='57%' text-anchor='middle' dominant-baseline='middle'
+          font-family='Inter, sans-serif' font-size='60' font-weight='800'
+          fill='%2300e6e6'>A</text>
+  </svg>">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      background: #000;
+      color: #fff;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    /* --- BACKGROUND --- */
+    #bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      background: radial-gradient(ellipse at center, #050505 0%, #000 80%);
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+
+    /* --- CONTAINER (Main Website) --- */
+    .container {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.85);
+      border-radius: 20px;
+      padding: 40px 30px;
+      width: 90%;
+      max-width: 600px;
+      opacity: 0;
+      transform: translateY(60px);
+      transition: opacity 1.5s ease, transform 1.5s ease;
+    }
+
+    .container.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .container::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(0,255,200,0.35), rgba(0,255,255,0.1), rgba(0,200,255,0.25));
+      filter: blur(12px);
+      z-index: -1;
+      opacity: 0.5;
+      animation: pulse 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.4; filter: blur(10px); }
+      100% { opacity: 0.7; filter: blur(15px); }
+    }
+
+    .brand {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #00e6e6;
+    }
+
+    h1 { margin-top: 10px; font-size: clamp(1rem, 3vw, 1.4rem); color: #bbb; }
+    p { color: #999; margin: 20px 0; line-height: 1.6; font-size: clamp(0.92rem, 2.5vw, 1rem); }
+    .maintenance { color: #ccc; font-size: 0.95em; margin-bottom: 18px; display: block; }
+
+    .email-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 50px;
+      padding: 6px;
+      max-width: 380px;
+      margin: 0 auto 20px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      flex: 1;
+      min-width: 180px;
+      padding: 12px 15px;
+      font-size: 14px;
+    }
+
+    input::placeholder { color: #666; }
+
+    button {
+      background: linear-gradient(45deg, #00ffc3, #0099ff);
+      border: none;
+      color: #000;
+      font-weight: 600;
+      padding: 12px 25px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      opacity: 0.9;
+    }
+
+    .ventures {
+      font-weight: 600;
+      background: linear-gradient(45deg, #00ffc3, #0099ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .project-line { font-size: clamp(0.8rem, 2vw, 0.9rem); color: #888; margin-top: 20px; }
+    footer { font-size: 12px; color: #555; margin-top: 8px; }
+
+    /* --- CINEMATIC INTRO --- */
+    #intro {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .intro-word {
+      font-weight: 800;
+      font-size: clamp(3.5rem, 8vw, 6rem);
+      color: #e0f7ff;
+      opacity: 0;
+      transform: scale(0.96) translateY(20px);
+      letter-spacing: 1px;
+      transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .intro-word.visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    .intro-word.fade-out {
+      opacity: 0;
+      transform: scale(1.04) translateY(-20px);
+    }
+  </style>
 </head>
 <body>
-    <!-- Noise Overlay -->
-    <div class="noise-overlay"></div>
 
-    <!-- Preloader -->
-    <div class="preloader">
-        <div class="preloader-content">Loading AOLFS...</div>
-    </div>
+  <canvas id="bg"></canvas>
 
-    <!-- Scroll Progress -->
-    <div class="scroll-progress"></div>
+  <!-- CINEMATIC INTRO -->
+  <div id="intro">
+    <span class="intro-word" id="introWord">A</span>
+  </div>
 
-    <!-- Header -->
-    <header>
-        <div class="container header-container">
-            <a href="#" class="logo" onclick="showPage('home')">AOLFS</a>
-            <nav>
-                <ul>
-                    <li><a href="#" onclick="showPage('home')">Home</a></li>
-                    <li><a href="#" onclick="showPage('about')">About</a></li>
-                    <li><a href="#" onclick="showPage('services')">Services</a></li>
-                    <li><a href="#" onclick="showPage('audits')">Free Audits</a></li>
-                    <li><a href="#" onclick="showPage('blog')">Blog</a></li>
-                    <li><a href="#" onclick="showPage('faq')">FAQ</a></li>
-                    <li><a href="#" onclick="showPage('contact')">Contact</a></li>
-                </ul>
-            </nav>
-            <button class="btn btn-primary header-cta" onclick="openModal('audit')">Get Free Audit</button>
-            <button class="mobile-toggle" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
-        </div>
-        <nav class="mobile-menu" id="mobileMenu">
-            <ul>
-                <li><a href="#" onclick="showPage('home')">Home</a></li>
-                <li><a href="#" onclick="showPage('about')">About</a></li>
-                <li><a href="#" onclick="showPage('services')">Services</a></li>
-                <li><a href="#" onclick="showPage('audits')">Free Audits</a></li>
-                <li><a href="#" onclick="showPage('blog')">Blog</a></li>
-                <li><a href="#" onclick="showPage('faq')">FAQ</a></li>
-                <li><a href="#" onclick="showPage('contact')">Contact</a></li>
-                <li><button class="btn btn-primary" onclick="openModal('audit')">Get Free Audit</button></li>
-            </ul>
-        </nav>
-    </header>
+  <!-- MAIN CONTENT -->
+  <div class="container">
+    <div class="brand">AOLFS</div>
+    <h1>Advanced Operations, Logistics & Financial Solutions</h1>
+    <p>We’re shaping the future of how businesses scale, using AI, automation, and intelligent workflows to power the next generation of operations, logistics, and finance.</p>
+    <span class="maintenance">(This site is under maintenance.)</span>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Home Page -->
-        <section id="page-home" class="page active">
-            <!-- Hero -->
-            <section class="hero">
-                <div class="hero-bg"></div>
-                <div class="hero-orb hero-orb-1"></div>
-                <div class="hero-orb hero-orb-2"></div>
-                <div class="container">
-                    <h1 class="reveal">Unlock Exponential Growth with AOLFS</h1>
-                    <p class="lead reveal">Advanced Operations, Logistics, and Financial Services. Start with our free system audit to identify opportunities and implement strategies for sustainable success.</p>
-                    <button class="btn btn-primary btn-lg reveal" onclick="openModal('audit')">Request Free Audit Now</button>
-                </div>
-            </section>
+    <form action="https://formspree.io/f/xldpapap" method="POST" class="email-box">
+      <input type="email" name="email" placeholder="Get notified when we relaunch..." required>
+      <input type="text" name="_gotcha" style="display:none">
+      <button type="submit">Notify Me</button>
+    </form>
 
-            <!-- About -->
-            <section class="about section-alternate">
-                <div class="container">
-                    <h2 class="section-title reveal">Who We Are</h2>
-                    <div class="about-content reveal">
-                        <div class="about-text">
-                            <p>AOLFS is a premier consulting firm specializing in the full spectrum of business operations, logistics, and financial services. Our mission is to empower entrepreneurs and businesses to achieve exponential growth through data-driven insights and actionable recommendations.</p>
-                            <p>At the core of our offering is a complimentary system audit that analyzes your current processes, identifies bottlenecks, and suggests tailored improvements. With years of industry experience, we partner with you to build resilient, efficient, and profitable operations.</p>
-                            <button class="btn btn-secondary">Learn More About Our Approach</button>
-                        </div>
-                        <div class="about-image">
-                            <img src="https://placehold.co/600x400" alt="AOLFS team collaborating on business strategy">
-                        </div>
-                    </div>
-                </div>
-            </section>
+    <div class="project-line">A Project of <span class="ventures">ABCD Ventures</span></div>
+    <footer>© 2025 AOLFS. All rights reserved.</footer>
+  </div>
 
-            <!-- Services -->
-            <section class="services">
-                <div class="container">
-                    <h2 class="section-title reveal">Our Comprehensive Services</h2>
-                    <div class="services-grid reveal">
-                        <div class="service-card">
-                            <i class="fas fa-cogs service-icon"></i>
-                            <h3>Operations Optimization</h3>
-                            <p>Streamline workflows, reduce inefficiencies, and enhance productivity with our expert operations consulting.</p>
-                            <ul>
-                                <li>Process mapping and analysis</li>
-                                <li>Automation recommendations</li>
-                                <li>Performance metrics implementation</li>
-                                <li>Team training programs</li>
-                                <li>Continuous improvement frameworks</li>
-                            </ul>
-                        </div>
-                        <div class="service-card">
-                            <i class="fas fa-truck-fast service-icon"></i>
-                            <h3>Logistics Management</h3>
-                            <p>Optimize your supply chain from procurement to delivery, reducing costs and improving reliability.</p>
-                            <ul>
-                                <li>Supply chain auditing</li>
-                                <li>Inventory management systems</li>
-                                <li>Transportation optimization</li>
-                                <li>Vendor relationship management</li>
-                                <li>Sustainability integration</li>
-                            </ul>
-                        </div>
-                        <div class="service-card">
-                            <i class="fas fa-chart-line service-icon"></i>
-                            <h3>Financial Services</h3>
-                            <p>From budgeting to forecasting, our financial experts ensure your numbers work for you.</p>
-                            <ul>
-                                <li>Financial modeling</li>
-                                <li>Cash flow management</li>
-                                <li>Risk assessment</li>
-                                <li>Tax optimization strategies</li>
-                                <li>Investment advisory</li>
-                            </ul>
-                        </div>
-                        <div class="service-card">
-                            <i class="fas fa-search-dollar service-icon"></i>
-                            <h3>Free System Audits</h3>
-                            <p>Our signature service: A no-cost, comprehensive review of your business systems with actionable insights.</p>
-                            <ul>
-                                <li>Full vertical analysis</li>
-                                <li>Bottleneck identification</li>
-                                <li>Growth opportunity mapping</li>
-                                <li>Customized improvement plan</li>
-                                <li>Follow-up consultation</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
+  <!-- THREE JS -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+  <script>
+    // === STARFIELD ===
+    let scene, camera, renderer, stars;
+    function initStars() {
+      const canvas = document.getElementById("bg");
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
 
-            <!-- Audits Callout -->
-            <section class="audits section-alternate">
-                <div class="container text-center">
-                    <h2 class="section-title reveal">Ready for Exponential Growth?</h2>
-                    <p class="lead reveal">Our free system audit is the first step. We'll review your operations, logistics, and finances, then provide a roadmap for success.</p>
-                    <button class="btn btn-primary btn-lg reveal" onclick="openModal('audit')">Schedule Your Free Audit</button>
-                    <div class="audits-stats reveal">
-                        <div class="stat-item">
-                            <div class="stat-number">500+</div>
-                            <div class="stat-label">Businesses Audited</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">30%</div>
-                            <div class="stat-label">Average Growth Achieved</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">95%</div>
-                            <div class="stat-label">Client Satisfaction Rate</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000);
+      camera.position.z = 1000;
 
-            <!-- Testimonials -->
-            <section class="testimonials">
-                <div class="container">
-                    <h2 class="section-title reveal">What Our Clients Say</h2>
-                    <div class="testimonials-grid reveal">
-                        <div class="testimonial-card">
-                            <span class="testimonial-quote">&ldquo;</span>
-                            <p class="testimonial-text">"AOLFS's free audit revealed inefficiencies we never knew existed. Their recommendations led to a 40% increase in efficiency."</p>
-                            <div class="testimonial-author">
-                                <img class="author-avatar" src="https://placehold.co/40x40" alt="Client avatar">
-                                <div>
-                                    <div class="author-name">Sarah Johnson</div>
-                                    <div class="author-role">CEO, TechInnovate</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="testimonial-card">
-                            <span class="testimonial-quote">&ldquo;</span>
-                            <p class="testimonial-text">"The logistics optimization saved us thousands monthly. Highly recommend their services."</p>
-                            <div class="testimonial-author">
-                                <img class="author-avatar" src="https://placehold.co/40x40" alt="Client avatar">
-                                <div>
-                                    <div class="author-name">Michael Chen</div>
-                                    <div class="author-role">Operations Manager, LogiCorp</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="testimonial-card">
-                            <span class="testimonial-quote">&ldquo;</span>
-                            <p class="testimonial-text">"Financial insights from AOLFS helped us secure funding and scale rapidly."</p>
-                            <div class="testimonial-author">
-                                <img class="author-avatar" src="https://placehold.co/40x40" alt="Client avatar">
-                                <div>
-                                    <div class="author-name">Emily Rodriguez</div>
-                                    <div class="author-role">Founder, FinTech Startup</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+      const starQty = 6000;
+      const geometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(starQty * 3);
+      const colors = new Float32Array(starQty * 3);
+      const color = new THREE.Color();
+      const palette = [
+        "#bf8699","#654455","#4c3348","#4e3650","#7e5468","#73566a",
+        "#946c84","#a06f84","#6a4f62","#b8899b","#61495f","#a3798f",
+        "#373b58","#8c5666","#64485e",
+        "#c7e3ff","#a8d8ff","#8ecfff","#b0f0ff","#dbfaff",
+        "#9ad5ff","#6fb3ff","#f4faff","#eaf6ff","#ffffff"
+      ];
 
-            <!-- Client Logos -->
-            <section class="clients section-alternate">
-                <div class="container text-center">
-                    <h2 class="section-title reveal">Trusted by Leading Businesses</h2>
-                    <div class="client-logos reveal">
-                        <img src="https://placehold.co/150x50" alt="Client 1">
-                        <img src="https://placehold.co/150x50" alt="Client 2">
-                        <img src="https://placehold.co/150x50" alt="Client 3">
-                        <img src="https://placehold.co/150x50" alt="Client 4">
-                        <img src="https://placehold.co/150x50" alt="Client 5">
-                    </div>
-                </div>
-            </section>
+      for (let i = 0; i < starQty; i++) {
+        const r = 600 + Math.random() * 800;
+        const theta = Math.random() * 2 * Math.PI;
+        const phi = Math.acos(2 * Math.random() - 1);
+        positions[i*3] = r * Math.sin(phi) * Math.cos(theta);
+        positions[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
+        positions[i*3+2] = r * Math.cos(phi);
 
-            <!-- Contact -->
-            <section class="contact">
-                <div class="container">
-                    <h2 class="section-title reveal">Get in Touch</h2>
-                    <form class="contact-form reveal" onsubmit="handleContact(event)">
-                        <div class="grid-cols-2">
-                            <div class="form-group">
-                                <label class="form-label" for="name">Name</label>
-                                <input type="text" id="name" class="form-input" required placeholder="Your full name">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="email">Email</label>
-                                <input type="email" id="email" class="form-input" required placeholder="your@email.com">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="subject">Subject</label>
-                            <input type="text" id="subject" class="form-input" required placeholder="How can we help?">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="message">Message</label>
-                            <textarea id="message" class="form-textarea" required placeholder="Tell us about your business needs"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
-                    </form>
-                </div>
-            </section>
-        </section>
+        color.set(palette[Math.floor(Math.random() * palette.length)]);
+        colors[i*3] = color.r;
+        colors[i*3+1] = color.g;
+        colors[i*3+2] = color.b;
+      }
 
-        <!-- About Page -->
-        <section id="page-about" class="page">
-            <section class="hero">
-                <div class="hero-bg"></div>
-                <div class="container">
-                    <h1 class="reveal">About AOLFS</h1>
-                    <p class="lead reveal">Discover our story, mission, and the team driving business success.</p>
-                </div>
-            </section>
-            <section class="py-xl">
-                <div class="container">
-                    <div class="about-content reveal">
-                        <div class="about-text">
-                            <h2>Our Story</h2>
-                            <p>Founded in 2015, AOLFS has grown from a small consulting firm to a trusted partner for businesses across industries. Our journey began with a simple idea: Provide free audits to democratize access to expert business advice.</p>
-                            <h2>Our Mission</h2>
-                            <p>To empower entrepreneurs with comprehensive solutions in operations, logistics, and finances, enabling exponential growth through innovative strategies and free initial audits.</p>
-                            <h2>Our Values</h2>
-                            <ul>
-                                <li><strong>Integrity</strong>: Transparent and ethical practices</li>
-                                <li><strong>Innovation</strong>: Cutting-edge solutions for modern challenges</li>
-                                <li><strong>Excellence</strong>: Commitment to superior results</li>
-                                <li><strong>Partnership</strong>: Long-term relationships with clients</li>
-                            </ul>
-                        </div>
-                        <div class="about-image">
-                            <img src="https://placehold.co/600x400" alt="AOLFS office environment">
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="section-alternate py-xl">
-                <div class="container">
-                    <h2 class="section-title reveal">Our Team</h2>
-                    <div class="grid-cols-3">
-                        <div class="team-card reveal">
-                            <img src="https://placehold.co/300x300" alt="Team member" class="rounded-md mb-md">
-                            <h3>John Doe</h3>
-                            <p class="text-muted">CEO & Founder</p>
-                        </div>
-                        <!-- Add more team members -->
-                    </div>
-                </div>
-            </section>
-        </section>
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      const material = new THREE.PointsMaterial({ size: 2.8, vertexColors: true, transparent: true, blending: THREE.AdditiveBlending });
+      stars = new THREE.Points(geometry, material);
+      scene.add(stars);
 
-        <!-- Services Page -->
-        <section id="page-services" class="page">
-            <section class="hero">
-                <div class="hero-bg"></div>
-                <div class="container">
-                    <h1 class="reveal">Our Services</h1>
-                    <p class="lead reveal">Tailored solutions for every aspect of your business.</p>
-                </div>
-            </section>
-            <section class="py-xl">
-                <div class="container">
-                    <div class="services-grid reveal">
-                        <!-- Extended service descriptions -->
-                        <div class="service-card">
-                            <i class="fas fa-cogs service-icon"></i>
-                            <h3>Operations Optimization</h3>
-                            <p>We dive deep into your operational processes to eliminate waste and maximize efficiency. Our approach includes:</p>
-                            <ul>
-                                <li>Workflow analysis and re-engineering</li>
-                                <li>Technology integration recommendations</li>
-                                <li>Performance KPI development</li>
-                                <li>Employee training and change management</li>
-                                <li>Ongoing monitoring and adjustments</li>
-                                <li>Case study: Reduced operational costs by 25% for a manufacturing client</li>
-                            </ul>
-                        </div>
-                        <!-- Similarly for other services, extending content -->
-                    </div>
-                </div>
-            </section>
-        </section>
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    }
 
-        <!-- Audits Page -->
-        <section id="page-audits" class="page">
-            <section class="hero">
-                <div class="hero-bg"></div>
-                <div class="container">
-                    <h1 class="reveal">Free System Audits</h1>
-                    <p class="lead reveal">Your gateway to business transformation – at no cost.</p>
-                </div>
-            </section>
-            <section class="py-xl">
-                <div class="container">
-                    <div class="grid-cols-2 reveal">
-                        <div>
-                            <h2>What is a System Audit?</h2>
-                            <p>A comprehensive review of your business verticals, including operations, logistics, finances, and more. We identify strengths, weaknesses, and opportunities for growth.</p>
-                            <h2>Process</h2>
-                            <ol>
-                                <li>Initial consultation</li>
-                                <li>Data collection</li>
-                                <li>In-depth analysis</li>
-                                <li>Report generation</li>
-                                <li>Recommendations presentation</li>
-                            </ol>
-                        </div>
-                        <div>
-                            <h2>Benefits</h2>
-                            <ul>
-                                <li>Objective insights</li>
-                                <li>Cost-saving opportunities</li>
-                                <li>Growth strategies</li>
-                                <li>Risk mitigation</li>
-                                <li>Competitive advantage</li>
-                            </ul>
-                            <button class="btn btn-primary btn-lg" onclick="openModal('audit')">Request Audit</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </section>
+    function animateStars() {
+      requestAnimationFrame(animateStars);
+      if (stars) {
+        stars.rotation.y += 0.0005;
+        stars.rotation.x += 0.0002;
+        renderer.render(scene, camera);
+      }
+    }
 
-        <!-- Blog Page -->
-        <section id="page-blog" class="page">
-            <section class="hero">
-                <div class="hero-bg"></div>
-                <div class="container">
-                    <h1 class="reveal">AOLFS Insights</h1>
-                    <p class="lead reveal">Expert articles on business growth, operations, and more.</p>
-                </div>
-            </section>
-            <section class="py-xl">
-                <div class="container">
-                    <div class="grid-cols-3">
-                        <div class="blog-card reveal">
-                            <img src="https://placehold.co/400x250" alt="Blog post image" class="blog-image">
-                            <div class="blog-content">
-                                <h3 class="blog-title">The Power of Free Audits</h3>
-                                <p class="blog-excerpt">How a no-cost review can transform your business.</p>
-                                <div class="blog-meta">
-                                    <span>Jan 1, 2024</span>
-                                    <span>5 min read</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Add 20+ blog cards to extend lines -->
-                    </div>
-                </div>
-            </section>
-        </section>
+    // === INTRO SEQUENCE ===
+    const intro = document.getElementById("intro");
+    const introWord = document.getElementById("introWord");
+    const container = document.querySelector(".container");
+    const bg = document.getElementById("bg");
+    const sequence = ["A", "For", "Ai"];
+    let idx = 0;
 
-        <!-- FAQ Page -->
-        <section id="page-faq" class="page">
-            <section class="hero">
-                <div class="hero-bg"></div>
-                <div class="container">
-                    <h1 class="reveal">Frequently Asked Questions</h1>
-                    <p class="lead reveal">Find answers to common queries about our services.</p>
-                </div>
-            </section>
-            <section class="py-xl">
-                <div class="container max-width-800 mx-auto">
-                    <div class="faq-item reveal">
-                        <button class="faq-question">
-                            What is included in the free audit?
-                        </button>
-                        <div class="faq-answer">
-                            <p>The audit covers operations, logistics, finances, and overall business verticals. You'll receive a detailed report with recommendations.</p>
-                        </div>
-                    </div>
-                    <!-- Add 50+ FAQ items to reach line count -->
-                    <div class="faq-item reveal">
-                        <button class="faq-question">
-                            How long does the audit take?
-                        </button>
-                        <div class="faq-answer">
-                            <p>Typically 2-4 weeks, depending on business size.</p>
-                        </div>
-                    </div>
-                    <!-- Continue adding... -->
-                </div>
-            </section>
-        </section>
-
-        <!-- Contact Page -->
-        <section id="page-contact" class="page">
-            <section class="hero">
-                <div class="hero-bg"></div>
-                <div class="container">
-                    <h1 class="reveal">Contact Us</h1>
-                    <p class="lead reveal">Let's discuss how we can help your business grow.</p>
-                </div>
-            </section>
-            <section class="py-xl">
-                <div class="container">
-                    <div class="grid-cols-2">
-                        <div class="reveal">
-                            <h2>Our Office</h2>
-                            <p>123 Business Ave<br>City, State 12345</p>
-                            <p>Email: info@aolfs.com<br>Phone: (123) 456-7890</p>
-                        </div>
-                        <form class="contact-form reveal" onsubmit="handleContact(event)">
-                            <!-- Form fields as in home -->
-                        </form>
-                    </div>
-                </div>
-            </section>
-        </section>
-
-        <!-- Privacy Page -->
-        <section id="page-privacy" class="page">
-            <section class="hero">
-                <div class="hero-bg"></div>
-                <div class="container">
-                    <h1 class="reveal">Privacy Policy</h1>
-                    <p class="lead reveal">Your privacy is important to us.</p>
-                </div>
-            </section>
-            <section class="py-xl">
-                <div class="container">
-                    <div class="legal-update">
-                        <p>Last Updated: January 1, 2024</p>
-                    </div>
-                    <div class="legal-content reveal">
-                        <h2>1. Introduction</h2>
-                        <p>This Privacy Policy explains how AOLFS collects, uses, and protects your personal information.</p>
-                        <h2>2. Information Collection</h2>
-                        <ul>
-                            <li>Contact information</li>
-                            <li>Business data for audits</li>
-                            <li>Usage analytics</li>
-                            <!-- Extend with full policy text, making it long (1000+ lines if needed by repetition or detail) -->
-                        </ul>
-                        <!-- Detailed sections... -->
-                    </div>
-                </div>
-            </section>
-        </section>
-
-        <!-- Terms Page -->
-        <section id="page-terms" class="page">
-            <!-- Similar structure to privacy, with extended text -->
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container footer-grid">
-            <div>
-                <a href="#" class="footer-logo" onclick="showPage('home')">AOLFS</a>
-                <p class="footer-desc">Advanced Operations, Logistics, and Financial Services. Empowering business growth through free audits and expert solutions.</p>
-                <div class="footer-social">
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-            <div>
-                <h4 class="footer-title">Services</h4>
-                <ul class="footer-links">
-                    <li><a href="#" onclick="showPage('services')">Operations</a></li>
-                    <li><a href="#" onclick="showPage('services')">Logistics</a></li>
-                    <li><a href="#" onclick="showPage('services')">Finances</a></li>
-                    <li><a href="#" onclick="showPage('audits')">Free Audits</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="footer-title">Company</h4>
-                <ul class="footer-links">
-                    <li><a href="#" onclick="showPage('about')">About</a></li>
-                    <li><a href="#" onclick="showPage('blog')">Blog</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#" onclick="showPage('faq')">FAQ</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="footer-title">Legal</h4>
-                <ul class="footer-links">
-                    <li><a href="#" onclick="showPage('privacy')">Privacy Policy</a></li>
-                    <li><a href="#" onclick="showPage('terms')">Terms of Service</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 AOLFS. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <!-- Audit Modal -->
-    <div id="auditModal" class="modal-overlay">
-        <div class="modal">
-            <button class="modal-close" onclick="closeModal('audit')"><i class="fas fa-times"></i></button>
-            <h2 class="modal-title">Request Free System Audit</h2>
-            <p class="modal-subtitle">Provide your details, and our team will contact you to schedule the audit.</p>
-            <form onsubmit="handleAuditRequest(event)">
-                <div class="form-group">
-                    <label class="form-label" for="audit-name">Name</label>
-                    <input type="text" id="audit-name" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="audit-email">Email</label>
-                    <input type="email" id="audit-email" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="audit-company">Company Name</label>
-                    <input type="text" id="audit-company" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="audit-message">Tell us about your business</label>
-                    <textarea id="audit-message" class="form-textarea" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary btn-lg">Submit Request</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Cookie Consent -->
-    <div id="cookieConsent" class="cookie-consent">
-        <div class="cookie-icon"><i class="fas fa-cookie-bite"></i></div>
-        <div class="cookie-text">
-            <h4>We Value Your Privacy</h4>
-            <p>We use cookies to enhance your browsing experience and analyze traffic. By clicking "Accept", you consent to our use of cookies.</p>
-        </div>
-        <div class="cookie-actions">
-            <button class="btn btn-primary" onclick="acceptCookies()">Accept</button>
-            <button class="btn btn-outline" onclick="declineCookies()">Decline</button>
-        </div>
-    </div>
-
-    <!-- Toast Notification -->
-    <div id="toast" class="toast"></div>
-
-    <script>
-        // Preloader
-        window.addEventListener('load', () => {
-            const preloader = document.querySelector('.preloader');
-            preloader.classList.add('complete');
-            setTimeout(() => preloader.remove(), 500);
-        });
-
-        // Scroll Progress and Header Scroll
-        const scrollProgress = document.querySelector('.scroll-progress');
-        const header = document.querySelector('header');
-        window.addEventListener('scroll', () => {
-            const scrollTop = document.documentElement.scrollTop;
-            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrollPercent = (scrollTop / scrollHeight) * 100;
-            scrollProgress.style.width = `${scrollPercent}%`;
-
-            header.classList.toggle('scrolled', scrollTop > 50);
-        });
-
-        // Mobile Menu
-        function toggleMobileMenu() {
-            const mobileMenu = document.getElementById('mobileMenu');
-            mobileMenu.classList.toggle('open');
-            document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    function nextWord() {
+      if (idx > 0) introWord.classList.add("fade-out");
+      setTimeout(() => {
+        introWord.classList.remove("fade-out");
+        introWord.textContent = sequence[idx];
+        introWord.classList.add("visible");
+        idx++;
+        if (idx < sequence.length) {
+          setTimeout(nextWord, 1300);
+        } else {
+          // End intro
+          setTimeout(() => {
+            intro.style.transition = "opacity 1.5s ease";
+            intro.style.opacity = 0;
+            bg.style.opacity = 1;
+            initStars(); animateStars();
+            setTimeout(() => {
+              intro.remove();
+              container.classList.add("visible");
+            }, 1600);
+          }, 1400);
         }
+      }, 600);
+    }
 
-        // Page Navigation
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-            const targetPage = document.getElementById(`page-${pageId}`);
-            if (targetPage) {
-                targetPage.classList.add('active');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-            // Close mobile menu
-            const mobileMenu = document.getElementById('mobileMenu');
-            if (mobileMenu.classList.contains('open')) toggleMobileMenu();
-            // Update nav active
-            document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
-            const activeLink = document.querySelector(`nav a[onclick="showPage('${pageId}')"]`);
-            if (activeLink) activeLink.classList.add('active');
-        }
-
-        // Modals
-        function openModal(modalType) {
-            const modal = document.getElementById(`${modalType}Modal`);
-            modal.classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal(modalType) {
-            const modal = document.getElementById(`${modalType}Modal`);
-            modal.classList.remove('show');
-            document.body.style.overflow = '';
-        }
-
-        document.querySelectorAll('.modal-overlay').forEach(overlay => {
-            overlay.addEventListener('click', e => {
-                if (e.target === overlay) closeModal(overlay.id.replace('Modal', ''));
-            });
-        });
-
-        // Form Handlers
-        function handleContact(e) {
-            e.preventDefault();
-            if (validateForm(e.target)) {
-                showToast('Message sent successfully!', 'success');
-                e.target.reset();
-            } else {
-                showToast('Please fill all required fields', 'error');
-            }
-        }
-
-        function handleAuditRequest(e) {
-            e.preventDefault();
-            if (validateForm(e.target)) {
-                showToast('Audit request submitted!', 'success');
-                closeModal('audit');
-                e.target.reset();
-            } else {
-                showToast('Please fill all required fields', 'error');
-            }
-        }
-
-        function validateForm(form) {
-            let valid = true;
-            form.querySelectorAll('[required]').forEach(input => {
-                if (!input.value.trim()) {
-                    input.classList.add('invalid');
-                    valid = false;
-                } else {
-                    input.classList.remove('invalid');
-                }
-            });
-            return valid;
-        }
-
-        // Toast
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = `toast show ${type}`;
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-
-        // Cookie Consent
-        if (!localStorage.getItem('cookieConsent')) {
-            setTimeout(() => document.getElementById('cookieConsent').classList.add('show'), 2000);
-        }
-
-        function acceptCookies() {
-            localStorage.setItem('cookieConsent', 'accepted');
-            document.getElementById('cookieConsent').classList.remove('show');
-        }
-
-        function declineCookies() {
-            localStorage.setItem('cookieConsent', 'declined');
-            document.getElementById('cookieConsent').classList.remove('show');
-        }
-
-        // Reveal Animations
-        const revealElements = document.querySelectorAll('.reveal');
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-
-        revealElements.forEach(el => observer.observe(el));
-
-        // FAQ Toggle
-        document.querySelectorAll('.faq-question').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const item = btn.parentElement;
-                item.classList.toggle('open');
-            });
-        });
-
-        // Dark Mode Toggle (Optional, add button in header if desired)
-        const darkToggle = document.querySelector('.dark-toggle');
-        if (darkToggle) {
-            darkToggle.addEventListener('click', () => {
-                document.body.classList.toggle('dark');
-                localStorage.setItem('darkMode', document.body.classList.contains('dark'));
-            });
-        }
-        if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark');
-
-        // Smooth Scroll for Anchors
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', e => {
-                e.preventDefault();
-                const target = document.querySelector(anchor.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth' });
-            });
-        });
-
-        // ESC Key for Modals
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') {
-                document.querySelectorAll('.modal-overlay.show').forEach(modal => closeModal(modal.id.replace('Modal', '')));
-                if (document.getElementById('mobileMenu').classList.contains('open')) toggleMobileMenu();
-            }
-        });
-
-        // Form Input Validation on Blur
-        document.querySelectorAll('.form-input, .form-textarea').forEach(input => {
-            input.addEventListener('blur', () => {
-                if (input.required && !input.value.trim()) input.classList.add('invalid');
-                else input.classList.remove('invalid');
-            });
-        });
-
-        // Lazy Loading for Images
-        document.querySelectorAll('img').forEach(img => img.loading = 'lazy');
-
-        // More JS for interactivity (e.g., stats counter)
-        const statNumbers = document.querySelectorAll('.stat-number');
-        statNumbers.forEach(stat => {
-            const target = parseInt(stat.textContent.replace('%', ''));
-            let current = 0;
-            const increment = target / 50; // For animation speed
-            const update = () => {
-                current += increment;
-                if (current < target) {
-                    stat.textContent = Math.ceil(current) + (stat.textContent.includes('%') ? '%' : '');
-                    requestAnimationFrame(update);
-                } else {
-                    stat.textContent = target + (stat.textContent.includes('%') ? '%' : '');
-                }
-            };
-            observer.observe(stat); // Trigger on view
-        });
-
-        // Extend with more scripts as needed to reach line count
-    </script>
+    window.addEventListener("load", () => {
+      setTimeout(nextWord, 400);
+    });
+  </script>
 </body>
 </html>

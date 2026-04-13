@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found — AOLFS</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+  <meta name="theme-color" content="#07080a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <style>
+    .not-found-page { min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; padding:2rem; position:relative; overflow:hidden; background:var(--c-void); }
+    .not-found-page::before { content:'404'; position:absolute; font-family:var(--font-display); font-size:clamp(12rem,30vw,28rem); font-weight:700; color:rgba(70,84,51,0.06); letter-spacing:-0.05em; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none; user-select:none; }
+    .not-found-content { position:relative; z-index:1; max-width:480px; }
+    .not-found-label { font-family:var(--font-ui); font-size:var(--text-xs); font-weight:700; letter-spacing:var(--tracking-widest); text-transform:uppercase; color:var(--c-accent); margin-bottom:1.5rem; display:block; }
+    .not-found-h1 { font-family:var(--font-display); font-size:clamp(3rem,8vw,6rem); font-weight:300; letter-spacing:-0.04em; margin-bottom:1rem; color:var(--c-text); line-height:1; }
+    .not-found-p { font-size:var(--text-md); color:var(--c-text-muted); margin-bottom:2.5rem; line-height:1.75; }
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+<main class="not-found-page" id="main-content">
+  <div class="not-found-content">
+    <span class="not-found-label">Error 404</span>
+    <h1 class="not-found-h1">Lost in the Architecture.</h1>
+    <p class="not-found-p">The page you're looking for doesn't exist or has been moved. Let's get you back on solid ground.</p>
+    <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+      <a href="/" class="btn btn--accent">← Back to Home</a>
+      <a href="/contact.html" class="btn btn--outline">Contact Us</a>
+    </div>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="/assets/js/components.js" defer></script>
+</body>
+</html>

@@ -1,304 +1,694 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>AOLFS | Advanced Operations, Logistics & Financial Solutions</title>
-  <!-- Teal 'A' favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,
-  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-    <rect width='100' height='100' fill='black'/>
-    <text x='50%' y='57%' text-anchor='middle' dominant-baseline='middle'
-          font-family='Inter, sans-serif' font-size='60' font-weight='800'
-          fill='%2300e6e6'>A</text>
-  </svg>">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+  <!-- ── META ESSENTIALS ──────────────────────────────────── -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    html, body {
-      height: 100%;
-      width: 100%;
-      background: #000;
-      color: #fff;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
+  <!-- ── PRIMARY SEO ──────────────────────────────────────── -->
+  <title>AOLFS — Advanced Operations, Logistics & Financial Solutions | Pakistan</title>
+  <meta name="description" content="AOLFS is Pakistan's premier business solutions firm delivering advanced operations, HR management, AI automation, financial services, and enterprise management systems. Based in Gujranwala, serving businesses nationwide.">
+  <meta name="keywords" content="business solutions Pakistan, HR management Pakistan, AI automation Pakistan, restaurant management system, payroll services Pakistan, organizational development, supply chain Pakistan, finance as a service, Gujranwala business consulting">
+  <meta name="author" content="AOLFS — Muhammad Ehtisham">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://www.aolfs.com/">
 
-    /* --- BACKGROUND --- */
-    #bg {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 0;
-      background: radial-gradient(ellipse at center, #050505 0%, #000 80%);
-      opacity: 0;
-      transition: opacity 2s ease;
-    }
+  <!-- ── OPEN GRAPH ────────────────────────────────────────── -->
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://www.aolfs.com/">
+  <meta property="og:site_name"   content="AOLFS">
+  <meta property="og:title"       content="AOLFS — Where Vision Finds Its Architecture">
+  <meta property="og:description" content="Pakistan's premier advanced operations, logistics and financial solutions firm. Engineering the operational foundations that allow businesses to scale with precision.">
+  <meta property="og:image"       content="https://www.aolfs.com/assets/images/og-image.jpg">
+  <meta property="og:image:width"  content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale"      content="en_PK">
 
-    /* --- CONTAINER (Main Website) --- */
-    .container {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      background: rgba(0, 0, 0, 0.85);
-      border-radius: 20px;
-      padding: 40px 30px;
-      width: 90%;
-      max-width: 600px;
-      opacity: 0;
-      transform: translateY(60px);
-      transition: opacity 1.5s ease, transform 1.5s ease;
-    }
+  <!-- ── TWITTER CARD ─────────────────────────────────────── -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:site"        content="@aolfs">
+  <meta name="twitter:title"       content="AOLFS — Where Vision Finds Its Architecture">
+  <meta name="twitter:description" content="Pakistan's premier business solutions firm. Operations, HR, AI, Finance — all under one roof.">
+  <meta name="twitter:image"       content="https://www.aolfs.com/assets/images/og-image.jpg">
 
-    .container.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  <!-- ── GEO & LANGUAGE ───────────────────────────────────── -->
+  <meta name="geo.region"      content="PK-PB">
+  <meta name="geo.placename"   content="Gujranwala, Punjab, Pakistan">
+  <meta name="geo.position"    content="32.1877;74.1945">
+  <meta name="ICBM"            content="32.1877, 74.1945">
+  <meta name="language"        content="English">
+  <link rel="alternate" hreflang="en-pk" href="https://www.aolfs.com/">
 
-    .container::before {
-      content: "";
-      position: absolute;
-      inset: -2px;
-      border-radius: 22px;
-      background: linear-gradient(135deg, rgba(0,255,200,0.35), rgba(0,255,255,0.1), rgba(0,200,255,0.25));
-      filter: blur(12px);
-      z-index: -1;
-      opacity: 0.5;
-      animation: pulse 6s ease-in-out infinite alternate;
-    }
+  <!-- ── FAVICON ──────────────────────────────────────────── -->
+  <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
+  <meta name="theme-color" content="#07080a">
+  <meta name="msapplication-TileColor" content="#465433">
 
-    @keyframes pulse {
-      0% { opacity: 0.4; filter: blur(10px); }
-      100% { opacity: 0.7; filter: blur(15px); }
-    }
+  <!-- ── STRUCTURED DATA (JSON-LD) ────────────────────────── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://www.aolfs.com/#organization",
+        "name": "AOLFS",
+        "legalName": "Advanced Operations, Logistics & Financial Solutions",
+        "url": "https://www.aolfs.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.aolfs.com/assets/images/logo.svg",
+          "width": 200,
+          "height": 60
+        },
+        "description": "Pakistan's premier business solutions firm specializing in advanced operations, HR management, AI automation, logistics, and financial services.",
+        "foundingDate": "2024",
+        "founder": {
+          "@type": "Person",
+          "name": "Muhammad Ehtisham",
+          "jobTitle": "Founder & CEO"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ground Zero, 3rd Floor, Real Pharmacy, Civil Computer Market, Hospital Road",
+          "addressLocality": "Gujranwala",
+          "addressRegion": "Punjab",
+          "addressCountry": "PK"
+        },
+        "contactPoint": [
+          {
+            "@type": "ContactPoint",
+            "telephone": "+92-55-2139051",
+            "contactType": "customer service",
+            "availableLanguage": ["English", "Urdu"]
+          },
+          {
+            "@type": "ContactPoint",
+            "telephone": "+92-305-6160430",
+            "contactType": "customer support"
+          }
+        ],
+        "email": "contact@aolfs.com",
+        "sameAs": [
+          "https://www.linkedin.com/company/aolfs",
+          "https://www.facebook.com/aolfs",
+          "https://www.instagram.com/aolfs"
+        ],
+        "areaServed": {
+          "@type": "Country",
+          "name": "Pakistan"
+        },
+        "serviceType": [
+          "Organizational Development",
+          "HR Management",
+          "AI Automation",
+          "Restaurant Management System",
+          "Finance as a Service",
+          "Supply Chain Management",
+          "Payroll Services"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.aolfs.com/#website",
+        "url": "https://www.aolfs.com",
+        "name": "AOLFS",
+        "description": "Advanced Operations, Logistics & Financial Solutions",
+        "publisher": { "@id": "https://www.aolfs.com/#organization" },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://www.aolfs.com/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://www.aolfs.com/#webpage",
+        "url": "https://www.aolfs.com/",
+        "name": "AOLFS — Advanced Operations, Logistics & Financial Solutions",
+        "isPartOf": { "@id": "https://www.aolfs.com/#website" },
+        "about": { "@id": "https://www.aolfs.com/#organization" },
+        "description": "AOLFS helps Pakistani businesses build world-class operational, logistical, and financial infrastructure.",
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.aolfs.com/" }]
+        }
+      }
+    ]
+  }
+  </script>
 
-    .brand {
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 800;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: #00e6e6;
-    }
+  <!-- ── PERFORMANCE HINTS ─────────────────────────────────── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
 
-    h1 { margin-top: 10px; font-size: clamp(1rem, 3vw, 1.4rem); color: #bbb; }
-    p { color: #999; margin: 20px 0; line-height: 1.6; font-size: clamp(0.92rem, 2.5vw, 1rem); }
-    .maintenance { color: #ccc; font-size: 0.95em; margin-bottom: 18px; display: block; }
-
-    .email-box {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 50px;
-      padding: 6px;
-      max-width: 380px;
-      margin: 0 auto 20px;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    input {
-      background: transparent;
-      border: none;
-      outline: none;
-      color: #fff;
-      flex: 1;
-      min-width: 180px;
-      padding: 12px 15px;
-      font-size: 14px;
-    }
-
-    input::placeholder { color: #666; }
-
-    button {
-      background: linear-gradient(45deg, #00ffc3, #0099ff);
-      border: none;
-      color: #000;
-      font-weight: 600;
-      padding: 12px 25px;
-      border-radius: 30px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    button:hover {
-      transform: translateY(-1px);
-      opacity: 0.9;
-    }
-
-    .ventures {
-      font-weight: 600;
-      background: linear-gradient(45deg, #00ffc3, #0099ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .project-line { font-size: clamp(0.8rem, 2vw, 0.9rem); color: #888; margin-top: 20px; }
-    footer { font-size: 12px; color: #555; margin-top: 8px; }
-
-    /* --- CINEMATIC INTRO --- */
-    #intro {
-      position: fixed;
-      inset: 0;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    }
-
-    .intro-word {
-      font-weight: 800;
-      font-size: clamp(3.5rem, 8vw, 6rem);
-      color: #e0f7ff;
-      opacity: 0;
-      transform: scale(0.96) translateY(20px);
-      letter-spacing: 1px;
-      transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .intro-word.visible {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-    }
-
-    .intro-word.fade-out {
-      opacity: 0;
-      transform: scale(1.04) translateY(-20px);
-    }
-  </style>
+  <!-- ── STYLESHEET ───────────────────────────────────────── -->
+  <link rel="stylesheet" href="/assets/css/main.css">
 </head>
+
 <body>
 
-  <canvas id="bg"></canvas>
+<!-- ── PAGE LOADER ──────────────────────────────────────────── -->
+<div class="page-loader" role="status" aria-label="Loading AOLFS">
+  <div class="loader-logo">AOLFS</div>
+  <div class="loader-bar"></div>
+</div>
 
-  <!-- CINEMATIC INTRO -->
-  <div id="intro">
-    <span class="intro-word" id="introWord">A</span>
+<!-- ── CUSTOM CURSOR ────────────────────────────────────────── -->
+<div class="cursor" aria-hidden="true">
+  <div class="cursor__dot"></div>
+</div>
+<div class="cursor cursor__ring-wrap" aria-hidden="true">
+  <div class="cursor__ring"></div>
+</div>
+
+<!-- ── NAV MOUNT ────────────────────────────────────────────── -->
+<div id="nav-placeholder"></div>
+
+<!-- ══════════════════════════════════════════════════════════
+     HERO SECTION
+══════════════════════════════════════════════════════════ -->
+<main id="main-content">
+<section class="hero" aria-labelledby="hero-headline">
+  <div class="hero__bg">
+    <div class="hero__orb hero__orb--1" aria-hidden="true"></div>
+    <div class="hero__orb hero__orb--2" aria-hidden="true"></div>
+    <div class="hero__orb hero__orb--3" aria-hidden="true"></div>
+    <div class="grain-overlay hero__noise" aria-hidden="true"></div>
   </div>
 
-  <!-- MAIN CONTENT -->
+  <div class="hero__content">
+    <p class="hero__label" aria-label="Company description">
+      Advanced Operations, Logistics &amp; Financial Solutions — Pakistan
+    </p>
+
+    <h1 class="hero__headline" id="hero-headline">
+      <span class="line"><span>Where Vision</span></span>
+      <span class="line"><span>Finds Its</span></span>
+      <span class="line"><span><em>Architecture.</em></span></span>
+    </h1>
+
+    <div class="hero__bottom">
+      <p class="hero__sub">
+        We engineer the operational, logistical, and financial infrastructure that transforms ambitious Pakistani businesses into scalable, high-performance enterprises — built to last, designed to lead.
+      </p>
+      <div class="hero__ctas">
+        <a href="/services/" class="btn btn--accent btn--lg">
+          Explore Services
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+        <a href="/contact.html" class="btn btn--outline btn--lg">
+          Book a Consultation
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="hero__scroll" aria-hidden="true">
+    <span class="hero__scroll-text">Scroll</span>
+    <div class="hero__scroll-line"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     MARQUEE STRIP
+══════════════════════════════════════════════════════════ -->
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-track">
+    <!-- First set -->
+    <div class="marquee-item">Organizational Development <span class="sep"></span></div>
+    <div class="marquee-item">AI Automation &amp; Implementation <span class="sep"></span></div>
+    <div class="marquee-item">Finance as a Service <span class="sep"></span></div>
+    <div class="marquee-item">HR Development &amp; Management <span class="sep"></span></div>
+    <div class="marquee-item">Restaurant Management Systems <span class="sep"></span></div>
+    <div class="marquee-item">Supply Chain Management <span class="sep"></span></div>
+    <div class="marquee-item">Private Equity &amp; Capital Ventures <span class="sep"></span></div>
+    <div class="marquee-item">Payroll Solutions <span class="sep"></span></div>
+    <div class="marquee-item">Clinic Management Systems <span class="sep"></span></div>
+    <div class="marquee-item">Audit Services <span class="sep"></span></div>
+    <div class="marquee-item">E-Commerce Fulfillment <span class="sep"></span></div>
+    <div class="marquee-item">Pharmacy Management <span class="sep"></span></div>
+    <!-- Duplicate for seamless loop -->
+    <div class="marquee-item">Organizational Development <span class="sep"></span></div>
+    <div class="marquee-item">AI Automation &amp; Implementation <span class="sep"></span></div>
+    <div class="marquee-item">Finance as a Service <span class="sep"></span></div>
+    <div class="marquee-item">HR Development &amp; Management <span class="sep"></span></div>
+    <div class="marquee-item">Restaurant Management Systems <span class="sep"></span></div>
+    <div class="marquee-item">Supply Chain Management <span class="sep"></span></div>
+    <div class="marquee-item">Private Equity &amp; Capital Ventures <span class="sep"></span></div>
+    <div class="marquee-item">Payroll Solutions <span class="sep"></span></div>
+    <div class="marquee-item">Clinic Management Systems <span class="sep"></span></div>
+    <div class="marquee-item">Audit Services <span class="sep"></span></div>
+    <div class="marquee-item">E-Commerce Fulfillment <span class="sep"></span></div>
+    <div class="marquee-item">Pharmacy Management <span class="sep"></span></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     STATS SECTION
+══════════════════════════════════════════════════════════ -->
+<section class="stats-section" aria-label="AOLFS at a Glance">
   <div class="container">
-    <div class="brand">AOLFS</div>
-    <h1>Advanced Operations, Logistics & Financial Solutions</h1>
-    <p>We’re shaping the future of how businesses scale, using AI, automation, and intelligent workflows to power the next generation of operations, logistics, and finance.</p>
-    <span class="maintenance">(This site is under maintenance.)</span>
-
-    <form action="https://formspree.io/f/xldpapap" method="POST" class="email-box">
-      <input type="email" name="email" placeholder="Get notified when we relaunch..." required>
-      <input type="text" name="_gotcha" style="display:none">
-      <button type="submit">Notify Me</button>
-    </form>
-
-    <div class="project-line">A Project of <span class="ventures">ABCD Ventures</span></div>
-    <footer>© 2025 AOLFS. All rights reserved.</footer>
+    <div class="stats-grid">
+      <div class="stat-item reveal">
+        <div class="stat-number">
+          <span class="num" data-count="20" data-suffix="+" aria-label="20 plus">20</span><span class="suffix">+</span>
+        </div>
+        <div class="stat-label">Enterprise Services</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-2">
+        <div class="stat-number">
+          <span class="num" data-count="4" aria-label="4">4</span>
+        </div>
+        <div class="stat-label">Core Pillars</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-3">
+        <div class="stat-number">
+          <span class="num" data-count="100" data-suffix="%" aria-label="100 percent">100</span><span class="suffix">%</span>
+        </div>
+        <div class="stat-label">Pakistan Focused</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-4">
+        <div class="stat-number">
+          <span class="num" data-count="1" data-suffix=" Stop" aria-label="One Stop">1</span><span class="suffix"> Stop</span>
+        </div>
+        <div class="stat-label">Total Business Solution</div>
+      </div>
+    </div>
   </div>
+</section>
 
-  <!-- THREE JS -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
-  <script>
-    // === STARFIELD ===
-    let scene, camera, renderer, stars;
-    function initStars() {
-      const canvas = document.getElementById("bg");
-      renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(window.devicePixelRatio);
+<!-- ══════════════════════════════════════════════════════════
+     SERVICE PILLARS
+══════════════════════════════════════════════════════════ -->
+<section class="section section--dark" aria-labelledby="services-heading">
+  <div class="container">
+    <header class="section-head reveal">
+      <span class="t-label" id="services-label">What We Do</span>
+      <h2 id="services-heading">Four Pillars of <em>Total Business</em> Architecture</h2>
+      <p>Every service we deliver maps to one of four foundational pillars — ensuring that when you work with AOLFS, you're building a complete, integrated enterprise, not patching individual gaps.</p>
+    </header>
 
-      scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000);
-      camera.position.z = 1000;
+    <div class="service-cat-grid" role="list">
+      <!-- Pillar 1 -->
+      <a href="/services/#people" class="service-cat-card reveal" role="listitem">
+        <div class="service-cat-icon" aria-hidden="true">🧠</div>
+        <h3 class="service-cat-title">People &amp; Organization</h3>
+        <p class="service-cat-sub">HR development, hiring architecture, payroll infrastructure, OD consulting, and employee management systems. Your people, systematized.</p>
+        <span class="service-cat-count">5 services</span>
+      </a>
 
-      const starQty = 6000;
-      const geometry = new THREE.BufferGeometry();
-      const positions = new Float32Array(starQty * 3);
-      const colors = new Float32Array(starQty * 3);
-      const color = new THREE.Color();
-      const palette = [
-        "#bf8699","#654455","#4c3348","#4e3650","#7e5468","#73566a",
-        "#946c84","#a06f84","#6a4f62","#b8899b","#61495f","#a3798f",
-        "#373b58","#8c5666","#64485e",
-        "#c7e3ff","#a8d8ff","#8ecfff","#b0f0ff","#dbfaff",
-        "#9ad5ff","#6fb3ff","#f4faff","#eaf6ff","#ffffff"
-      ];
+      <!-- Pillar 2 -->
+      <a href="/services/#systems" class="service-cat-card reveal reveal-delay-2" role="listitem">
+        <div class="service-cat-icon" aria-hidden="true">⚙️</div>
+        <h3 class="service-cat-title">Business Systems</h3>
+        <p class="service-cat-sub">Purpose-built management systems for restaurants, clinics, schools, and pharmacies. Operational precision at every level.</p>
+        <span class="service-cat-count">5 services</span>
+      </a>
 
-      for (let i = 0; i < starQty; i++) {
-        const r = 600 + Math.random() * 800;
-        const theta = Math.random() * 2 * Math.PI;
-        const phi = Math.acos(2 * Math.random() - 1);
-        positions[i*3] = r * Math.sin(phi) * Math.cos(theta);
-        positions[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
-        positions[i*3+2] = r * Math.cos(phi);
+      <!-- Pillar 3 -->
+      <a href="/services/#technology" class="service-cat-card reveal reveal-delay-3" role="listitem">
+        <div class="service-cat-icon" aria-hidden="true">🤖</div>
+        <h3 class="service-cat-title">Technology &amp; Intelligence</h3>
+        <p class="service-cat-sub">AI automation, supply chain optimization, e-commerce fulfillment, audit services, and corruption-finding methodologies.</p>
+        <span class="service-cat-count">5 services</span>
+      </a>
 
-        color.set(palette[Math.floor(Math.random() * palette.length)]);
-        colors[i*3] = color.r;
-        colors[i*3+1] = color.g;
-        colors[i*3+2] = color.b;
-      }
+      <!-- Pillar 4 -->
+      <a href="/services/#finance" class="service-cat-card reveal reveal-delay-4" role="listitem">
+        <div class="service-cat-icon" aria-hidden="true">📈</div>
+        <h3 class="service-cat-title">Finance &amp; Capital</h3>
+        <p class="service-cat-sub">Finance as a Service, private equity, capital ventures, angel investment, and asset management for Pakistani businesses ready to grow.</p>
+        <span class="service-cat-count">5 services</span>
+      </a>
+    </div>
 
-      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-      const material = new THREE.PointsMaterial({ size: 2.8, vertexColors: true, transparent: true, blending: THREE.AdditiveBlending });
-      stars = new THREE.Points(geometry, material);
-      scene.add(stars);
+    <div style="text-align:center; margin-top:3rem;" class="reveal">
+      <a href="/services/" class="btn btn--outline">
+        View All 20+ Services
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
 
-      window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-      });
-    }
+<!-- ══════════════════════════════════════════════════════════
+     PAIN POINTS → SOLUTIONS
+══════════════════════════════════════════════════════════ -->
+<section class="section pain-section" aria-labelledby="pain-heading">
+  <div class="container">
+    <header class="section-head reveal">
+      <span class="t-label" style="color:var(--c-brand);">
+        <span style="background:var(--c-brand); width:24px; height:1px; display:inline-block;"></span>
+        The Pakistani Business Reality
+      </span>
+      <h2 id="pain-heading" style="color:var(--c-text-dark);">We Know What's <em>Holding You Back</em></h2>
+      <p style="color:var(--c-text-dark); opacity:0.7;">Every painful business problem we've seen in Pakistan has a name — and a precise solution. Here's the honest diagnosis.</p>
+    </header>
 
-    function animateStars() {
-      requestAnimationFrame(animateStars);
-      if (stars) {
-        stars.rotation.y += 0.0005;
-        stars.rotation.x += 0.0002;
-        renderer.render(scene, camera);
-      }
-    }
+    <div class="pain-grid">
+      <!-- Problem 1 -->
+      <div class="pain-card pain-card--problem reveal">
+        <div class="pain-card__badge pain-card__badge--problem">⚠ Pain Point</div>
+        <h3>Payroll Chaos &amp; HR Dysfunction</h3>
+        <p>Salary disbursement delays, absent attendance systems, no documented HR policies, high employee turnover you can't explain, and zero visibility into your people costs. This describes 80% of Pakistani businesses with 10+ employees.</p>
+      </div>
 
-    // === INTRO SEQUENCE ===
-    const intro = document.getElementById("intro");
-    const introWord = document.getElementById("introWord");
-    const container = document.querySelector(".container");
-    const bg = document.getElementById("bg");
-    const sequence = ["A", "For", "Ai"];
-    let idx = 0;
+      <!-- Solution 1 -->
+      <div class="pain-card pain-card--solution reveal reveal-delay-2">
+        <div class="pain-card__badge pain-card__badge--solution">✓ AOLFS Solution</div>
+        <h3>Total People Infrastructure</h3>
+        <p>We build your complete HR framework — policy manuals, attendance systems, payroll automation, performance management, and retention strategies — tailored to Pakistani labor law and business culture.</p>
+      </div>
 
-    function nextWord() {
-      if (idx > 0) introWord.classList.add("fade-out");
-      setTimeout(() => {
-        introWord.classList.remove("fade-out");
-        introWord.textContent = sequence[idx];
-        introWord.classList.add("visible");
-        idx++;
-        if (idx < sequence.length) {
-          setTimeout(nextWord, 1300);
-        } else {
-          // End intro
-          setTimeout(() => {
-            intro.style.transition = "opacity 1.5s ease";
-            intro.style.opacity = 0;
-            bg.style.opacity = 1;
-            initStars(); animateStars();
-            setTimeout(() => {
-              intro.remove();
-              container.classList.add("visible");
-            }, 1600);
-          }, 1400);
-        }
-      }, 600);
-    }
+      <!-- Problem 2 -->
+      <div class="pain-card pain-card--problem reveal reveal-delay-1">
+        <div class="pain-card__badge pain-card__badge--problem">⚠ Pain Point</div>
+        <h3>Restaurants Bleeding Cash Without Knowing Why</h3>
+        <p>No POS system, no inventory control, kitchen waste nobody tracks, staff stealing silently, and no financial report at month-end to tell you if you made a profit. Gut feel is not a management system.</p>
+      </div>
 
-    window.addEventListener("load", () => {
-      setTimeout(nextWord, 400);
-    });
-  </script>
+      <!-- Solution 2 -->
+      <div class="pain-card pain-card--solution reveal reveal-delay-3">
+        <div class="pain-card__badge pain-card__badge--solution">✓ AOLFS Solution</div>
+        <h3>Restaurant Management Architecture</h3>
+        <p>Full-stack restaurant systems covering POS, inventory, staff management, daily reporting, waste tracking, supplier management, and financial dashboards — so you see everything, every day.</p>
+      </div>
+
+      <!-- Problem 3 -->
+      <div class="pain-card pain-card--problem reveal">
+        <div class="pain-card__badge pain-card__badge--problem">⚠ Pain Point</div>
+        <h3>No Access to Structured Finance</h3>
+        <p>Banks won't lend to SMEs without years of audited financials. Investors won't engage without a proper pitch. You're stuck in a catch-22 — can't grow without capital, can't get capital without proven growth.</p>
+      </div>
+
+      <!-- Solution 3 -->
+      <div class="pain-card pain-card--solution reveal reveal-delay-2">
+        <div class="pain-card__badge pain-card__badge--solution">✓ AOLFS Solution</div>
+        <h3>Finance as a Service + Capital Access</h3>
+        <p>We structure your financials, prepare investor-ready documentation, connect you with our private equity and angel investment networks, and provide ongoing financial management — bridging the gap between ambition and capital.</p>
+      </div>
+
+      <!-- Problem 4 -->
+      <div class="pain-card pain-card--problem reveal reveal-delay-1">
+        <div class="pain-card__badge pain-card__badge--problem">⚠ Pain Point</div>
+        <h3>Operations Running on Whatsapp &amp; Intuition</h3>
+        <p>Decisions made verbally. Processes undocumented. SOPs nonexistent. Every time a key person leaves, institutional knowledge walks out the door with them. Scaling becomes impossible without systems.</p>
+      </div>
+
+      <!-- Solution 4 -->
+      <div class="pain-card pain-card--solution reveal reveal-delay-3">
+        <div class="pain-card__badge pain-card__badge--solution">✓ AOLFS Solution</div>
+        <h3>Organizational Development &amp; AI Automation</h3>
+        <p>We redesign your organizational structure, document every process, build SOPs, and layer AI automation on top — so your business runs like a machine, not a personality. Scale without limits.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     INDUSTRIES WE SERVE
+══════════════════════════════════════════════════════════ -->
+<section class="section industries-section" aria-labelledby="industries-heading">
+  <div class="container">
+    <header class="section-head reveal">
+      <span class="t-label">Industries Served</span>
+      <h2 id="industries-heading">Built for Pakistan's <em>Diverse Economy</em></h2>
+      <p>From street-level restaurants to multi-branch clinics, from e-commerce startups to established supply chains — our solutions are calibrated for the Pakistani market.</p>
+    </header>
+
+    <div class="industries-scroll-track" role="list" aria-label="Industries we serve">
+      <div class="industry-card" role="listitem">
+        <div class="industry-card__icon" aria-hidden="true">🍽️</div>
+        <div class="industry-card__name">Food &amp; Beverage</div>
+      </div>
+      <div class="industry-card" role="listitem">
+        <div class="industry-card__icon" aria-hidden="true">🏥</div>
+        <div class="industry-card__name">Healthcare &amp; Clinics</div>
+      </div>
+      <div class="industry-card" role="listitem">
+        <div class="industry-card__icon" aria-hidden="true">🎓</div>
+        <div class="industry-card__name">Education</div>
+      </div>
+      <div class="industry-card" role="listitem">
+        <div class="industry-card__icon" aria-hidden="true">💊</div>
+        <div class="industry-card__name">Pharmacy &amp; Med-Retail</div>
+      </div>
+      <div class="industry-card" role="listitem">
+        <div class="industry-card__icon" aria-hidden="true">📦</div>
+        <div class="industry-card__name">E-Commerce</div>
+      </div>
+      <div class="industry-card" role="listitem">
+        <div class="industry-card__icon" aria-hidden="true">🏭</div>
+        <div class="industry-card__name">Manufacturing</div>
+      </div>
+      <div class="industry-card" role="listitem">
+        <div class="industry-card__icon" aria-hidden="true">🚚</div>
+        <div class="industry-card__name">Logistics &amp; Transport</div>
+      </div>
+      <div class="industry-card" role="listitem">
+        <div class="industry-card__icon" aria-hidden="true">🏦</div>
+        <div class="industry-card__name">Financial Services</div>
+      </div>
+      <div class="industry-card" role="listitem">
+        <div class="industry-card__icon" aria-hidden="true">🛍️</div>
+        <div class="industry-card__name">Retail &amp; Distribution</div>
+      </div>
+      <div class="industry-card" role="listitem">
+        <div class="industry-card__icon" aria-hidden="true">🏗️</div>
+        <div class="industry-card__name">Real Estate &amp; Construction</div>
+      </div>
+      <div class="industry-card" role="listitem">
+        <div class="industry-card__icon" aria-hidden="true">💻</div>
+        <div class="industry-card__name">Technology &amp; IT</div>
+      </div>
+      <div class="industry-card" role="listitem">
+        <div class="industry-card__icon" aria-hidden="true">🌾</div>
+        <div class="industry-card__name">Agriculture &amp; AgriBusiness</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     HOW WE WORK — PROCESS
+══════════════════════════════════════════════════════════ -->
+<section class="section process-section" aria-labelledby="process-heading">
+  <div class="container">
+    <header class="section-head section-head--center reveal">
+      <span class="t-label" style="justify-content:center;">
+        <span style="background:var(--c-accent); width:24px; height:1px;"></span>
+        Our Methodology
+        <span style="background:var(--c-accent); width:24px; height:1px;"></span>
+      </span>
+      <h2 id="process-heading">Four Steps to Total <em>Transformation</em></h2>
+      <p>We don't drop a report and disappear. We're embedded partners who build, implement, train, and monitor — until results are real and permanent.</p>
+    </header>
+
+    <div class="process-steps" role="list">
+      <div class="process-step reveal" role="listitem">
+        <div class="process-step__num" aria-hidden="true">01</div>
+        <h3>Deep Diagnostic</h3>
+        <p>We spend time inside your business — talking to your team, reviewing your numbers, and mapping every gap before making a single recommendation.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-2" role="listitem">
+        <div class="process-step__num" aria-hidden="true">02</div>
+        <h3>Architecture Design</h3>
+        <p>We build a custom blueprint — systems, structures, processes, and technologies — precisely engineered for your business scale, industry, and goals.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-3" role="listitem">
+        <div class="process-step__num" aria-hidden="true">03</div>
+        <h3>Implementation &amp; Build</h3>
+        <p>We execute with your team. Every system gets installed, every process gets documented, every person gets trained. No loose ends, no half-done handovers.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-4" role="listitem">
+        <div class="process-step__num" aria-hidden="true">04</div>
+        <h3>Monitor &amp; Optimize</h3>
+        <p>We stay close. Regular reviews, performance tracking, course corrections, and continuous optimization — because a system that isn't measured isn't managed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     LEADERSHIP — MUHAMMAD EHTISHAM
+══════════════════════════════════════════════════════════ -->
+<section class="section leadership-section" id="leadership" aria-labelledby="leadership-heading">
+  <div class="container">
+    <div class="leadership-inner">
+
+      <!-- Photo -->
+      <div class="leadership-img-wrap reveal">
+        <div class="leadership-img-bg" aria-hidden="true"></div>
+        <div class="leadership-img-placeholder" aria-label="Muhammad Ehtisham, Founder and CEO of AOLFS">
+          <!-- Placeholder — replace with real photo using: <img src="/assets/images/ehtisham.jpg" alt="Muhammad Ehtisham, Founder & CEO of AOLFS"> -->
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" opacity="0.3">
+            <circle cx="40" cy="30" r="18" stroke="#b49a83" stroke-width="2"/>
+            <path d="M8 72c0-17.673 14.327-32 32-32s32 14.327 32 32" stroke="#b49a83" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="leadership-badge" aria-label="Founder and CEO">Founder &amp; CEO</div>
+      </div>
+
+      <!-- Content -->
+      <div class="leadership-content reveal reveal-delay-2">
+        <span class="t-label" style="margin-bottom:1.25rem;">Leadership</span>
+        <h2 class="leadership-name" id="leadership-heading">Muhammad<br>Ehtisham</h2>
+        <p class="leadership-title">Founder &amp; Chief Executive Officer — AOLFS</p>
+        <p class="leadership-bio">
+          Muhammad Ehtisham founded AOLFS with a singular conviction: that Pakistani businesses deserve the same operational rigor, financial discipline, and technological sophistication as the world's leading enterprises — without having to look abroad for it.
+        </p>
+        <p class="leadership-bio" style="margin-bottom:2rem;">
+          With deep expertise spanning organizational development, financial engineering, and enterprise systems implementation, he leads AOLFS with a founder's urgency and a strategist's precision. His approach is direct, research-driven, and relentlessly focused on measurable business outcomes.
+        </p>
+        <div class="leadership-tags" role="list" aria-label="Areas of expertise">
+          <span class="leadership-tag" role="listitem">Organizational Design</span>
+          <span class="leadership-tag" role="listitem">Financial Strategy</span>
+          <span class="leadership-tag" role="listitem">AI &amp; Automation</span>
+          <span class="leadership-tag" role="listitem">Operations Architecture</span>
+          <span class="leadership-tag" role="listitem">Business Transformation</span>
+          <span class="leadership-tag" role="listitem">Capital &amp; Investment</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     INSIGHTS / BLOG PREVIEW
+══════════════════════════════════════════════════════════ -->
+<section class="section blog-preview" aria-labelledby="blog-heading">
+  <div class="container">
+    <header class="section-head reveal" style="display:flex; align-items:flex-end; justify-content:space-between; gap:2rem; flex-wrap:wrap;">
+      <div>
+        <span class="t-label">Insights &amp; Thinking</span>
+        <h2 id="blog-heading">From the <em>Desk</em> of AOLFS</h2>
+        <p>Real analysis. No fluff. Written for Pakistani business owners who need answers, not impressions.</p>
+      </div>
+      <a href="/blog/" class="btn btn--outline" style="flex-shrink:0; margin-bottom:clamp(3rem,5vw,5rem);">
+        All Articles →
+      </a>
+    </header>
+
+    <div class="blog-grid">
+      <!-- Featured Article -->
+      <article class="blog-card blog-card--featured reveal">
+        <div class="blog-card__img">
+          <div class="blog-card__img-inner" aria-hidden="true">📊</div>
+        </div>
+        <div class="blog-card__body">
+          <span class="blog-card__cat">HR &amp; People</span>
+          <h3 class="blog-card__title">
+            <a href="/blog/why-pakistani-smes-lose-talent.html">
+              Why Pakistan's Best Employees Leave Within 18 Months — And the Exact System That Stops It
+            </a>
+          </h3>
+          <p class="blog-card__excerpt">
+            Turnover costs Pakistani businesses an estimated 50–200% of an employee's annual salary. Most businesses know it's happening. Almost none know the system to fix it. Here's the full diagnosis and a proven framework.
+          </p>
+          <div class="blog-card__meta">
+            <span>AOLFS Research &nbsp;·&nbsp; 8 min read</span>
+            <a href="/blog/why-pakistani-smes-lose-talent.html" class="blog-card__read-link">Read →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Article 2 -->
+      <article class="blog-card reveal reveal-delay-2">
+        <div class="blog-card__img">
+          <div class="blog-card__img-inner" aria-hidden="true">🤖</div>
+        </div>
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Technology</span>
+          <h3 class="blog-card__title">
+            <a href="/blog/ai-automation-pakistan-business.html">
+              AI Is Not a Luxury — Why Pakistani Businesses That Don't Automate Now Will Pay Double Later
+            </a>
+          </h3>
+          <p class="blog-card__excerpt">A practical guide to where AI creates the most immediate ROI in Pakistani SMEs — and how to start without a tech team.</p>
+          <div class="blog-card__meta">
+            <span>5 min read</span>
+            <a href="/blog/ai-automation-pakistan-business.html" class="blog-card__read-link">Read →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Article 3 -->
+      <article class="blog-card reveal reveal-delay-3">
+        <div class="blog-card__img">
+          <div class="blog-card__img-inner" aria-hidden="true">🍽️</div>
+        </div>
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Restaurant Business</span>
+          <h3 class="blog-card__title">
+            <a href="/blog/restaurant-profitability-pakistan.html">
+              The Hidden Profit Killers in Every Pakistani Restaurant (And the Management System That Eliminates Them)
+            </a>
+          </h3>
+          <p class="blog-card__excerpt">From shrinkage to recipe costing — the financial leaks that drain Pakistan's restaurant industry, quantified and solved.</p>
+          <div class="blog-card__meta">
+            <span>6 min read</span>
+            <a href="/blog/restaurant-profitability-pakistan.html" class="blog-card__read-link">Read →</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     CTA / CONTACT
+══════════════════════════════════════════════════════════ -->
+<section class="section cta-section" aria-labelledby="cta-heading">
+  <div class="cta-bg-text" aria-hidden="true">AOLFS</div>
+  <div class="container">
+    <div class="cta-content reveal">
+      <span class="t-label" style="justify-content:center; color:rgba(180,154,131,0.7); margin-bottom:1.5rem;">
+        <span style="background:rgba(180,154,131,0.3); width:24px; height:1px;"></span>
+        Ready to Begin
+        <span style="background:rgba(180,154,131,0.3); width:24px; height:1px;"></span>
+      </span>
+      <h2 class="cta-headline" id="cta-heading">
+        Let's Build Something<br><em>Extraordinary.</em>
+      </h2>
+      <p class="cta-sub">
+        Every great business operation starts with a single, honest conversation. Tell us where you are — we'll show you where you could be. No jargon, no generic proposals, no wasted time.
+      </p>
+      <div class="cta-actions">
+        <a href="/contact.html" class="btn btn--accent btn--lg">
+          Book a Free Consultation
+        </a>
+        <a href="https://wa.me/923056160430?text=Hello%20AOLFS%2C%20I%27d%20like%20to%20discuss%20my%20business%20needs."
+           target="_blank" rel="noopener noreferrer"
+           class="btn btn--outline" style="border-color:rgba(255,255,255,0.2); color:rgba(232,228,220,0.8);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp Us Now
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ── FOOTER MOUNT ──────────────────────────────────────────── -->
+<div id="footer-placeholder"></div>
+
+<!-- ── WHATSAPP FLOATING WIDGET ──────────────────────────────── -->
+<div class="wa-widget" aria-label="Chat with us on WhatsApp">
+  <div class="wa-widget__bubble" role="tooltip">Chat with us on WhatsApp</div>
+  <button class="wa-widget__btn" aria-label="Open WhatsApp chat">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </button>
+</div>
+
+<!-- ── SCRIPTS ───────────────────────────────────────────────── -->
+<script src="/assets/js/components.js" defer></script>
+
 </body>
 </html>

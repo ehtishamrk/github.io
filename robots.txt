@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Disallow admin and portal private areas
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /assets/
+
+# Allow important assets for crawlers
+Allow: /assets/css/
+Allow: /assets/images/
+
+Sitemap: https://www.aolfs.com/sitemap.xml
+
+# Crawl-delay for responsible bots
+Crawl-delay: 1

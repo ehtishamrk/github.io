@@ -1,0 +1,244 @@
+<!-- AOLFS Navigation Component -->
+<nav id="site-nav" role="navigation" aria-label="Main Navigation">
+  <div class="nav-container">
+
+    <!-- ── LOGO ───────────────────────────────────────────── -->
+    <a href="/" class="nav-logo" aria-label="AOLFS Home">
+      <!-- SVG Logo Mark -->
+      <svg class="nav-logo__mark" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- Outer ring -->
+        <circle cx="18" cy="18" r="17" stroke="#465433" stroke-width="1.5" fill="none"/>
+        <!-- Inner architectural grid representing operations -->
+        <rect x="10" y="10" width="7" height="7" rx="1" fill="#465433" opacity="0.7"/>
+        <rect x="19" y="10" width="7" height="7" rx="1" fill="#b49a83" opacity="0.9"/>
+        <rect x="10" y="19" width="7" height="7" rx="1" fill="#b49a83" opacity="0.5"/>
+        <rect x="19" y="19" width="7" height="7" rx="1" fill="#465433" opacity="0.9"/>
+        <!-- Center accent dot -->
+        <circle cx="18" cy="18" r="1.5" fill="#b49a83"/>
+      </svg>
+      <div class="nav-logo__text">
+        <span class="nav-logo__name">AOLFS</span>
+        <span class="nav-logo__tagline">Advanced Operations &amp; Logistics</span>
+      </div>
+    </a>
+
+    <!-- ── MAIN LINKS ──────────────────────────────────────── -->
+    <ul class="nav-links" role="list">
+      <li>
+        <a href="/" aria-current="page">Home</a>
+      </li>
+      <li>
+        <a href="/about.html">About</a>
+      </li>
+      <li>
+        <!-- Services with mega menu -->
+        <button class="nav-services-btn" aria-expanded="false" aria-controls="mega-services" aria-haspopup="true">
+          Services
+          <svg class="nav-chevron" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M2 5L7 10L12 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </li>
+      <li>
+        <a href="/blog/">Insights</a>
+      </li>
+      <li>
+        <a href="/contact.html">Contact</a>
+      </li>
+    </ul>
+
+    <!-- ── PORTAL BUTTONS ─────────────────────────────────── -->
+    <div class="nav-portals">
+      <a href="/portal/customer.html" class="nav-portal-btn nav-portal-btn--customer">
+        Client Portal
+      </a>
+      <a href="/portal/employee.html" class="nav-portal-btn nav-portal-btn--employee">
+        Team Portal
+      </a>
+    </div>
+
+    <!-- ── HAMBURGER (mobile) ─────────────────────────────── -->
+    <button class="nav-hamburger" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="mobile-nav">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+  </div>
+</nav>
+
+<!-- ── MEGA MENU ────────────────────────────────────────────── -->
+<div class="mega-menu" id="mega-services" role="dialog" aria-label="Services Menu">
+  <div class="mega-menu__inner">
+    <div class="mega-menu__header">
+      <h2 class="mega-menu__title">Our <em>Services</em></h2>
+      <a href="/services/" class="mega-menu__all-link">View All Services →</a>
+    </div>
+
+    <div class="mega-menu__grid">
+
+      <!-- Column 1: People & Organization -->
+      <div class="mega-col">
+        <div class="mega-col__title">People &amp; Organization</div>
+        <div class="mega-col__links">
+          <a href="/services/organizational-development.html" class="mega-col__link">
+            <span class="mega-col__link-dot"></span>
+            Organizational Development
+          </a>
+          <a href="/services/hiring.html" class="mega-col__link">
+            <span class="mega-col__link-dot"></span>
+            Hiring &amp; Recruitment
+          </a>
+          <a href="/services/hr-management.html" class="mega-col__link">
+            <span class="mega-col__link-dot"></span>
+            HR Development &amp; Management
+          </a>
+          <a href="/services/payroll.html" class="mega-col__link">
+            <span class="mega-col__link-dot"></span>
+            Payroll Management
+          </a>
+          <a href="/services/employee-management.html" class="mega-col__link">
+            <span class="mega-col__link-dot"></span>
+            Employee Management System
+          </a>
+        </div>
+      </div>
+
+      <!-- Column 2: Business Systems -->
+      <div class="mega-col">
+        <div class="mega-col__title">Business Systems</div>
+        <div class="mega-col__links">
+          <a href="/services/restaurant-management.html" class="mega-col__link">
+            <span class="mega-col__link-dot"></span>
+            Restaurant Management System
+          </a>
+          <a href="/services/restaurant-franchise.html" class="mega-col__link">
+            <span class="mega-col__link-dot"></span>
+            Restaurant Franchise Development
+          </a>
+          <a href="/services/clinic-management.html" class="mega-col__link">
+            <span class="mega-col__link-dot"></span>
+            Clinic Management System
+          </a>
+          <a href="/services/school-management.html" class="mega-col__link">
+            <span class="mega-col__link-dot"></span>
+            School Management System
+          </a>
+          <a href="/services/pharmacy-management.html" class="mega-col__link">
+            <span class="mega-col__link-dot"></span>
+            Pharmacy Management System
+          </a>
+        </div>
+      </div>
+
+      <!-- Column 3: Technology & Intelligence -->
+      <div class="mega-col">
+        <div class="mega-col__title">Technology &amp; Intelligence</div>
+        <div class="mega-col__links">
+          <a href="/services/ai-automation.html" class="mega-col__link">
+            <span class="mega-col__link-dot"></span>
+            AI Automation &amp; Implementation
+          </a>
+          <a href="/services/supply-chain.html" class="mega-col__link">
+            <span class="mega-col__link-dot"></span>
+            Supply Chain Management
+          </a>
+          <a href="/services/fulfillment.html" class="mega-col__link">
+            <span class="mega-col__link-dot"></span>
+            E-Commerce Fulfillment
+          </a>
+          <a href="/services/audit.html" class="mega-col__link">
+            <span class="mega-col__link-dot"></span>
+            Audit Services
+          </a>
+          <a href="/services/corruption-finding.html" class="mega-col__link">
+            <span class="mega-col__link-dot"></span>
+            Corruption &amp; Inefficiency Finding
+          </a>
+        </div>
+      </div>
+
+      <!-- Column 4: Finance & Capital -->
+      <div class="mega-col">
+        <div class="mega-col__title">Finance &amp; Capital</div>
+        <div class="mega-col__links">
+          <a href="/services/finance-as-a-service.html" class="mega-col__link">
+            <span class="mega-col__link-dot"></span>
+            Finance as a Service
+          </a>
+          <a href="/services/private-equity.html" class="mega-col__link">
+            <span class="mega-col__link-dot"></span>
+            Private Equity
+          </a>
+          <a href="/services/capital-venture.html" class="mega-col__link">
+            <span class="mega-col__link-dot"></span>
+            Capital Venture
+          </a>
+          <a href="/services/angel-investment.html" class="mega-col__link">
+            <span class="mega-col__link-dot"></span>
+            Angel Investment
+          </a>
+          <a href="/services/asset-management.html" class="mega-col__link">
+            <span class="mega-col__link-dot"></span>
+            Asset Management
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── MOBILE NAV ────────────────────────────────────────────── -->
+<nav class="mobile-nav" id="mobile-nav" aria-label="Mobile Navigation">
+
+  <a href="/" class="mobile-nav__link">Home</a>
+  <a href="/about.html" class="mobile-nav__link">About</a>
+
+  <!-- Services accordion -->
+  <button class="mobile-nav__link mobile-services-toggle" aria-expanded="false">
+    Services
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M3 6L8 11L13 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <div class="mobile-services-items">
+    <div class="mobile-nav__section-title">People &amp; Organization</div>
+    <a href="/services/organizational-development.html" class="mobile-nav__sub-link">Organizational Development</a>
+    <a href="/services/hiring.html"                     class="mobile-nav__sub-link">Hiring &amp; Recruitment</a>
+    <a href="/services/hr-management.html"              class="mobile-nav__sub-link">HR Development &amp; Management</a>
+    <a href="/services/payroll.html"                    class="mobile-nav__sub-link">Payroll Management</a>
+    <a href="/services/employee-management.html"        class="mobile-nav__sub-link">Employee Management System</a>
+
+    <div class="mobile-nav__section-title">Business Systems</div>
+    <a href="/services/restaurant-management.html"      class="mobile-nav__sub-link">Restaurant Management System</a>
+    <a href="/services/restaurant-franchise.html"       class="mobile-nav__sub-link">Restaurant Franchise Development</a>
+    <a href="/services/clinic-management.html"          class="mobile-nav__sub-link">Clinic Management System</a>
+    <a href="/services/school-management.html"          class="mobile-nav__sub-link">School Management System</a>
+    <a href="/services/pharmacy-management.html"        class="mobile-nav__sub-link">Pharmacy Management System</a>
+
+    <div class="mobile-nav__section-title">Technology &amp; Intelligence</div>
+    <a href="/services/ai-automation.html"              class="mobile-nav__sub-link">AI Automation &amp; Implementation</a>
+    <a href="/services/supply-chain.html"               class="mobile-nav__sub-link">Supply Chain Management</a>
+    <a href="/services/fulfillment.html"                class="mobile-nav__sub-link">E-Commerce Fulfillment</a>
+    <a href="/services/audit.html"                      class="mobile-nav__sub-link">Audit Services</a>
+    <a href="/services/corruption-finding.html"         class="mobile-nav__sub-link">Corruption &amp; Inefficiency Finding</a>
+
+    <div class="mobile-nav__section-title">Finance &amp; Capital</div>
+    <a href="/services/finance-as-a-service.html"       class="mobile-nav__sub-link">Finance as a Service</a>
+    <a href="/services/private-equity.html"             class="mobile-nav__sub-link">Private Equity</a>
+    <a href="/services/capital-venture.html"            class="mobile-nav__sub-link">Capital Venture</a>
+    <a href="/services/angel-investment.html"           class="mobile-nav__sub-link">Angel Investment</a>
+    <a href="/services/asset-management.html"           class="mobile-nav__sub-link">Asset Management</a>
+  </div>
+
+  <a href="/blog/"       class="mobile-nav__link">Insights</a>
+  <a href="/contact.html" class="mobile-nav__link">Contact</a>
+
+  <div class="mobile-nav__portals">
+    <a href="/portal/customer.html" class="nav-portal-btn nav-portal-btn--customer">Client Portal</a>
+    <a href="/portal/employee.html" class="nav-portal-btn nav-portal-btn--employee">Team Portal</a>
+  </div>
+
+</nav>

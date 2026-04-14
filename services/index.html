@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Services — AOLFS | Business Solutions Pakistan</title>
+  <meta name="description" content="AOLFS delivers 20+ specialized business services across four pillars: People & Organization, Business Systems, Technology & Intelligence, and Finance & Capital.">
+  <meta name="keywords" content="AOLFS services, business solutions Pakistan, HR management, AI automation, restaurant management, finance Pakistan">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.aolfs.com/services/">
+  <meta property="og:title" content="All Services — AOLFS">
+  <meta property="og:description" content="20+ specialized business services across four strategic pillars. Built for Pakistani businesses.">
+  <meta property="og:url" content="https://www.aolfs.com/services/">
+  <meta property="og:image" content="https://www.aolfs.com/assets/images/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+  <meta name="theme-color" content="#07080a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <style>
+    .services-hero{position:relative;padding-top:calc(var(--nav-h) + clamp(5rem,10vw,8rem));padding-bottom:clamp(4rem,7vw,7rem);background:var(--c-void);overflow:hidden;}
+    .pillar-section{padding:var(--sp-20) 0 var(--sp-12);}
+    .pillar-header{display:grid;grid-template-columns:1fr 2fr;gap:clamp(2rem,4vw,5rem);align-items:end;margin-bottom:clamp(2.5rem,4vw,4rem);padding-bottom:clamp(2rem,3vw,3rem);border-bottom:1px solid var(--c-border);}
+    .pillar-num{font-family:var(--font-display);font-size:clamp(5rem,12vw,10rem);font-weight:300;line-height:1;letter-spacing:var(--tracking-tightest);color:rgba(180,154,131,0.08);}
+    .pillar-title{font-family:var(--font-display);font-size:var(--text-4xl);font-weight:300;letter-spacing:var(--tracking-tightest);line-height:var(--leading-tight);margin-bottom:var(--sp-3);}
+    .pillar-title em{color:var(--c-accent);font-style:italic;}
+    .pillar-desc{font-size:var(--text-md);color:var(--c-text-muted);line-height:var(--leading-loose);max-width:54ch;}
+    .services-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--sp-4);}
+    .service-card{display:block;padding:var(--sp-7);border:1px solid var(--c-border);border-radius:var(--radius-lg);background:var(--c-dark-2);transition:all var(--dur-base);position:relative;overflow:hidden;}
+    .service-card::after{content:'→';position:absolute;bottom:var(--sp-6);right:var(--sp-7);font-size:var(--text-base);color:var(--c-accent);opacity:0;transform:translateX(-8px);transition:all var(--dur-base);}
+    .service-card:hover{border-color:rgba(180,154,131,0.25);transform:translateY(-4px);box-shadow:var(--shadow-lg);background:var(--c-dark-3);}
+    .service-card:hover::after{opacity:1;transform:translateX(0);}
+    .service-card__icon{font-size:1.6rem;margin-bottom:var(--sp-4);}
+    .service-card__title{font-family:var(--font-ui);font-size:var(--text-lg);font-weight:600;color:var(--c-text);margin-bottom:var(--sp-3);letter-spacing:var(--tracking-tight);line-height:var(--leading-snug);}
+    .service-card__desc{font-size:var(--text-sm);color:var(--c-text-muted);line-height:var(--leading-loose);}
+    .pillar-section--light{background:var(--c-cream);}
+    .pillar-section--light .pillar-title{color:var(--c-text-dark);}
+    .pillar-section--light .pillar-desc{color:rgba(26,26,20,0.65);}
+    .pillar-section--light .service-card{background:white;border-color:rgba(70,84,51,0.1);}
+    .pillar-section--light .service-card:hover{background:var(--c-cream-2);border-color:rgba(70,84,51,0.25);}
+    .pillar-section--light .service-card__title{color:var(--c-text-dark);}
+    .pillar-section--light .service-card__desc{color:rgba(26,26,20,0.6);}
+    @media(max-width:768px){.pillar-header{grid-template-columns:1fr;}.pillar-num{font-size:clamp(4rem,15vw,7rem);}}
+  </style>
+</head>
+<body>
+<div class="page-loader"><div class="loader-logo">AOLFS</div><div class="loader-bar"></div></div>
+<div class="cursor" aria-hidden="true"><div class="cursor__dot"></div></div>
+<div class="cursor" aria-hidden="true"><div class="cursor__ring"></div></div>
+<div id="nav-placeholder"></div>
+<main id="main-content">
+  <section class="services-hero" aria-labelledby="svc-index-heading">
+    <div style="position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(70,84,51,0.3) 0%,transparent 70%);top:-20%;right:-10%;border-radius:50%;filter:blur(100px);pointer-events:none;animation:orb-float-1 20s ease-in-out infinite;" aria-hidden="true"></div>
+    <div class="grain-overlay" aria-hidden="true"></div>
+    <div class="container" style="position:relative;z-index:2;">
+      <p class="t-label reveal" style="margin-bottom:1.5rem;">Everything We Do</p>
+      <h1 id="svc-index-heading" style="font-family:var(--font-display);font-size:clamp(3rem,7vw,7rem);font-weight:300;letter-spacing:var(--tracking-tightest);line-height:0.95;margin-bottom:1.5rem;" class="reveal reveal-delay-1">20+ Services.<br><em style="color:var(--c-accent);font-style:italic;">One Architecture.</em></h1>
+      <p style="font-size:var(--text-md);color:var(--c-text-muted);max-width:54ch;line-height:var(--leading-loose);margin-bottom:2.5rem;" class="reveal reveal-delay-2">Every service AOLFS delivers is part of an integrated business architecture. Four pillars. Twenty disciplines. One goal: building Pakistani businesses that are built to last.</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;" class="reveal reveal-delay-3">
+        <a href="#people" class="btn btn--primary">People &amp; Organization</a>
+        <a href="#systems" class="btn btn--outline">Business Systems</a>
+        <a href="#technology" class="btn btn--outline">Technology &amp; AI</a>
+        <a href="#finance" class="btn btn--outline">Finance &amp; Capital</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="pillar-section section--dark" id="people" aria-labelledby="pillar-1-heading">
+    <div class="container">
+      <div class="pillar-header reveal"><div class="pillar-num" aria-hidden="true">01</div><div><h2 class="pillar-title" id="pillar-1-heading">People &amp; <em>Organization</em></h2><p class="pillar-desc">Your people are your competitive advantage — but only if they're supported by proper systems, clear structures, and fair, reliable processes. We build all of it.</p></div></div>
+      <div class="services-list">
+        <a href="/services/organizational-development.html" class="service-card reveal"><div class="service-card__icon" aria-hidden="true">🧠</div><h3 class="service-card__title">Organizational Development</h3><p class="service-card__desc">Restructure your organization for performance. Roles, reporting lines, accountability frameworks, KPIs, culture design — the complete organizational architecture.</p></a>
+        <a href="/services/hiring.html" class="service-card reveal reveal-delay-2"><div class="service-card__icon" aria-hidden="true">🎯</div><h3 class="service-card__title">Hiring &amp; Recruitment</h3><p class="service-card__desc">From job architecture to sourcing, screening, and onboarding — a complete hiring system that finds the right people, fast, every time.</p></a>
+        <a href="/services/hr-management.html" class="service-card reveal reveal-delay-3"><div class="service-card__icon" aria-hidden="true">📋</div><h3 class="service-card__title">HR Development &amp; Management</h3><p class="service-card__desc">HR policies, handbooks, compliance with Pakistan labour law, performance management, and ongoing HR operations support.</p></a>
+        <a href="/services/payroll.html" class="service-card reveal reveal-delay-1"><div class="service-card__icon" aria-hidden="true">💰</div><h3 class="service-card__title">Payroll Management</h3><p class="service-card__desc">Accurate, on-time, fully compliant payroll — with attendance integration, tax deductions, EOBI/PESSI compliance, and detailed payslips.</p></a>
+        <a href="/services/employee-management.html" class="service-card reveal reveal-delay-2"><div class="service-card__icon" aria-hidden="true">👥</div><h3 class="service-card__title">Employee Management System</h3><p class="service-card__desc">Attendance, leave, performance reviews, disciplinary records, and employee lifecycle management — in one centralized system.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="pillar-section pillar-section--light" id="systems" aria-labelledby="pillar-2-heading">
+    <div class="container">
+      <div class="pillar-header reveal"><div class="pillar-num" style="color:rgba(70,84,51,0.08);" aria-hidden="true">02</div><div><h2 class="pillar-title" id="pillar-2-heading">Business <em style="color:var(--c-brand);">Systems</em></h2><p class="pillar-desc">Industry-specific management systems that replace guesswork with real-time data, control, and operational precision — for Pakistan's most common business verticals.</p></div></div>
+      <div class="services-list">
+        <a href="/services/restaurant-management.html" class="service-card reveal"><div class="service-card__icon" aria-hidden="true">🍽️</div><h3 class="service-card__title">Restaurant Management System</h3><p class="service-card__desc">POS, inventory, kitchen ops, staff management, daily P&L, supplier management — total restaurant command and control.</p></a>
+        <a href="/services/restaurant-franchise.html" class="service-card reveal reveal-delay-2"><div class="service-card__icon" aria-hidden="true">🏢</div><h3 class="service-card__title">Restaurant Franchise Development</h3><p class="service-card__desc">Turn your successful restaurant into a scalable franchise. Brand standards, documentation, franchisee selection, and ongoing management.</p></a>
+        <a href="/services/clinic-management.html" class="service-card reveal reveal-delay-3"><div class="service-card__icon" aria-hidden="true">🏥</div><h3 class="service-card__title">Clinic Management System</h3><p class="service-card__desc">Patient records, appointments, billing, doctor management, pharmacy integration, and compliance for clinics of all sizes.</p></a>
+        <a href="/services/school-management.html" class="service-card reveal reveal-delay-1"><div class="service-card__icon" aria-hidden="true">🎓</div><h3 class="service-card__title">School Management System</h3><p class="service-card__desc">Student records, fee management, attendance, results, teacher performance, and parent communication — all in one.</p></a>
+        <a href="/services/pharmacy-management.html" class="service-card reveal reveal-delay-2"><div class="service-card__icon" aria-hidden="true">💊</div><h3 class="service-card__title">Pharmacy Management System</h3><p class="service-card__desc">Inventory, expiry tracking, POS billing, prescription management, supplier relations, and regulatory compliance.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="pillar-section section--dark-2" id="technology" aria-labelledby="pillar-3-heading">
+    <div class="container">
+      <div class="pillar-header reveal"><div class="pillar-num" aria-hidden="true">03</div><div><h2 class="pillar-title" id="pillar-3-heading">Technology &amp; <em>Intelligence</em></h2><p class="pillar-desc">AI automation, supply chain architecture, corruption detection — technology-driven capabilities that give Pakistani businesses a genuine competitive edge.</p></div></div>
+      <div class="services-list">
+        <a href="/services/ai-automation.html" class="service-card reveal"><div class="service-card__icon" aria-hidden="true">🤖</div><h3 class="service-card__title">AI Automation &amp; Implementation</h3><p class="service-card__desc">Identify automation opportunities, deploy AI tools, build intelligent workflows, and eliminate manual processes — with measurable ROI from day one.</p></a>
+        <a href="/services/supply-chain.html" class="service-card reveal reveal-delay-2"><div class="service-card__icon" aria-hidden="true">🔗</div><h3 class="service-card__title">Supply Chain Management</h3><p class="service-card__desc">End-to-end optimization: vendor selection, procurement systems, inventory management, logistics coordination, and cost reduction.</p></a>
+        <a href="/services/fulfillment.html" class="service-card reveal reveal-delay-3"><div class="service-card__icon" aria-hidden="true">📦</div><h3 class="service-card__title">E-Commerce Fulfillment</h3><p class="service-card__desc">Warehousing strategy, order processing, last-mile delivery, returns management, and fulfillment cost optimization.</p></a>
+        <a href="/services/audit.html" class="service-card reveal reveal-delay-1"><div class="service-card__icon" aria-hidden="true">🔍</div><h3 class="service-card__title">Audit Services</h3><p class="service-card__desc">Operational, financial, and process audits that surface the true state of your business — with actionable recommendations, not just findings.</p></a>
+        <a href="/services/corruption-finding.html" class="service-card reveal reveal-delay-2"><div class="service-card__icon" aria-hidden="true">🛡️</div><h3 class="service-card__title">Corruption &amp; Inefficiency Finding</h3><p class="service-card__desc">Systematic investigation of financial leakage, procurement irregularities, time theft, and operational inefficiencies.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="pillar-section section--dark" id="finance" aria-labelledby="pillar-4-heading">
+    <div class="container">
+      <div class="pillar-header reveal"><div class="pillar-num" aria-hidden="true">04</div><div><h2 class="pillar-title" id="pillar-4-heading">Finance &amp; <em>Capital</em></h2><p class="pillar-desc">Financial infrastructure and capital access that transforms businesses from day-to-day survival into sustained, strategic growth — on Pakistan's terms.</p></div></div>
+      <div class="services-list">
+        <a href="/services/finance-as-a-service.html" class="service-card reveal"><div class="service-card__icon" aria-hidden="true">📊</div><h3 class="service-card__title">Finance as a Service</h3><p class="service-card__desc">Your complete outsourced finance function: bookkeeping, financial statements, cash flow management, tax preparation, and CFO advisory.</p></a>
+        <a href="/services/private-equity.html" class="service-card reveal reveal-delay-2"><div class="service-card__icon" aria-hidden="true">💼</div><h3 class="service-card__title">Private Equity</h3><p class="service-card__desc">Access to private equity partnerships. Investment structuring, due diligence preparation, and investor relationship management.</p></a>
+        <a href="/services/capital-venture.html" class="service-card reveal reveal-delay-3"><div class="service-card__icon" aria-hidden="true">🚀</div><h3 class="service-card__title">Capital Venture</h3><p class="service-card__desc">Venture capital access and preparation for high-growth businesses. Pitch development, financial modeling, and term sheet navigation.</p></a>
+        <a href="/services/angel-investment.html" class="service-card reveal reveal-delay-1"><div class="service-card__icon" aria-hidden="true">👼</div><h3 class="service-card__title">Angel Investment</h3><p class="service-card__desc">Connect with angel investors through the AOLFS network. Early-stage funding with strategic mentorship included.</p></a>
+        <a href="/services/asset-management.html" class="service-card reveal reveal-delay-2"><div class="service-card__icon" aria-hidden="true">🏛️</div><h3 class="service-card__title">Asset Management</h3><p class="service-card__desc">Structured management of business and personal assets: valuation, portfolio strategy, risk management, and return optimization.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-section" aria-labelledby="svc-idx-cta"><div class="cta-bg-text" aria-hidden="true">BUILD</div><div class="container"><div class="cta-content reveal"><span class="t-label" style="justify-content:center;color:rgba(180,154,131,0.7);margin-bottom:1.5rem;"><span style="background:rgba(180,154,131,0.3);width:24px;height:1px;"></span>Not Sure Where to Start?<span style="background:rgba(180,154,131,0.3);width:24px;height:1px;"></span></span><h2 class="cta-headline" id="svc-idx-cta">We'll Help You <em>Diagnose</em> First.</h2><p class="cta-sub">The best service is the right service. Book a free consultation and we'll map out exactly what your business needs — no guesswork, no generic solutions.</p><div class="cta-actions"><a href="/contact.html" class="btn btn--accent btn--lg">Book Free Consultation</a><a href="https://wa.me/923056160430" target="_blank" rel="noopener" class="btn btn--outline" style="border-color:rgba(255,255,255,0.2);color:rgba(232,228,220,0.8);">WhatsApp Us Now</a></div></div></div></section>
+</main>
+<div id="footer-placeholder"></div>
+<div class="wa-widget" aria-label="WhatsApp"><div class="wa-widget__bubble">Chat with us</div><button class="wa-widget__btn" aria-label="Open WhatsApp"><svg viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button></div>
+<script src="/assets/js/components.js" defer></script>
+</body>
+</html>

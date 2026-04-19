@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AOLFS Admin Panel</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+  <meta name="theme-color" content="#07080a">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Sans:opsz,wght@9..18,400;9..18,500&display=swap" rel="stylesheet">
+
+  <!-- Firebase SDK (v9 compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+
+  <style>
+    /* ── RESET & TOKENS ──────────────────────────────────── */
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
+    :root {
+      --c-brand:    #465433;
+      --c-brand-l:  #5a6b42;
+      --c-brand-d:  #2e3821;
+      --c-accent:   #b49a83;
+      --c-acc-l:    #cdb09c;
+      --c-void:     #07080a;
+      --c-dark:     #0c0d09;
+      --c-dark2:    #111308;
+      --c-dark3:    #181c0f;
+      --c-dark4:    #212815;
+      --c-text:     #e8e4dc;
+      --c-muted:    #9a9690;
+      --c-faint:    #5a5a54;
+      --c-border:   rgba(180,154,131,0.12);
+      --c-success:  #4a9e6b;
+      --c-error:    #c06060;
+      --c-warning:  #c09060;
+      --font-ui:    'Outfit', system-ui, sans-serif;
+      --font-body:  'DM Sans', system-ui, sans-serif;
+      --sidebar-w:  240px;
+      --header-h:   60px;
+      --radius:     8px;
+      --radius-lg:  14px;
+      --dur:        200ms;
+      --ease:       cubic-bezier(0,0,0.2,1);
+    }
+    html { font-size:16px; scrollbar-width:thin; scrollbar-color:var(--c-brand) var(--c-dark3); }
+    ::-webkit-scrollbar { width:4px; height:4px; }
+    ::-webkit-scrollbar-track { background:var(--c-dark3); }
+    ::-webkit-scrollbar-thumb { background:var(--c-brand); border-radius:2px; }
+    body { font-family:var(--font-body); background:var(--c-void); color:var(--c-text); min-height:100vh; overflow-x:hidden; }
+    a { color:inherit; text-decoration:none; }
+    button { cursor:pointer; border:none; background:none; font-family:inherit; }
+    input,textarea,select { font-family:inherit; font-size:inherit; }
+    img { display:block; max-width:100%; }
+
+    /* ── AUTH SCREEN ─────────────────────────────────────── */
+    #auth-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--c-void);
+      padding: 1.5rem;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 400px;
+      background: var(--c-dark3);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .auth-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--c-brand), var(--c-accent));
+    }
+    .auth-logo {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin-bottom: 2rem;
+    }
+    .auth-logo__mark {
+      width: 36px; height: 36px;
+    }
+    .auth-logo__name {
+      font-family: var(--font-ui);
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .auth-logo__sub {
+      font-size: .55rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--c-accent);
+      margin-top: 2px;
+    }
+    .auth-title {
+      font-family: var(--font-ui);
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: .4rem;
+    }
+    .auth-sub {
+      font-size: .82rem;
+      color: var(--c-muted);
+      margin-bottom: 1.75rem;
+      line-height: 1.6;
+    }
+
+    /* ── FORM CONTROLS ───────────────────────────────────── */
+    .field { display:flex; flex-direction:column; gap:.35rem; margin-bottom:1rem; }
+    .field label { font-family:var(--font-ui); font-size:.7rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--c-muted); }
+    .field input, .field select, .field textarea {
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius);
+      padding: .75em 1em;
+      font-size: .875rem;
+      color: var(--c-text);
+      transition: border-color var(--dur);
+      outline: none;
+      width: 100%;
+    }
+    .field input::placeholder, .field textarea::placeholder { color: var(--c-faint); }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: rgba(180,154,131,.5);
+      box-shadow: 0 0 0 3px rgba(180,154,131,.08);
+    }
+    .field select { cursor:pointer; }
+    .field textarea { resize:vertical; min-height:120px; line-height:1.6; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .4rem;
+      font-family: var(--font-ui);
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: .7em 1.5em;
+      border-radius: 99px;
+      transition: all var(--dur) var(--ease);
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .btn--primary { background:var(--c-brand); color:#f0ece4; border:1.5px solid var(--c-brand); }
+    .btn--primary:hover { background:var(--c-brand-l); border-color:var(--c-brand-l); }
+    .btn--accent { background:var(--c-accent); color:#1a1a14; border:1.5px solid var(--c-accent); }
+    .btn--accent:hover { background:var(--c-acc-l); }
+    .btn--outline { background:transparent; color:var(--c-text); border:1.5px solid var(--c-border); }
+    .btn--outline:hover { border-color:var(--c-accent); color:var(--c-accent); }
+    .btn--ghost { background:transparent; color:var(--c-muted); border:1.5px solid transparent; }
+    .btn--ghost:hover { color:var(--c-text); }
+    .btn--danger { background:rgba(192,96,96,.15); color:var(--c-error); border:1.5px solid rgba(192,96,96,.3); }
+    .btn--danger:hover { background:rgba(192,96,96,.25); }
+    .btn--success { background:rgba(74,158,107,.15); color:var(--c-success); border:1.5px solid rgba(74,158,107,.3); }
+    .btn--full { width:100%; justify-content:center; }
+    .btn--sm { padding:.45em 1em; font-size:.72rem; }
+    .btn--lg { padding:.85em 2em; font-size:.88rem; }
+    .btn:disabled { opacity:.45; cursor:not-allowed; }
+
+    /* ── ADMIN LAYOUT ────────────────────────────────────── */
+    #admin-shell { display:none; height:100vh; overflow:hidden; }
+    #admin-shell.visible { display:flex; }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-w);
+      min-width: var(--sidebar-w);
+      background: var(--c-dark2);
+      border-right: 1px solid var(--c-border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      transition: transform var(--dur) var(--ease);
+      z-index: 10;
+    }
+    .sidebar-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--c-border);
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      flex-shrink: 0;
+    }
+    .sidebar-logo-mark { width:28px; height:28px; }
+    .sidebar-logo-text { display:flex; flex-direction:column; line-height:1; }
+    .sidebar-logo-name { font-family:var(--font-ui); font-size:.8rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; }
+    .sidebar-logo-sub { font-size:.5rem; letter-spacing:.1em; text-transform:uppercase; color:var(--c-accent); margin-top:2px; }
+
+    .sidebar-section-title {
+      font-family: var(--font-ui);
+      font-size: .6rem;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--c-faint);
+      padding: 1.25rem 1.25rem .5rem;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      padding: .55rem 1.25rem;
+      font-family: var(--font-ui);
+      font-size: .82rem;
+      font-weight: 500;
+      color: var(--c-muted);
+      transition: all var(--dur);
+      border-radius: 0;
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+    .nav-item:hover { color: var(--c-text); background: rgba(255,255,255,.04); }
+    .nav-item.active { color: var(--c-accent); background: rgba(180,154,131,.07); border-right:2px solid var(--c-accent); }
+    .nav-item__icon { font-size:1rem; flex-shrink:0; width:20px; text-align:center; }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 1rem 1.25rem;
+      border-top: 1px solid var(--c-border);
+      flex-shrink: 0;
+    }
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      font-size: .78rem;
+      color: var(--c-muted);
+      margin-bottom: .75rem;
+    }
+    .user-chip__avatar {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: rgba(70,84,51,.3);
+      border: 1px solid rgba(70,84,51,.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .7rem;
+      font-weight: 700;
+      color: var(--c-brand-l);
+      flex-shrink: 0;
+    }
+
+    /* Main area */
+    .main-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-width: 0;
+    }
+    .top-bar {
+      height: var(--header-h);
+      background: var(--c-dark2);
+      border-bottom: 1px solid var(--c-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      flex-shrink: 0;
+    }
+    .top-bar__title {
+      font-family: var(--font-ui);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--c-text);
+    }
+    .top-bar__actions { display:flex; align-items:center; gap:.75rem; }
+
+    .content-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+    }
+
+    /* ── PANELS ──────────────────────────────────────────── */
+    .panel { display:none; }
+    .panel.active { display:block; }
+
+    /* ── CARDS & SECTIONS ────────────────────────────────── */
+    .card {
+      background: var(--c-dark3);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .card-title {
+      font-family: var(--font-ui);
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--c-accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .card-title__badge {
+      font-size: .65rem;
+      background: rgba(180,154,131,.15);
+      color: var(--c-accent);
+      padding: 2px 7px;
+      border-radius: 99px;
+    }
+
+    /* Stat cards */
+    .stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:1.5rem; }
+    .stat-card {
+      background: var(--c-dark3);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+    }
+    .stat-card__label { font-size:.7rem; color:var(--c-muted); font-family:var(--font-ui); font-weight:600; letter-spacing:.06em; text-transform:uppercase; margin-bottom:.4rem; }
+    .stat-card__num { font-family:var(--font-ui); font-size:1.8rem; font-weight:700; color:var(--c-text); line-height:1; margin-bottom:.3rem; }
+    .stat-card__sub { font-size:.72rem; color:var(--c-faint); }
+    .stat-card__accent { color:var(--c-accent); }
+
+    /* Quick actions */
+    .quick-actions { display:grid; grid-template-columns:repeat(3,1fr); gap:.75rem; margin-bottom:1.5rem; }
+    .quick-action {
+      background: var(--c-dark3);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: .6rem;
+      cursor: pointer;
+      transition: all var(--dur);
+      text-align: left;
+    }
+    .quick-action:hover { border-color:rgba(180,154,131,.25); transform:translateY(-2px); background:var(--c-dark4); }
+    .quick-action__icon { font-size:1.5rem; }
+    .quick-action__title { font-family:var(--font-ui); font-size:.875rem; font-weight:600; color:var(--c-text); }
+    .quick-action__sub { font-size:.75rem; color:var(--c-muted); line-height:1.5; }
+
+    /* ── TABLE ───────────────────────────────────────────── */
+    .data-table { width:100%; border-collapse:collapse; font-size:.84rem; }
+    .data-table th {
+      font-family:var(--font-ui); font-size:.65rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+      color:var(--c-muted); padding:.6rem 1rem; text-align:left; border-bottom:1px solid var(--c-border);
+      background: var(--c-dark4); white-space:nowrap;
+    }
+    .data-table td { padding:.7rem 1rem; border-bottom:1px solid rgba(255,255,255,.04); color:var(--c-muted); vertical-align:middle; }
+    .data-table tr:last-child td { border-bottom:none; }
+    .data-table tr:hover td { background:rgba(255,255,255,.02); }
+    .data-table td:first-child { color:var(--c-text); font-weight:500; }
+    .table-actions { display:flex; gap:.4rem; }
+
+    /* Status badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 99px;
+    }
+    .badge--published { background:rgba(74,158,107,.15); color:var(--c-success); }
+    .badge--draft { background:rgba(180,154,131,.12); color:var(--c-accent); }
+    .badge--active { background:rgba(70,84,51,.2); color:var(--c-brand-l); }
+
+    /* ── EDITOR ──────────────────────────────────────────── */
+    .editor-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .25rem;
+      padding: .5rem;
+      background: var(--c-dark4);
+      border: 1px solid var(--c-border);
+      border-bottom: none;
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+    .toolbar-btn {
+      font-family: var(--font-ui);
+      font-size: .75rem;
+      font-weight: 600;
+      padding: .3em .7em;
+      border: 1px solid var(--c-border);
+      border-radius: 4px;
+      background: transparent;
+      color: var(--c-muted);
+      cursor: pointer;
+      transition: all var(--dur);
+    }
+    .toolbar-btn:hover { background:rgba(255,255,255,.07); color:var(--c-text); }
+    .toolbar-btn.active { background:rgba(180,154,131,.15); color:var(--c-accent); border-color:rgba(180,154,131,.3); }
+    .toolbar-sep { width:1px; background:var(--c-border); margin: 0 .15rem; align-self:stretch; }
+    .editor-body {
+      min-height: 320px;
+      padding: 1rem;
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--c-border);
+      border-radius: 0 0 var(--radius) var(--radius);
+      color: var(--c-text);
+      font-size: .9rem;
+      line-height: 1.75;
+      outline: none;
+      overflow-y: auto;
+    }
+    .editor-body:focus { border-color:rgba(180,154,131,.5); }
+    .editor-body h2 { font-size:1.3rem; margin:1rem 0 .5rem; color:var(--c-text); }
+    .editor-body h3 { font-size:1.1rem; margin:.75rem 0 .4rem; color:var(--c-text); }
+    .editor-body p { margin-bottom:.75rem; }
+    .editor-body ul, .editor-body ol { margin:.5rem 0 .75rem 1.5rem; }
+    .editor-body li { margin-bottom:.25rem; }
+    .editor-body strong { color:var(--c-text); }
+    .editor-body a { color:var(--c-accent); }
+    .editor-body blockquote { border-left:3px solid var(--c-accent); padding-left:1rem; color:var(--c-muted); font-style:italic; margin:.75rem 0; }
+
+    /* ── IMAGE UPLOAD ────────────────────────────────────── */
+    .upload-zone {
+      border: 2px dashed var(--c-border);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--dur);
+      background: rgba(255,255,255,.02);
+    }
+    .upload-zone:hover, .upload-zone.drag-over {
+      border-color: var(--c-accent);
+      background: rgba(180,154,131,.05);
+    }
+    .upload-zone__icon { font-size:2.5rem; margin-bottom:.75rem; }
+    .upload-zone__text { font-size:.85rem; color:var(--c-muted); margin-bottom:.5rem; }
+    .upload-zone__sub { font-size:.75rem; color:var(--c-faint); }
+    .upload-progress {
+      display: none;
+      margin-top: 1rem;
+    }
+    .upload-progress.visible { display:block; }
+    .progress-bar {
+      height: 4px;
+      background: var(--c-dark4);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: .5rem;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--c-brand), var(--c-accent));
+      transition: width .3s var(--ease);
+      border-radius: 2px;
+    }
+    .progress-text { font-size:.75rem; color:var(--c-muted); }
+
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: .75rem;
+      margin-top: 1rem;
+    }
+    .image-thumb {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--c-border);
+      cursor: pointer;
+      background: var(--c-dark4);
+    }
+    .image-thumb img { width:100%; height:100%; object-fit:cover; }
+    .image-thumb__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,.6);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: .4rem;
+      opacity: 0;
+      transition: opacity var(--dur);
+    }
+    .image-thumb:hover .image-thumb__overlay { opacity:1; }
+    .image-thumb__name {
+      font-size: .65rem;
+      color: white;
+      text-align: center;
+      padding: 0 .25rem;
+      word-break: break-all;
+      line-height: 1.3;
+    }
+
+    /* ── ALERTS / TOASTS ─────────────────────────────────── */
+    .toast-container {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+    .toast {
+      padding: .75rem 1.25rem;
+      border-radius: var(--radius);
+      font-size: .82rem;
+      font-family: var(--font-ui);
+      font-weight: 500;
+      max-width: 320px;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      animation: toast-in .25s var(--ease);
+      box-shadow: 0 4px 20px rgba(0,0,0,.5);
+    }
+    .toast--success { background:rgba(74,158,107,.2); border:1px solid rgba(74,158,107,.4); color:var(--c-success); }
+    .toast--error { background:rgba(192,96,96,.2); border:1px solid rgba(192,96,96,.4); color:var(--c-error); }
+    .toast--info { background:rgba(70,84,51,.25); border:1px solid rgba(70,84,51,.4); color:var(--c-brand-l); }
+    @keyframes toast-in { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ── MODAL ───────────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.75);
+      backdrop-filter: blur(4px);
+      z-index: 500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-overlay.open { display:flex; }
+    .modal {
+      background: var(--c-dark3);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    .modal-title { font-family:var(--font-ui); font-size:1.1rem; font-weight:600; margin-bottom:1.25rem; }
+    .modal-actions { display:flex; justify-content:flex-end; gap:.5rem; margin-top:1.25rem; }
+
+    /* ── PAGE CONTENT EDITOR ─────────────────────────────── */
+    .page-section-card {
+      background: var(--c-dark3);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-lg);
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+    .page-section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .9rem 1.25rem;
+      cursor: pointer;
+      user-select: none;
+      background: var(--c-dark4);
+      border-bottom: 1px solid transparent;
+      transition: border-color var(--dur);
+    }
+    .page-section-head:hover { background: rgba(255,255,255,.03); }
+    .page-section-head.open { border-bottom-color: var(--c-border); }
+    .page-section-head__title {
+      font-family: var(--font-ui);
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--c-text);
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .page-section-body { display:none; padding:1.25rem; }
+    .page-section-body.open { display:block; }
+
+    /* ── SETTINGS ────────────────────────────────────────── */
+    .settings-group {
+      background: var(--c-dark3);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .settings-group__title {
+      font-family: var(--font-ui);
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--c-accent);
+      margin-bottom: 1rem;
+    }
+
+    /* ── SPLIT LAYOUT ────────────────────────────────────── */
+    .split { display:grid; grid-template-columns:1fr 320px; gap:1rem; align-items:start; }
+    .split--wide { grid-template-columns:1fr 260px; }
+    .col-stack { display:flex; flex-direction:column; gap:1rem; }
+
+    /* ── MISC UTILS ──────────────────────────────────────── */
+    .flex { display:flex; } .items-center { align-items:center; } .justify-between { justify-content:space-between; }
+    .gap-2 { gap:.5rem; } .gap-3 { gap:.75rem; } .gap-4 { gap:1rem; }
+    .mb-1 { margin-bottom:.25rem; } .mb-2 { margin-bottom:.5rem; } .mb-3 { margin-bottom:.75rem; } .mb-4 { margin-bottom:1rem; }
+    .mt-4 { margin-top:1rem; }
+    .text-sm { font-size:.82rem; } .text-xs { font-size:.72rem; }
+    .text-muted { color:var(--c-muted); } .text-faint { color:var(--c-faint); } .text-accent { color:var(--c-accent); }
+    .font-ui { font-family:var(--font-ui); }
+    .fw-600 { font-weight:600; }
+    .section-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem; }
+    .section-head h2 { font-family:var(--font-ui); font-size:1rem; font-weight:600; color:var(--c-text); }
+    .divider { height:1px; background:var(--c-border); margin:1rem 0; }
+    .empty-state { text-align:center; padding:3rem 1rem; color:var(--c-faint); font-size:.85rem; }
+    .empty-state__icon { font-size:2.5rem; margin-bottom:.75rem; opacity:.5; }
+    .spinner {
+      width: 20px; height: 20px;
+      border: 2px solid var(--c-border);
+      border-top-color: var(--c-accent);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+      display: inline-block;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .sidebar { position:fixed; left:0; top:0; bottom:0; transform:translateX(-100%); }
+      .sidebar.open { transform:translateX(0); }
+      .stats-row { grid-template-columns:1fr 1fr; }
+      .quick-actions { grid-template-columns:1fr 1fr; }
+      .split { grid-template-columns:1fr; }
+    }
+    @media (max-width: 600px) {
+      .stats-row { grid-template-columns:1fr; }
+      .quick-actions { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── AUTH SCREEN ──────────────────────────────────────── -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <svg class="auth-logo__mark" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="18" cy="18" r="17" stroke="#465433" stroke-width="1.5" fill="none"/>
+        <rect x="10" y="10" width="7" height="7" rx="1" fill="#465433" opacity="0.7"/>
+        <rect x="19" y="10" width="7" height="7" rx="1" fill="#b49a83" opacity="0.9"/>
+        <rect x="10" y="19" width="7" height="7" rx="1" fill="#b49a83" opacity="0.5"/>
+        <rect x="19" y="19" width="7" height="7" rx="1" fill="#465433" opacity="0.9"/>
+        <circle cx="18" cy="18" r="1.5" fill="#b49a83"/>
+      </svg>
+      <div class="auth-logo__text">
+        <span class="auth-logo__name">AOLFS</span>
+        <span class="auth-logo__sub" style="display:block;">Admin Panel</span>
+      </div>
+    </div>
+    <h1 class="auth-title">Sign In</h1>
+    <p class="auth-sub">Access the AOLFS content management system. Authorised personnel only.</p>
+    <div class="field">
+      <label for="login-email">Email Address</label>
+      <input type="email" id="login-email" placeholder="admin@aolfs.com" autocomplete="email">
+    </div>
+    <div class="field">
+      <label for="login-password">Password</label>
+      <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <div id="auth-error" style="display:none;font-size:.8rem;color:var(--c-error);margin-bottom:1rem;padding:.6rem .9rem;background:rgba(192,96,96,.1);border:1px solid rgba(192,96,96,.25);border-radius:6px;"></div>
+    <button class="btn btn--primary btn--full btn--lg" id="login-btn" onclick="handleLogin()">
+      Sign In to Admin Panel
+    </button>
+    <p style="text-align:center;font-size:.75rem;color:var(--c-faint);margin-top:1.25rem;">Protected by Firebase Authentication. Unauthorised access is prohibited.</p>
+  </div>
+</div>
+
+<!-- ── ADMIN SHELL ──────────────────────────────────────── -->
+<div id="admin-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <svg class="sidebar-logo-mark" viewBox="0 0 36 36" fill="none">
+        <circle cx="18" cy="18" r="17" stroke="#465433" stroke-width="1.5" fill="none"/>
+        <rect x="10" y="10" width="7" height="7" rx="1" fill="#465433" opacity="0.7"/>
+        <rect x="19" y="10" width="7" height="7" rx="1" fill="#b49a83" opacity="0.9"/>
+        <rect x="10" y="19" width="7" height="7" rx="1" fill="#b49a83" opacity="0.5"/>
+        <rect x="19" y="19" width="7" height="7" rx="1" fill="#465433" opacity="0.9"/>
+        <circle cx="18" cy="18" r="1.5" fill="#b49a83"/>
+      </svg>
+      <div class="sidebar-logo-text">
+        <span class="sidebar-logo-name">AOLFS</span>
+        <span class="sidebar-logo-sub">Admin Panel</span>
+      </div>
+    </div>
+
+    <div class="sidebar-section-title">Content</div>
+    <button class="nav-item active" onclick="showPanel('dashboard')" data-panel="dashboard">
+      <span class="nav-item__icon">📊</span> Dashboard
+    </button>
+    <button class="nav-item" onclick="showPanel('blog')" data-panel="blog">
+      <span class="nav-item__icon">📝</span> Blog &amp; Articles
+    </button>
+    <button class="nav-item" onclick="showPanel('new-post')" data-panel="new-post">
+      <span class="nav-item__icon">✏️</span> New Article
+    </button>
+    <button class="nav-item" onclick="showPanel('pages')" data-panel="pages">
+      <span class="nav-item__icon">📄</span> Page Content
+    </button>
+
+    <div class="sidebar-section-title">Media &amp; Assets</div>
+    <button class="nav-item" onclick="showPanel('media')" data-panel="media">
+      <span class="nav-item__icon">🖼️</span> Media Library
+    </button>
+    <button class="nav-item" onclick="showPanel('upload')" data-panel="upload">
+      <span class="nav-item__icon">⬆️</span> Upload Images
+    </button>
+
+    <div class="sidebar-section-title">Business</div>
+    <button class="nav-item" onclick="showPanel('enquiries')" data-panel="enquiries">
+      <span class="nav-item__icon">📬</span> Enquiries
+    </button>
+    <button class="nav-item" onclick="showPanel('settings')" data-panel="settings">
+      <span class="nav-item__icon">⚙️</span> Settings
+    </button>
+
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="user-chip__avatar" id="user-avatar">A</div>
+        <div>
+          <div style="font-size:.78rem;font-weight:600;color:var(--c-text);" id="user-email-display">Admin</div>
+          <div style="font-size:.68rem;color:var(--c-faint);">AOLFS Administrator</div>
+        </div>
+      </div>
+      <button class="btn btn--ghost btn--sm btn--full" style="justify-content:flex-start;padding-left:0;" onclick="handleLogout()">
+        ← Sign Out
+      </button>
+      <a href="/" target="_blank" class="btn btn--outline btn--sm btn--full" style="margin-top:.4rem;font-size:.72rem;">
+        ↗ View Live Site
+      </a>
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <div class="main-area">
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+      <div class="flex items-center gap-3">
+        <button style="display:none;" id="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')" class="btn btn--ghost btn--sm">
+          ☰
+        </button>
+        <h1 class="top-bar__title" id="panel-title">Dashboard</h1>
+      </div>
+      <div class="top-bar__actions">
+        <span id="save-status" style="font-size:.75rem;color:var(--c-faint);"></span>
+        <button class="btn btn--primary btn--sm" id="top-save-btn" style="display:none;" onclick="handleTopSave()">
+          Save Changes
+        </button>
+        <button class="btn btn--accent btn--sm" id="publish-btn" style="display:none;" onclick="handlePublish()">
+          Publish
+        </button>
+      </div>
+    </div>
+
+    <!-- CONTENT AREA -->
+    <div class="content-area">
+
+      <!-- ═══════════ DASHBOARD ═══════════ -->
+      <div class="panel active" id="panel-dashboard">
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-card__label">Total Articles</div>
+            <div class="stat-card__num stat-card__accent" id="stat-articles">—</div>
+            <div class="stat-card__sub">Published &amp; drafts</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__label">Published</div>
+            <div class="stat-card__num" id="stat-published">—</div>
+            <div class="stat-card__sub">Live on site</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__label">Media Files</div>
+            <div class="stat-card__num" id="stat-media">—</div>
+            <div class="stat-card__sub">Uploaded images</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__label">Service Pages</div>
+            <div class="stat-card__num stat-card__accent">21</div>
+            <div class="stat-card__sub">All 4 pillars</div>
+          </div>
+        </div>
+
+        <div class="quick-actions">
+          <button class="quick-action" onclick="showPanel('new-post')">
+            <div class="quick-action__icon">✏️</div>
+            <div class="quick-action__title">Write New Article</div>
+            <div class="quick-action__sub">Create and publish a new blog post or insight</div>
+          </button>
+          <button class="quick-action" onclick="showPanel('upload')">
+            <div class="quick-action__icon">🖼️</div>
+            <div class="quick-action__title">Upload Images</div>
+            <div class="quick-action__sub">Add photos to the media library</div>
+          </button>
+          <button class="quick-action" onclick="showPanel('pages')">
+            <div class="quick-action__icon">📄</div>
+            <div class="quick-action__title">Edit Page Content</div>
+            <div class="quick-action__sub">Update homepage, about, and services content</div>
+          </button>
+          <button class="quick-action" onclick="showPanel('enquiries')">
+            <div class="quick-action__icon">📬</div>
+            <div class="quick-action__title">View Enquiries</div>
+            <div class="quick-action__sub">Review contact form submissions</div>
+          </button>
+          <button class="quick-action" onclick="window.open('/', '_blank')">
+            <div class="quick-action__icon">🌐</div>
+            <div class="quick-action__title">View Live Site</div>
+            <div class="quick-action__sub">Open aolfs.com in a new tab</div>
+          </button>
+          <button class="quick-action" onclick="showPanel('settings')">
+            <div class="quick-action__icon">⚙️</div>
+            <div class="quick-action__title">Site Settings</div>
+            <div class="quick-action__sub">Update contact info and site details</div>
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Recent Articles</div>
+          <div id="recent-posts-list">
+            <div class="empty-state"><div class="empty-state__icon">📝</div>No articles yet — write your first one!</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════ BLOG LIST ═══════════ -->
+      <div class="panel" id="panel-blog">
+        <div class="section-head">
+          <h2>All Articles</h2>
+          <button class="btn btn--accent btn--sm" onclick="showPanel('new-post')">+ New Article</button>
+        </div>
+        <div class="card" style="padding:0;overflow:hidden;">
+          <table class="data-table" id="posts-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="posts-tbody">
+              <tr><td colspan="5"><div class="empty-state"><div class="empty-state__icon">📝</div>No articles yet.</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ═══════════ NEW / EDIT POST ═══════════ -->
+      <div class="panel" id="panel-new-post">
+        <input type="hidden" id="editing-post-id" value="">
+        <div class="split">
+          <div>
+            <div class="field">
+              <label>Article Title *</label>
+              <input type="text" id="post-title" placeholder="Write a clear, compelling title..." oninput="generateSlug()">
+            </div>
+            <div class="field">
+              <label>URL Slug</label>
+              <input type="text" id="post-slug" placeholder="auto-generated-from-title">
+            </div>
+            <div class="field">
+              <label>Excerpt / Summary *</label>
+              <textarea id="post-excerpt" rows="3" placeholder="A 1–2 sentence summary shown in blog listings and search results..."></textarea>
+            </div>
+
+            <!-- Rich text editor -->
+            <div class="field">
+              <label>Article Body *</label>
+              <div class="editor-toolbar" id="editor-toolbar">
+                <button class="toolbar-btn" onclick="execCmd('bold')" title="Bold"><b>B</b></button>
+                <button class="toolbar-btn" onclick="execCmd('italic')" title="Italic"><i>I</i></button>
+                <button class="toolbar-btn" onclick="execCmd('underline')" title="Underline"><u>U</u></button>
+                <div class="toolbar-sep"></div>
+                <button class="toolbar-btn" onclick="execCmd('formatBlock','<h2>')" title="Heading 2">H2</button>
+                <button class="toolbar-btn" onclick="execCmd('formatBlock','<h3>')" title="Heading 3">H3</button>
+                <button class="toolbar-btn" onclick="execCmd('formatBlock','<p>')" title="Paragraph">¶</button>
+                <div class="toolbar-sep"></div>
+                <button class="toolbar-btn" onclick="execCmd('insertUnorderedList')" title="Bullet List">• List</button>
+                <button class="toolbar-btn" onclick="execCmd('insertOrderedList')" title="Numbered List">1. List</button>
+                <div class="toolbar-sep"></div>
+                <button class="toolbar-btn" onclick="insertLink()" title="Insert Link">🔗</button>
+                <button class="toolbar-btn" onclick="execCmd('formatBlock','<blockquote>')" title="Quote">❝</button>
+                <div class="toolbar-sep"></div>
+                <button class="toolbar-btn" onclick="execCmd('removeFormat')" title="Clear Formatting">Tx</button>
+              </div>
+              <div class="editor-body" id="post-editor" contenteditable="true" spellcheck="true"
+                   placeholder="Start writing your article here..."></div>
+            </div>
+          </div>
+
+          <!-- Sidebar options -->
+          <div class="col-stack">
+            <div class="card">
+              <div class="card-title">Publish</div>
+              <div class="field">
+                <label>Status</label>
+                <select id="post-status">
+                  <option value="draft">Draft (not visible)</option>
+                  <option value="published">Published (live)</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Publish Date</label>
+                <input type="date" id="post-date">
+              </div>
+              <button class="btn btn--accent btn--full mt-4" onclick="savePost(true)">Publish Article</button>
+              <button class="btn btn--outline btn--full" style="margin-top:.4rem;" onclick="savePost(false)">Save Draft</button>
+            </div>
+
+            <div class="card">
+              <div class="card-title">Article Details</div>
+              <div class="field">
+                <label>Category *</label>
+                <select id="post-category">
+                  <option value="">Select category</option>
+                  <option value="hr">HR &amp; People</option>
+                  <option value="technology">Technology &amp; AI</option>
+                  <option value="restaurant">Restaurant Business</option>
+                  <option value="finance">Finance &amp; Capital</option>
+                  <option value="operations">Operations</option>
+                  <option value="general">General Business</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Read Time (e.g. "5 min read")</label>
+                <input type="text" id="post-readtime" placeholder="5 min read">
+              </div>
+              <div class="field">
+                <label>Author</label>
+                <input type="text" id="post-author" value="AOLFS Research">
+              </div>
+              <div class="field">
+                <label>Featured Article?</label>
+                <select id="post-featured">
+                  <option value="no">No</option>
+                  <option value="yes">Yes — show at top of blog</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">SEO</div>
+              <div class="field">
+                <label>Meta Title (leave blank to use article title)</label>
+                <input type="text" id="post-meta-title" placeholder="Optional custom SEO title">
+              </div>
+              <div class="field">
+                <label>Meta Description</label>
+                <textarea id="post-meta-desc" rows="3" placeholder="150–160 char description for search results..."></textarea>
+              </div>
+              <div id="meta-char-count" style="font-size:.7rem;color:var(--c-faint);text-align:right;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════ PAGE CONTENT ═══════════ -->
+      <div class="panel" id="panel-pages">
+        <div class="section-head">
+          <h2>Page Content Editor</h2>
+          <button class="btn btn--primary btn--sm" onclick="savePageContent()">Save All Changes</button>
+        </div>
+        <p class="text-sm text-muted mb-4">Edit key content sections. Changes are saved to Firebase and can be applied to your pages dynamically.</p>
+
+        <!-- Homepage sections -->
+        <div class="page-section-card">
+          <div class="page-section-head" onclick="toggleSection(this)">
+            <div class="page-section-head__title">🏠 Homepage</div>
+            <span style="font-size:.75rem;color:var(--c-muted);">▼</span>
+          </div>
+          <div class="page-section-body">
+            <div class="field"><label>Hero Headline Line 1</label><input type="text" id="page-hero-h1" placeholder="Where Vision" data-page="homepage" data-field="hero_h1"></div>
+            <div class="field"><label>Hero Headline Line 2</label><input type="text" id="page-hero-h2" placeholder="Finds Its" data-page="homepage" data-field="hero_h2"></div>
+            <div class="field"><label>Hero Headline Line 3 (italic/accent)</label><input type="text" id="page-hero-h3" placeholder="Architecture." data-page="homepage" data-field="hero_h3"></div>
+            <div class="field"><label>Hero Subheadline</label><textarea id="page-hero-sub" rows="3" data-page="homepage" data-field="hero_sub" placeholder="We engineer the operational, logistical..."></textarea></div>
+            <div class="field"><label>CTA Button 1 Text</label><input type="text" id="page-cta1" placeholder="Explore Services" data-page="homepage" data-field="cta1_text"></div>
+            <div class="field"><label>CTA Button 2 Text</label><input type="text" id="page-cta2" placeholder="Book a Consultation" data-page="homepage" data-field="cta2_text"></div>
+          </div>
+        </div>
+
+        <!-- About sections -->
+        <div class="page-section-card">
+          <div class="page-section-head" onclick="toggleSection(this)">
+            <div class="page-section-head__title">👤 About Page</div>
+            <span style="font-size:.75rem;color:var(--c-muted);">▼</span>
+          </div>
+          <div class="page-section-body">
+            <div class="field"><label>Mission Statement (main quote)</label><textarea id="page-mission" rows="4" data-page="about" data-field="mission_quote" placeholder="We believe every Pakistani business..."></textarea></div>
+            <div class="field"><label>CEO Bio — Paragraph 1</label><textarea id="page-bio-1" rows="4" data-page="about" data-field="ceo_bio_1"></textarea></div>
+            <div class="field"><label>CEO Bio — Paragraph 2</label><textarea id="page-bio-2" rows="4" data-page="about" data-field="ceo_bio_2"></textarea></div>
+          </div>
+        </div>
+
+        <!-- Contact -->
+        <div class="page-section-card">
+          <div class="page-section-head" onclick="toggleSection(this)">
+            <div class="page-section-head__title">📞 Contact Information</div>
+            <span style="font-size:.75rem;color:var(--c-muted);">▼</span>
+          </div>
+          <div class="page-section-body">
+            <div class="field"><label>Landline Number</label><input type="text" id="page-phone-landline" placeholder="055 2139051" data-page="contact" data-field="landline"></div>
+            <div class="field"><label>Mobile / WhatsApp Number</label><input type="text" id="page-phone-mobile" placeholder="0305 6160430" data-page="contact" data-field="mobile"></div>
+            <div class="field"><label>Email Address</label><input type="email" id="page-email" placeholder="contact@aolfs.com" data-page="contact" data-field="email"></div>
+            <div class="field"><label>Office Address</label><textarea id="page-address" rows="3" data-page="contact" data-field="address" placeholder="Ground Zero, 3rd Floor..."></textarea></div>
+            <div class="field"><label>Office Hours — Weekdays</label><input type="text" id="page-hours-wday" placeholder="9:00 AM – 6:00 PM" data-page="contact" data-field="hours_weekday"></div>
+            <div class="field"><label>Office Hours — Saturday</label><input type="text" id="page-hours-sat" placeholder="10:00 AM – 3:00 PM" data-page="contact" data-field="hours_saturday"></div>
+          </div>
+        </div>
+
+        <!-- Social Media -->
+        <div class="page-section-card">
+          <div class="page-section-head" onclick="toggleSection(this)">
+            <div class="page-section-head__title">📱 Social Media Links</div>
+            <span style="font-size:.75rem;color:var(--c-muted);">▼</span>
+          </div>
+          <div class="page-section-body">
+            <div class="field"><label>LinkedIn URL</label><input type="url" id="page-linkedin" placeholder="https://linkedin.com/company/aolfs" data-page="social" data-field="linkedin"></div>
+            <div class="field"><label>Facebook URL</label><input type="url" id="page-facebook" placeholder="https://facebook.com/aolfs" data-page="social" data-field="facebook"></div>
+            <div class="field"><label>Instagram URL</label><input type="url" id="page-instagram" placeholder="https://instagram.com/aolfs" data-page="social" data-field="instagram"></div>
+            <div class="field"><label>WhatsApp Number (international format, no +)</label><input type="text" id="page-wa-num" placeholder="923056160430" data-page="social" data-field="whatsapp"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════ MEDIA / UPLOAD ═══════════ -->
+      <div class="panel" id="panel-upload">
+        <div class="section-head"><h2>Upload Images</h2></div>
+        <div class="card">
+          <div class="card-title">Upload to Media Library</div>
+          <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()" ondragover="handleDragOver(event)" ondrop="handleDrop(event)" ondragleave="this.classList.remove('drag-over')">
+            <div class="upload-zone__icon">🖼️</div>
+            <p class="upload-zone__text">Click to browse or drag &amp; drop images here</p>
+            <p class="upload-zone__sub">PNG, JPG, WebP, SVG — max 5MB per file</p>
+          </div>
+          <input type="file" id="file-input" accept="image/*" multiple style="display:none" onchange="handleFileSelect(event)">
+          <div class="upload-progress" id="upload-progress">
+            <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+            <p class="progress-text" id="progress-text">Uploading...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════ MEDIA LIBRARY ═══════════ -->
+      <div class="panel" id="panel-media">
+        <div class="section-head">
+          <h2>Media Library</h2>
+          <button class="btn btn--accent btn--sm" onclick="showPanel('upload')">+ Upload Images</button>
+        </div>
+        <div class="card">
+          <div class="image-grid" id="image-grid">
+            <div class="empty-state" style="grid-column:1/-1;"><div class="empty-state__icon">🖼️</div>No images uploaded yet.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════ ENQUIRIES ═══════════ -->
+      <div class="panel" id="panel-enquiries">
+        <div class="section-head"><h2>Contact Enquiries</h2></div>
+        <div class="card" style="padding:0;overflow:hidden;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email / Phone</th>
+                <th>Service Interest</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="enquiries-tbody">
+              <tr><td colspan="5">
+                <div class="empty-state">
+                  <div class="empty-state__icon">📬</div>
+                  No enquiries yet — they'll appear here when the contact form is submitted.<br>
+                  <span class="text-faint" style="font-size:.75rem;">Make sure your Formspree ID is configured in contact.html</span>
+                </div>
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card mt-4">
+          <div class="card-title">Manual Enquiry Entry</div>
+          <p class="text-sm text-muted mb-3">Manually log a phone or WhatsApp enquiry you received directly.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;" id="manual-enquiry-form">
+            <div class="field mb-2"><label>Full Name</label><input type="text" id="enq-name" placeholder="Ali Khan"></div>
+            <div class="field mb-2"><label>Phone / WhatsApp</label><input type="text" id="enq-phone" placeholder="0300 1234567"></div>
+            <div class="field mb-2"><label>Email</label><input type="email" id="enq-email" placeholder="ali@company.com"></div>
+            <div class="field mb-2"><label>Service Interested In</label><input type="text" id="enq-service" placeholder="HR Management"></div>
+            <div class="field mb-2"><label>Business Name</label><input type="text" id="enq-business" placeholder="Company Name"></div>
+            <div class="field mb-2"><label>City</label><input type="text" id="enq-city" placeholder="Lahore"></div>
+          </div>
+          <div class="field"><label>Notes / Details</label><textarea id="enq-notes" rows="2" placeholder="What did they enquire about?"></textarea></div>
+          <button class="btn btn--primary btn--sm" onclick="saveManualEnquiry()">Log Enquiry</button>
+        </div>
+      </div>
+
+      <!-- ═══════════ SETTINGS ═══════════ -->
+      <div class="panel" id="panel-settings">
+        <div class="section-head">
+          <h2>Site Settings</h2>
+          <button class="btn btn--primary btn--sm" onclick="saveSettings()">Save Settings</button>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-group__title">Firebase Setup Status</div>
+          <div id="firebase-status" style="font-size:.84rem;color:var(--c-muted);padding:.5rem 0;">
+            Checking Firebase connection...
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-group__title">Site Identity</div>
+          <div class="field"><label>Site Name</label><input type="text" id="setting-sitename" value="AOLFS" placeholder="AOLFS"></div>
+          <div class="field"><label>Tagline</label><input type="text" id="setting-tagline" value="Where Vision Finds Its Architecture." placeholder="Where Vision Finds Its Architecture."></div>
+          <div class="field"><label>Domain</label><input type="text" id="setting-domain" value="www.aolfs.com" placeholder="www.aolfs.com"></div>
+          <div class="field"><label>Founder / CEO Name</label><input type="text" id="setting-ceo" value="Muhammad Ehtisham" placeholder="Muhammad Ehtisham"></div>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-group__title">Formspree Configuration</div>
+          <p class="text-sm text-muted mb-3">The contact form uses Formspree for free email delivery. Replace YOUR_FORMSPREE_ID in contact.html with your actual ID.</p>
+          <div class="field"><label>Formspree Form ID</label><input type="text" id="setting-formspree" placeholder="xpwzqlkn (from formspree.io)"></div>
+          <p class="text-xs text-faint">Get your free ID at <a href="https://formspree.io" target="_blank" style="color:var(--c-accent);">formspree.io</a> — allows 50 free submissions/month</p>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-group__title">WhatsApp Configuration</div>
+          <div class="field"><label>WhatsApp Number (international format, no +)</label><input type="text" id="setting-whatsapp" value="923056160430" placeholder="923056160430"></div>
+          <div class="field"><label>WhatsApp Default Message</label><input type="text" id="setting-wa-message" value="Hello AOLFS, I would like to learn more about your services." placeholder="Default WhatsApp message"></div>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-group__title">Admin Access</div>
+          <p class="text-sm text-muted mb-3">Admin users are managed in Firebase Console → Authentication → Users. To add a new admin, add their email in Firebase and share the admin panel URL with them.</p>
+          <a href="https://console.firebase.google.com" target="_blank" class="btn btn--outline btn--sm">Open Firebase Console ↗</a>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-group__title">Deployment</div>
+          <p class="text-sm text-muted mb-3">This site deploys automatically to GitHub Pages when you push to the main branch. The GitHub Actions workflow is already configured.</p>
+          <div style="background:var(--c-dark4);border:1px solid var(--c-border);border-radius:var(--radius);padding:.75rem;font-size:.78rem;color:var(--c-muted);font-family:monospace;line-height:1.8;">
+            git add .<br>
+            git commit -m "Update content"<br>
+            git push origin main
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content-area -->
+  </div><!-- /main-area -->
+</div><!-- /admin-shell -->
+
+<!-- ── MODAL ─────────────────────────────────────────────── -->
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <h3 class="modal-title" id="modal-title">Confirm Action</h3>
+    <p id="modal-body" style="font-size:.875rem;color:var(--c-muted);line-height:1.6;"></p>
+    <div class="modal-actions">
+      <button class="btn btn--ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn--danger" id="modal-confirm-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── IMAGE DETAIL MODAL ─────────────────────────────────── -->
+<div class="modal-overlay" id="image-modal" onclick="if(event.target===this)closeImageModal()">
+  <div class="modal" style="max-width:480px;text-align:center;">
+    <img id="image-modal-img" src="" alt="" style="max-width:100%;border-radius:var(--radius);margin-bottom:1rem;">
+    <p id="image-modal-name" style="font-size:.8rem;color:var(--c-muted);margin-bottom:.5rem;word-break:break-all;"></p>
+    <p id="image-modal-url" style="font-size:.7rem;color:var(--c-faint);margin-bottom:1rem;word-break:break-all;"></p>
+    <div style="display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;">
+      <button class="btn btn--primary btn--sm" onclick="copyImageUrl()">📋 Copy URL</button>
+      <button class="btn btn--danger btn--sm" onclick="deleteImage()">🗑 Delete</button>
+      <button class="btn btn--ghost btn--sm" onclick="closeImageModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOAST CONTAINER ───────────────────────────────────── -->
+<div class="toast-container" id="toast-container"></div>
+
+<!-- ── FIREBASE CONFIG ───────────────────────────────────── -->
+<script src="firebase-config.js"></script>
+
+<script>
+// ════════════════════════════════════════════════════════
+// FIREBASE INIT
+// ════════════════════════════════════════════════════════
+let db, auth, storage, currentUser;
+let currentImageRef = null;
+
+function initFirebase() {
+  try {
+    if (!window.AOLFS_FIREBASE_CONFIG || window.AOLFS_FIREBASE_CONFIG.apiKey === 'YOUR_API_KEY') {
+      showConfigError();
+      return false;
+    }
+    if (!firebase.apps.length) {
+      firebase.initializeApp(window.AOLFS_FIREBASE_CONFIG);
+    }
+    db      = firebase.firestore();
+    auth    = firebase.auth();
+    storage = firebase.storage();
+
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        currentUser = user;
+        showAdminShell(user);
+      } else {
+        showAuthScreen();
+      }
+    });
+    return true;
+  } catch(e) {
+    console.error('Firebase init error:', e);
+    showConfigError();
+    return false;
+  }
+}
+
+function showConfigError() {
+  document.getElementById('auth-screen').innerHTML = `
+    <div class="auth-card" style="max-width:500px;">
+      <div style="text-align:center;margin-bottom:1.5rem;font-size:2rem;">⚙️</div>
+      <h2 class="auth-title" style="text-align:center;">Firebase Not Configured</h2>
+      <p class="auth-sub" style="text-align:center;">To use the admin panel, you need to configure Firebase first.</p>
+      <div style="background:var(--c-dark4);border:1px solid var(--c-border);border-radius:var(--radius);padding:1rem;font-size:.78rem;color:var(--c-muted);line-height:1.8;margin-bottom:1.25rem;">
+        1. Go to <a href="https://console.firebase.google.com" target="_blank" style="color:var(--c-accent);">console.firebase.google.com</a><br>
+        2. Create a project named "aolfs-website"<br>
+        3. Add a Web app → copy the firebaseConfig<br>
+        4. Open <strong>admin/firebase-config.js</strong><br>
+        5. Replace all YOUR_* values with your config<br>
+        6. Enable Email/Password authentication<br>
+        7. Create Firestore database<br>
+        8. Add your admin email in Auth → Users
+      </div>
+      <a href="firebase-config.js" target="_blank" class="btn btn--primary btn--full">Open firebase-config.js ↗</a>
+    </div>`;
+}
+
+// ════════════════════════════════════════════════════════
+// AUTH
+// ════════════════════════════════════════════════════════
+function showAuthScreen() {
+  document.getElementById('auth-screen').style.display = 'flex';
+  document.getElementById('admin-shell').classList.remove('visible');
+}
+
+function showAdminShell(user) {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('admin-shell').classList.add('visible');
+  const email = user.email || '';
+  document.getElementById('user-email-display').textContent = email;
+  document.getElementById('user-avatar').textContent = email.charAt(0).toUpperCase();
+  loadDashboard();
+}
+
+async function handleLogin() {
+  const btn = document.getElementById('login-btn');
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const errEl = document.getElementById('auth-error');
+  errEl.style.display = 'none';
+  if (!email || !password) { showAuthError('Please enter your email and password.'); return; }
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Signing In...';
+  try {
+    await auth.signInWithEmailAndPassword(email, password);
+  } catch(e) {
+    const msgs = { 'auth/user-not-found':'No admin account found with this email.', 'auth/wrong-password':'Incorrect password. Please try again.', 'auth/invalid-email':'Please enter a valid email address.', 'auth/too-many-requests':'Too many failed attempts. Please wait a moment.' };
+    showAuthError(msgs[e.code] || 'Sign in failed. Please check your credentials.');
+    btn.disabled = false;
+    btn.textContent = 'Sign In to Admin Panel';
+  }
+}
+
+function showAuthError(msg) {
+  const el = document.getElementById('auth-error');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+async function handleLogout() {
+  if (!confirm('Sign out of the admin panel?')) return;
+  await auth.signOut();
+  showToast('Signed out successfully', 'info');
+}
+
+// Enter key login
+document.getElementById('login-password').addEventListener('keydown', e => { if(e.key==='Enter') handleLogin(); });
+
+// ════════════════════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════════════════════
+const PANEL_TITLES = { dashboard:'Dashboard', blog:'Blog & Articles', 'new-post':'New Article', pages:'Page Content', media:'Media Library', upload:'Upload Images', enquiries:'Enquiries', settings:'Settings' };
+
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const panel = document.getElementById('panel-' + id);
+  if (panel) panel.classList.add('active');
+  const navItem = document.querySelector(`[data-panel="${id}"]`);
+  if (navItem) navItem.classList.add('active');
+  document.getElementById('panel-title').textContent = PANEL_TITLES[id] || id;
+
+  // Show/hide top bar buttons
+  const showSave = ['pages','settings'].includes(id);
+  const showPublish = id === 'new-post';
+  document.getElementById('top-save-btn').style.display = showSave ? 'inline-flex' : 'none';
+  document.getElementById('publish-btn').style.display = showPublish ? 'inline-flex' : 'none';
+
+  // Panel-specific loads
+  if (id === 'dashboard') loadDashboard();
+  if (id === 'blog') loadPosts();
+  if (id === 'media') loadMedia();
+  if (id === 'new-post') resetPostForm();
+  if (id === 'enquiries') loadEnquiries();
+  if (id === 'pages') loadPageContent();
+  if (id === 'settings') checkFirebaseStatus();
+}
+
+// ════════════════════════════════════════════════════════
+// DASHBOARD
+// ════════════════════════════════════════════════════════
+async function loadDashboard() {
+  try {
+    const posts = await db.collection('posts').orderBy('created_at','desc').get();
+    const published = posts.docs.filter(d => d.data().status === 'published').length;
+    document.getElementById('stat-articles').textContent = posts.size;
+    document.getElementById('stat-published').textContent = published;
+
+    // Recent posts
+    const recent = posts.docs.slice(0,5);
+    const el = document.getElementById('recent-posts-list');
+    if (recent.length === 0) { el.innerHTML = '<div class="empty-state"><div class="empty-state__icon">📝</div>No articles yet — write your first one!</div>'; return; }
+    el.innerHTML = recent.map(d => {
+      const data = d.data();
+      return `<div style="display:flex;align-items:center;justify-content:space-between;padding:.65rem .25rem;border-bottom:1px solid var(--c-border);">
+        <div>
+          <div style="font-size:.875rem;font-weight:500;color:var(--c-text);font-family:var(--font-ui);">${data.title || 'Untitled'}</div>
+          <div style="font-size:.72rem;color:var(--c-faint);">${data.category || ''} · ${data.date || ''}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:.5rem;">
+          <span class="badge badge--${data.status === 'published' ? 'published' : 'draft'}">${data.status || 'draft'}</span>
+          <button class="btn btn--ghost btn--sm" onclick="editPost('${d.id}')">Edit</button>
+        </div>
+      </div>`;
+    }).join('');
+
+    // Media count
+    try {
+      const imgs = await db.collection('media').get();
+      document.getElementById('stat-media').textContent = imgs.size;
+    } catch(e) { document.getElementById('stat-media').textContent = '0'; }
+  } catch(e) {
+    console.error('Dashboard load error:', e);
+  }
+}
+
+// ════════════════════════════════════════════════════════
+// BLOG POSTS
+// ════════════════════════════════════════════════════════
+async function loadPosts() {
+  const tbody = document.getElementById('posts-tbody');
+  tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:2rem;"><div class="spinner"></div></td></tr>';
+  try {
+    const snap = await db.collection('posts').orderBy('created_at','desc').get();
+    if (snap.empty) {
+      tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="empty-state__icon">📝</div>No articles yet.</div></td></tr>';
+      return;
+    }
+    tbody.innerHTML = snap.docs.map(d => {
+      const p = d.data();
+      return `<tr>
+        <td>${p.title || 'Untitled'}</td>
+        <td>${p.category || '—'}</td>
+        <td><span class="badge badge--${p.status === 'published' ? 'published' : 'draft'}">${p.status || 'draft'}</span></td>
+        <td>${p.date || '—'}</td>
+        <td><div class="table-actions">
+          <button class="btn btn--outline btn--sm" onclick="editPost('${d.id}')">Edit</button>
+          <button class="btn btn--danger btn--sm" onclick="confirmDeletePost('${d.id}','${(p.title||'').replace(/'/g,"\\'")}')">Delete</button>
+        </div></td>
+      </tr>`;
+    }).join('');
+  } catch(e) {
+    tbody.innerHTML = `<tr><td colspan="5" style="color:var(--c-error);padding:1rem;">${e.message}</td></tr>`;
+  }
+}
+
+function resetPostForm() {
+  document.getElementById('editing-post-id').value = '';
+  document.getElementById('post-title').value = '';
+  document.getElementById('post-slug').value = '';
+  document.getElementById('post-excerpt').value = '';
+  document.getElementById('post-editor').innerHTML = '';
+  document.getElementById('post-status').value = 'draft';
+  document.getElementById('post-category').value = '';
+  document.getElementById('post-readtime').value = '';
+  document.getElementById('post-author').value = 'AOLFS Research';
+  document.getElementById('post-featured').value = 'no';
+  document.getElementById('post-meta-title').value = '';
+  document.getElementById('post-meta-desc').value = '';
+  document.getElementById('post-date').value = new Date().toISOString().split('T')[0];
+  document.getElementById('panel-title').textContent = 'New Article';
+}
+
+async function editPost(id) {
+  showPanel('new-post');
+  try {
+    const doc = await db.collection('posts').doc(id).get();
+    if (!doc.exists) { showToast('Article not found', 'error'); return; }
+    const d = doc.data();
+    document.getElementById('editing-post-id').value = id;
+    document.getElementById('post-title').value = d.title || '';
+    document.getElementById('post-slug').value = d.slug || '';
+    document.getElementById('post-excerpt').value = d.excerpt || '';
+    document.getElementById('post-editor').innerHTML = d.body || '';
+    document.getElementById('post-status').value = d.status || 'draft';
+    document.getElementById('post-category').value = d.category || '';
+    document.getElementById('post-readtime').value = d.readtime || '';
+    document.getElementById('post-author').value = d.author || 'AOLFS Research';
+    document.getElementById('post-featured').value = d.featured || 'no';
+    document.getElementById('post-meta-title').value = d.meta_title || '';
+    document.getElementById('post-meta-desc').value = d.meta_desc || '';
+    document.getElementById('post-date').value = d.date || new Date().toISOString().split('T')[0];
+    document.getElementById('panel-title').textContent = 'Edit Article';
+  } catch(e) { showToast('Error loading article: ' + e.message, 'error'); }
+}
+
+async function savePost(publish = false) {
+  const title = document.getElementById('post-title').value.trim();
+  const body  = document.getElementById('post-editor').innerHTML.trim();
+  if (!title) { showToast('Please enter an article title', 'error'); return; }
+  if (!body || body === '<br>') { showToast('Please write some content', 'error'); return; }
+
+  const editingId = document.getElementById('editing-post-id').value;
+  if (publish) document.getElementById('post-status').value = 'published';
+
+  const data = {
+    title,
+    slug:       document.getElementById('post-slug').value || slugify(title),
+    excerpt:    document.getElementById('post-excerpt').value.trim(),
+    body,
+    status:     document.getElementById('post-status').value,
+    category:   document.getElementById('post-category').value,
+    readtime:   document.getElementById('post-readtime').value,
+    author:     document.getElementById('post-author').value,
+    featured:   document.getElementById('post-featured').value,
+    meta_title: document.getElementById('post-meta-title').value.trim(),
+    meta_desc:  document.getElementById('post-meta-desc').value.trim(),
+    date:       document.getElementById('post-date').value,
+    updated_at: firebase.firestore.FieldValue.serverTimestamp(),
+  };
+
+  try {
+    setSaveStatus('Saving...');
+    if (editingId) {
+      await db.collection('posts').doc(editingId).update(data);
+    } else {
+      data.created_at = firebase.firestore.FieldValue.serverTimestamp();
+      const ref = await db.collection('posts').add(data);
+      document.getElementById('editing-post-id').value = ref.id;
+    }
+    setSaveStatus('Saved ✓');
+    showToast(publish ? 'Article published!' : 'Draft saved!', 'success');
+  } catch(e) {
+    setSaveStatus('');
+    showToast('Error saving: ' + e.message, 'error');
+  }
+}
+
+function confirmDeletePost(id, title) {
+  document.getElementById('modal-title').textContent = 'Delete Article?';
+  document.getElementById('modal-body').textContent = `Are you sure you want to permanently delete "${title}"? This cannot be undone.`;
+  document.getElementById('modal-confirm-btn').onclick = () => deletePost(id);
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+async function deletePost(id) {
+  closeModal();
+  try {
+    await db.collection('posts').doc(id).delete();
+    showToast('Article deleted', 'success');
+    loadPosts();
+  } catch(e) { showToast('Error deleting: ' + e.message, 'error'); }
+}
+
+// ── Editor helpers ──
+function execCmd(cmd, val) {
+  document.execCommand(cmd, false, val);
+  document.getElementById('post-editor').focus();
+}
+
+function generateSlug() {
+  const title = document.getElementById('post-title').value;
+  document.getElementById('post-slug').value = slugify(title);
+}
+
+function slugify(str) {
+  return str.toLowerCase().trim().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-');
+}
+
+function insertLink() {
+  const url = prompt('Enter URL:');
+  if (url) document.execCommand('createLink', false, url);
+}
+
+document.getElementById('post-meta-desc').addEventListener('input', function() {
+  document.getElementById('meta-char-count').textContent = `${this.value.length} / 160 chars`;
+});
+
+// ════════════════════════════════════════════════════════
+// PAGE CONTENT
+// ════════════════════════════════════════════════════════
+async function loadPageContent() {
+  try {
+    const doc = await db.collection('site_content').doc('pages').get();
+    if (!doc.exists) return;
+    const data = doc.data();
+    document.querySelectorAll('[data-page][data-field]').forEach(el => {
+      const key = `${el.dataset.page}_${el.dataset.field}`;
+      if (data[key] !== undefined) el.value = data[key];
+    });
+  } catch(e) { console.error('Load page content error:', e); }
+}
+
+async function savePageContent() {
+  const data = {};
+  document.querySelectorAll('[data-page][data-field]').forEach(el => {
+    data[`${el.dataset.page}_${el.dataset.field}`] = el.value;
+  });
+  try {
+    await db.collection('site_content').doc('pages').set(data, { merge: true });
+    showToast('Page content saved!', 'success');
+  } catch(e) { showToast('Error saving: ' + e.message, 'error'); }
+}
+
+function handleTopSave() {
+  const activePanel = document.querySelector('.panel.active')?.id;
+  if (activePanel === 'panel-pages') savePageContent();
+  if (activePanel === 'panel-settings') saveSettings();
+}
+
+function handlePublish() { savePost(true); }
+
+function toggleSection(head) {
+  head.classList.toggle('open');
+  const body = head.nextElementSibling;
+  body.classList.toggle('open');
+}
+
+// ════════════════════════════════════════════════════════
+// MEDIA / UPLOAD
+// ════════════════════════════════════════════════════════
+function handleDragOver(e) {
+  e.preventDefault();
+  document.getElementById('upload-zone').classList.add('drag-over');
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('upload-zone').classList.remove('drag-over');
+  const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+  if (files.length) uploadFiles(files);
+}
+
+function handleFileSelect(e) {
+  const files = Array.from(e.target.files);
+  if (files.length) uploadFiles(files);
+}
+
+async function uploadFiles(files) {
+  const progress = document.getElementById('upload-progress');
+  const fill = document.getElementById('progress-fill');
+  const text = document.getElementById('progress-text');
+  progress.classList.add('visible');
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    if (file.size > 5 * 1024 * 1024) { showToast(`${file.name} is too large (max 5MB)`, 'error'); continue; }
+    const fileName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g,'_')}`;
+    const ref = storage.ref(`media/${fileName}`);
+
+    text.textContent = `Uploading ${i+1}/${files.length}: ${file.name}`;
+    await new Promise((resolve, reject) => {
+      const task = ref.put(file);
+      task.on('state_changed',
+        snap => { fill.style.width = Math.round(snap.bytesTransferred/snap.totalBytes*100)+'%'; },
+        reject,
+        async () => {
+          const url = await ref.getDownloadURL();
+          await db.collection('media').add({ name:file.name, fileName, url, size:file.size, type:file.type, uploaded_at:firebase.firestore.FieldValue.serverTimestamp() });
+          resolve();
+        }
+      );
+    }).catch(e => showToast(`Error uploading ${file.name}: ${e.message}`, 'error'));
+  }
+
+  progress.classList.remove('visible');
+  fill.style.width = '0%';
+  document.getElementById('file-input').value = '';
+  showToast(`${files.length} image${files.length>1?'s':''} uploaded!`, 'success');
+  loadDashboard();
+}
+
+async function loadMedia() {
+  const grid = document.getElementById('image-grid');
+  grid.innerHTML = '<div class="spinner" style="margin:2rem auto;display:block;"></div>';
+  try {
+    const snap = await db.collection('media').orderBy('uploaded_at','desc').get();
+    if (snap.empty) { grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><div class="empty-state__icon">🖼️</div>No images yet. Upload some!</div>'; return; }
+    grid.innerHTML = snap.docs.map(d => {
+      const m = d.data();
+      return `<div class="image-thumb" onclick="openImageModal('${d.id}','${m.url}','${m.name}')">
+        <img src="${m.url}" alt="${m.name}" loading="lazy">
+        <div class="image-thumb__overlay">
+          <div class="image-thumb__name">${m.name}</div>
+          <div style="font-size:.6rem;color:rgba(255,255,255,.7);">Click for options</div>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e) { grid.innerHTML = `<div style="color:var(--c-error);font-size:.84rem;grid-column:1/-1;">${e.message}</div>`; }
+}
+
+let selectedImageData = {};
+function openImageModal(id, url, name) {
+  selectedImageData = { id, url, name };
+  document.getElementById('image-modal-img').src = url;
+  document.getElementById('image-modal-name').textContent = name;
+  document.getElementById('image-modal-url').textContent = url;
+  document.getElementById('image-modal').classList.add('open');
+}
+function closeImageModal() { document.getElementById('image-modal').classList.remove('open'); }
+
+function copyImageUrl() {
+  navigator.clipboard.writeText(selectedImageData.url).then(() => showToast('URL copied to clipboard!', 'success'));
+}
+
+async function deleteImage() {
+  if (!confirm(`Delete "${selectedImageData.name}"? This cannot be undone.`)) return;
+  try {
+    await db.collection('media').doc(selectedImageData.id).delete();
+    try { await storage.ref(`media/${selectedImageData.name}`).delete(); } catch(e) {}
+    closeImageModal();
+    showToast('Image deleted', 'success');
+    loadMedia();
+  } catch(e) { showToast('Error deleting: ' + e.message, 'error'); }
+}
+
+// ════════════════════════════════════════════════════════
+// ENQUIRIES
+// ════════════════════════════════════════════════════════
+async function loadEnquiries() {
+  const tbody = document.getElementById('enquiries-tbody');
+  tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:2rem;"><div class="spinner"></div></td></tr>';
+  try {
+    const snap = await db.collection('enquiries').orderBy('created_at','desc').get();
+    if (snap.empty) {
+      tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="empty-state__icon">📬</div>No enquiries logged yet.</div></td></tr>';
+      return;
+    }
+    tbody.innerHTML = snap.docs.map(d => {
+      const e = d.data();
+      const date = e.created_at?.toDate?.()?.toLocaleDateString('en-PK') || '—';
+      return `<tr>
+        <td>${e.name || '—'}</td>
+        <td>${e.email || ''} ${e.phone ? `<br><span style="font-size:.75rem;color:var(--c-faint);">${e.phone}</span>` : ''}</td>
+        <td>${e.service || '—'}</td>
+        <td>${date}</td>
+        <td><div class="table-actions">
+          <button class="btn btn--outline btn--sm" onclick="viewEnquiry('${d.id}')">View</button>
+          <button class="btn btn--danger btn--sm" onclick="deleteEnquiry('${d.id}')">Delete</button>
+        </div></td>
+      </tr>`;
+    }).join('');
+  } catch(e) {
+    tbody.innerHTML = `<tr><td colspan="5" style="color:var(--c-error);padding:1rem;">${e.message}</td></tr>`;
+  }
+}
+
+async function saveManualEnquiry() {
+  const name = document.getElementById('enq-name').value.trim();
+  if (!name) { showToast('Please enter a name', 'error'); return; }
+  try {
+    await db.collection('enquiries').add({
+      name, phone:document.getElementById('enq-phone').value.trim(),
+      email:document.getElementById('enq-email').value.trim(),
+      service:document.getElementById('enq-service').value.trim(),
+      business:document.getElementById('enq-business').value.trim(),
+      city:document.getElementById('enq-city').value.trim(),
+      message:document.getElementById('enq-notes').value.trim(),
+      source:'manual', created_at:firebase.firestore.FieldValue.serverTimestamp()
+    });
+    ['enq-name','enq-phone','enq-email','enq-service','enq-business','enq-city','enq-notes'].forEach(id => document.getElementById(id).value='');
+    showToast('Enquiry logged!', 'success');
+    loadEnquiries();
+  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+async function viewEnquiry(id) {
+  const doc = await db.collection('enquiries').doc(id).get();
+  if (!doc.exists) return;
+  const d = doc.data();
+  const info = Object.entries(d).filter(([k]) => k !== 'created_at').map(([k,v]) => `<div style="margin-bottom:.5rem;"><strong style="color:var(--c-text);">${k}:</strong> <span style="color:var(--c-muted);">${v}</span></div>`).join('');
+  document.getElementById('modal-title').textContent = 'Enquiry Details';
+  document.getElementById('modal-body').innerHTML = `<div style="font-size:.84rem;line-height:1.8;">${info}</div>`;
+  document.getElementById('modal-confirm-btn').style.display = 'none';
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+async function deleteEnquiry(id) {
+  if (!confirm('Delete this enquiry record?')) return;
+  await db.collection('enquiries').doc(id).delete();
+  showToast('Enquiry deleted', 'success');
+  loadEnquiries();
+}
+
+// ════════════════════════════════════════════════════════
+// SETTINGS
+// ════════════════════════════════════════════════════════
+async function saveSettings() {
+  const data = {};
+  ['sitename','tagline','domain','ceo','formspree','whatsapp','wa-message'].forEach(id => {
+    const el = document.getElementById('setting-' + id);
+    if (el) data[id] = el.value.trim();
+  });
+  try {
+    await db.collection('site_content').doc('settings').set(data, { merge:true });
+    showToast('Settings saved!', 'success');
+  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+async function loadSettings() {
+  try {
+    const doc = await db.collection('site_content').doc('settings').get();
+    if (!doc.exists) return;
+    const d = doc.data();
+    Object.keys(d).forEach(k => { const el = document.getElementById('setting-' + k); if(el) el.value = d[k]; });
+  } catch(e) {}
+}
+
+function checkFirebaseStatus() {
+  const el = document.getElementById('firebase-status');
+  try {
+    db.collection('posts').limit(1).get()
+      .then(() => el.innerHTML = '<span style="color:var(--c-success);">✓ Firebase connected and working</span>')
+      .catch(e => el.innerHTML = `<span style="color:var(--c-error);">✗ Firebase error: ${e.message}</span>`);
+  } catch(e) {
+    el.innerHTML = `<span style="color:var(--c-error);">✗ Not configured — see firebase-config.js</span>`;
+  }
+  loadSettings();
+}
+
+// ════════════════════════════════════════════════════════
+// UTILS
+// ════════════════════════════════════════════════════════
+function showToast(msg, type = 'info') {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = `toast toast--${type}`;
+  const icons = { success:'✓', error:'✗', info:'ℹ' };
+  toast.innerHTML = `<span>${icons[type]||'ℹ'}</span> ${msg}`;
+  container.appendChild(toast);
+  setTimeout(() => { toast.style.opacity='0'; toast.style.transform='translateY(8px)'; toast.style.transition='all .3s'; setTimeout(()=>toast.remove(), 300); }, 3000);
+}
+
+function setSaveStatus(msg) {
+  document.getElementById('save-status').textContent = msg;
+  if (msg === 'Saved ✓') setTimeout(() => document.getElementById('save-status').textContent = '', 3000);
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.getElementById('modal-confirm-btn').style.display = 'inline-flex';
+}
+
+// Mobile menu toggle visibility
+function checkMobile() {
+  const isMobile = window.innerWidth <= 900;
+  document.getElementById('menu-toggle').style.display = isMobile ? 'inline-flex' : 'none';
+}
+window.addEventListener('resize', checkMobile);
+checkMobile();
+
+// ════════════════════════════════════════════════════════
+// BOOT
+// ════════════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
+  initFirebase();
+  // Set today's date as default
+  document.getElementById('post-date').value = new Date().toISOString().split('T')[0];
+});
+</script>
+</body>
+</html>

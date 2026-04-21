@@ -47,12 +47,12 @@
  */
 
 const FIREBASE_CONFIG = {
-  apiKey:            "YOUR_API_KEY",
-  authDomain:        "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId:         "YOUR_PROJECT_ID",
-  storageBucket:     "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId:             "YOUR_APP_ID"
+  apiKey:            "AIzaSyB_xYWswd3QMlCNqGO_gZrYCik0tAiwITQ",
+  authDomain:        "aolfs-website.firebaseapp.com",
+  projectId:         "aolfs-website",
+  storageBucket:     "aolfs-website.firebasestorage.app",
+  messagingSenderId: "1014772230300",
+  appId:             "1:1014772230300:web:c349b3fb03df20eaad2559"
 };
 
 // Export for use in admin panel
